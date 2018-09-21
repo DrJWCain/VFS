@@ -1,5 +1,3 @@
-This product includes PSAPI Helper Function, Copyright 1998, Microsoft Systems Journal
- 
 This product includes UTF-8 CPP, which is subject to the following notice:
  
 Copyright 2006 Nemanja Trifunovic 
