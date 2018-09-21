@@ -1,0 +1,449 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{af18f168-001c-4f52-b09f-7f2cd94ee29e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Protocol headers">
+      <UniqueIdentifier>{8f674f03-ca0b-4a90-b4d9-227413535d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SMB">
+      <UniqueIdentifier>{000a81fd-ad96-4867-8fbe-c3bcf7159dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SMB2">
+      <UniqueIdentifier>{784a195b-65c1-4c00-93a3-5ad739374bee}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cFileComposite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cFileIOCompletionStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cFolderComposite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cGuardedUniqueNotify.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cNOPCompletionMsg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cNotificationMsg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cOpLock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cOpLockManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cPathInfoErr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cQCIFSPacketProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cQCIFSProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MiscPlugins\QCoSpace\cServiceHelp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cShareManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cUniqueNotifyID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cWindowsComposite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="logging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QCIFSProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RebootThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="smb_routines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Trans2Structs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cNotificationReceiver.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cNTTransIOCTL.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSetFileInfo.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSizeOnDisk.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMBBlock.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMBBuffer.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMBRequest.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMBResponse.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMBSession.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMBTree.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cTrans2Find.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cTrans2FindFirst2.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cTrans2FindNext2.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cTrans2GetDFSReferral.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cTrans2QueryFileInfo.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cTrans2QueryFsInfo.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cTrans2QueryPathInfo.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cTrans2Response.cpp">
+      <Filter>SMB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMB2NotificationReceiver.cpp">
+      <Filter>SMB2</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMB2OpLock.cpp">
+      <Filter>SMB2</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMB2OplockBreakListener.cpp">
+      <Filter>SMB2</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMB2Request.cpp">
+      <Filter>SMB2</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMB2Response.cpp">
+      <Filter>SMB2</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMB2SearchResults.cpp">
+      <Filter>SMB2</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMB2Session.cpp">
+      <Filter>SMB2</Filter>
+    </ClCompile>
+    <ClCompile Include="cSMB2Tree.cpp">
+      <Filter>SMB2</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="align.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cCalcDiskGeometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cCompositeMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cFCPGConfigPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cFileComposite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cFileIOCompletionStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cFolderComposite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cGuardedUniqueNotify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cMicroTimerTor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cNOPCompletionMsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cNotificationID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cNotificationMsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositeExports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cOpLock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cOpLockManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cPathInfoErr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cProcessPacketMsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cQCIFSPacketProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cQCIFSProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MiscPlugins\QCoSpace\cServiceHelp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cShareManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cUniqueNotifyID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cWindowsComposite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogCategories.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RebootThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="safeName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smb_routines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_routines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32Resources.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\iComposite.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\iFileProcessingCallback.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iNotificationReceiver.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iOpLockManager.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iQCIFSProcessor.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iResponseWriter.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iShareManager.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iTreeChangeListener.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\iTreeResource.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iTreeResourceFactory.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iUniqueNotifyID.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ASN1DER.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="cifs.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="gss.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="gss_constants.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ms_rpc.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="mycifs.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ntlm.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="smb2.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SMB2FileInfoLevel.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SMB2FsInfoLevel.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SMB2SecurityDescriptor.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="spnego.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="srvsvc.h">
+      <Filter>Protocol headers</Filter>
+    </ClInclude>
+    <ClInclude Include="cNotificationReceiver.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cNTTransIOCTL.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSetFileInfo.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSizeOnDisk.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMBBlock.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMBBuffer.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMBRequest.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMBResponse.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMBSession.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMBTree.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cTrans2Find.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cTrans2FindFirst2.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cTrans2FindNext2.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cTrans2GetDFSReferral.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cTrans2QueryFileInfo.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cTrans2QueryFsInfo.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cTrans2QueryPathInfo.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cTrans2Response.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="NtTransStructs.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="Trans2Structs.h">
+      <Filter>SMB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMB2Buffer.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMB2NotificationReceiver.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMB2OpLock.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMB2OplockBreakListener.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMB2Request.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMB2Response.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMB2SearchResults.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMB2Session.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="cSMB2Tree.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="writeInfoTemplates.h">
+      <Filter>SMB2</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="QCIFSProcessor.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Data\x64\DLL_Registry\vfs\QCIFSProcessor.reg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

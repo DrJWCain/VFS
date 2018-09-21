@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Implementation">
+      <UniqueIdentifier>{60124cad-14da-4d55-9982-68354a746744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Smart Pointers">
+      <UniqueIdentifier>{ae8cfb00-1c50-40d0-a45f-4bac5a87bb35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Rect">
+      <UniqueIdentifier>{b7c8358f-fa95-4815-9c7e-a2313f6a15a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\fRect">
+      <UniqueIdentifier>{f0ab4412-af8a-43fd-9c56-192611fa2df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\ComplexRect">
+      <UniqueIdentifier>{3c1e0c61-44fa-44a2-8412-d55794962b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Version">
+      <UniqueIdentifier>{d8b7248b-f6ce-4797-8e4e-dbf8a3770723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Guid">
+      <UniqueIdentifier>{2bfb2e9f-15b2-4a68-b883-d44022ae1228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Fatal">
+      <UniqueIdentifier>{38f9cb4b-af30-45ca-9de8-6545838af478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Matrix44">
+      <UniqueIdentifier>{b656776e-bafe-4df6-887d-5e98b29c0dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\fXYZ">
+      <UniqueIdentifier>{5f33d0d3-8621-4a8e-8d19-6beb23de65d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Memory">
+      <UniqueIdentifier>{26a42cf7-e5d1-4f08-ab6c-91b7f2676a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Synchronisation">
+      <UniqueIdentifier>{a554ca00-8614-497f-9d29-ec04efd2a16f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Guard">
+      <UniqueIdentifier>{22c097a7-f556-4f8d-aa82-b4aabd03c173}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Recoverable">
+      <UniqueIdentifier>{fb850f97-eafc-4afb-8cf1-25ae47c9d0ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\String">
+      <UniqueIdentifier>{f69c62ca-b74c-4315-90b6-87092ba5cba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\MemoryView">
+      <UniqueIdentifier>{9d033336-b38f-4ddb-9db1-6067a6da5eaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Date &amp; Time">
+      <UniqueIdentifier>{4272f163-760c-4d86-be56-ef76eed15716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private">
+      <UniqueIdentifier>{f0dec83d-1be9-4f60-982b-fbe67bf30175}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cRefCount.cpp">
+      <Filter>Implementation\Smart Pointers</Filter>
+    </ClCompile>
+    <ClCompile Include="cRect.cpp">
+      <Filter>Implementation\Rect</Filter>
+    </ClCompile>
+    <ClCompile Include="cfRect.cpp">
+      <Filter>Implementation\fRect</Filter>
+    </ClCompile>
+    <ClCompile Include="cComplexRect.cpp">
+      <Filter>Implementation\ComplexRect</Filter>
+    </ClCompile>
+    <ClCompile Include="cComplexRectImpl.cpp">
+      <Filter>Implementation\ComplexRect</Filter>
+    </ClCompile>
+    <ClCompile Include="cVersion.cpp">
+      <Filter>Implementation\Version</Filter>
+    </ClCompile>
+    <ClCompile Include="cGuid.cpp">
+      <Filter>Implementation\Guid</Filter>
+    </ClCompile>
+    <ClCompile Include="cGuid2.cpp">
+      <Filter>Implementation\Guid</Filter>
+    </ClCompile>
+    <ClCompile Include="fatal.cpp">
+      <Filter>Implementation\Fatal</Filter>
+    </ClCompile>
+    <ClCompile Include="cMatrix44.cpp">
+      <Filter>Implementation\Matrix44</Filter>
+    </ClCompile>
+    <ClCompile Include="cfXYZ.cpp">
+      <Filter>Implementation\fXYZ</Filter>
+    </ClCompile>
+    <ClCompile Include="cMemory.cpp">
+      <Filter>Implementation\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="cMemoryImpl.cpp">
+      <Filter>Implementation\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="cAutoResetEvent.cpp">
+      <Filter>Implementation\Synchronisation</Filter>
+    </ClCompile>
+    <ClCompile Include="cLockGuard.cpp">
+      <Filter>Implementation\Synchronisation</Filter>
+    </ClCompile>
+    <ClCompile Include="cManualResetEvent.cpp">
+      <Filter>Implementation\Synchronisation</Filter>
+    </ClCompile>
+    <ClCompile Include="cPulse.cpp">
+      <Filter>Implementation\Synchronisation</Filter>
+    </ClCompile>
+    <ClCompile Include="cSemaphore.cpp">
+      <Filter>Implementation\Synchronisation</Filter>
+    </ClCompile>
+    <ClCompile Include="cWaitMultipleEvents.cpp">
+      <Filter>Implementation\Synchronisation</Filter>
+    </ClCompile>
+    <ClCompile Include="cGuard.cpp">
+      <Filter>Implementation\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="cRecoverable.cpp">
+      <Filter>Implementation\Recoverable</Filter>
+    </ClCompile>
+    <ClCompile Include="Widen.cpp">
+      <Filter>Implementation\String</Filter>
+    </ClCompile>
+    <ClCompile Include="cMemoryView.cpp">
+      <Filter>Implementation\MemoryView</Filter>
+    </ClCompile>
+    <ClCompile Include="cMemoryViewImpl.cpp">
+      <Filter>Implementation\MemoryView</Filter>
+    </ClCompile>
+    <ClCompile Include="cDate.cpp">
+      <Filter>Implementation\Date &amp; Time</Filter>
+    </ClCompile>
+    <ClCompile Include="cDateTime.cpp">
+      <Filter>Implementation\Date &amp; Time</Filter>
+    </ClCompile>
+    <ClCompile Include="cTime.cpp">
+      <Filter>Implementation\Date &amp; Time</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="cLock.cpp">
+      <Filter>Implementation\Synchronisation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cComplexRectImpl.h">
+      <Filter>Implementation\ComplexRect</Filter>
+    </ClInclude>
+    <ClInclude Include="fatal.h">
+      <Filter>Implementation\Fatal</Filter>
+    </ClInclude>
+    <ClInclude Include="cMemoryImpl.h">
+      <Filter>Implementation\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="cRecoverable.h">
+      <Filter>Implementation\Recoverable</Filter>
+    </ClInclude>
+    <ClInclude Include="cMemoryViewImpl.h">
+      <Filter>Implementation\MemoryView</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\QKernelBase.h" />
+    <ClInclude Include="..\..\..\include\QKernelBaseEnviron.h" />
+    <ClInclude Include="..\..\..\include\QKernelBaseMacros.h" />
+  </ItemGroup>
+</Project>

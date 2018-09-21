@@ -1,0 +1,18 @@
+// NetManService.idl : IDL source for NetManService
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (NetManService.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+  uuid(D3F62DBC-06E6-4b0e-A44C-A863E8A4F811),
+  version(1.0),
+  helpstring("NetManService 1.0 Type Library")
+]
+library NetManServiceLib
+{
+  importlib("stdole2.tlb");
+};

@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'NetManService'
+		'NetManService.EXE'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{1076b479-f4b6-4fbe-9aa1-a59f27f5228a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation">
+      <UniqueIdentifier>{6dcf3b14-922f-44d4-815e-96d977cc0117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Threads &amp; Processes">
+      <UniqueIdentifier>{1f93165d-3a96-4924-9c6b-cb3a6dadff0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Logging">
+      <UniqueIdentifier>{f3a93e74-b4f8-4b15-b655-069a5f8c8b1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Exceptions">
+      <UniqueIdentifier>{68aede67-7e9a-474e-a750-94d48f3dba5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\CmdConsole">
+      <UniqueIdentifier>{03618114-834f-4722-8005-71f12f63d610}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Memory">
+      <UniqueIdentifier>{6e2ce016-83bd-495c-95e0-5a31e189dd1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Devices">
+      <UniqueIdentifier>{9e7d1e41-74cb-4333-8535-47ae32ce1c37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Boot">
+      <UniqueIdentifier>{fea18308-4dc1-4bd4-90d9-8e906c16dfa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Files &amp; Folders">
+      <UniqueIdentifier>{fe4b7e23-6442-4061-be36-3caf2b148719}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\SystemInfo">
+      <UniqueIdentifier>{096bb620-1b96-4a41-9ad6-723d75cbf03f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\vfsEnvironment">
+      <UniqueIdentifier>{06779678-ce7f-451c-a644-ce5c164de20b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\DLLs">
+      <UniqueIdentifier>{28751792-8302-43d8-a95c-5aa8413e68a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Factory">
+      <UniqueIdentifier>{87ab8c0e-50ce-4953-ba3a-e58e8968c32b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Timing">
+      <UniqueIdentifier>{86c93cf6-d6d1-48d0-96dc-962cbd3cef75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Kernel">
+      <UniqueIdentifier>{138ba9ca-1804-4c9a-b930-695a603bdb0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Crypto">
+      <UniqueIdentifier>{63553eef-8bc1-4327-8e8d-5770c38df824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\DevTest Toggles">
+      <UniqueIdentifier>{63c41d70-531c-4705-bba1-b6840b8e91b0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="KernelExec.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32Resources.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="cClientServer.h">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClInclude>
+    <ClInclude Include="cLogThreadData.h">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClInclude>
+    <ClInclude Include="cMsgQueue.h">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClInclude>
+    <ClInclude Include="cProcessHelp.h">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClInclude>
+    <ClInclude Include="cThreadImpl.h">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClInclude>
+    <ClInclude Include="cThreadManager.h">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClInclude>
+    <ClInclude Include="cActivityLog.h">
+      <Filter>Implementation\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="cLogManager.h">
+      <Filter>Implementation\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="cLogOutputThread.h">
+      <Filter>Implementation\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="cExceptionManager.h">
+      <Filter>Implementation\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="cCmdConsoleHandler.h">
+      <Filter>Implementation\CmdConsole</Filter>
+    </ClInclude>
+    <ClInclude Include="cCmdConsoleManager.h">
+      <Filter>Implementation\CmdConsole</Filter>
+    </ClInclude>
+    <ClInclude Include="cFixedSizeAllocator.h">
+      <Filter>Implementation\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="cMemoryManager.h">
+      <Filter>Implementation\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="cDeviceManager.h">
+      <Filter>Implementation\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="cBootManager.h">
+      <Filter>Implementation\Boot</Filter>
+    </ClInclude>
+    <ClInclude Include="cFile.h">
+      <Filter>Implementation\Files &amp; Folders</Filter>
+    </ClInclude>
+    <ClInclude Include="cFileManager.h">
+      <Filter>Implementation\Files &amp; Folders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tools\win\KernelSetup\cEmbed.h">
+      <Filter>Implementation\SystemInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="cSystemInfo.h">
+      <Filter>Implementation\SystemInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\KernelTools\KernelSetup\EmbedHelp.h">
+      <Filter>Implementation\SystemInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\QKernelProducts.h">
+      <Filter>Implementation\SystemInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="cvfsEnvironment.h">
+      <Filter>Implementation\vfsEnvironment</Filter>
+    </ClInclude>
+    <ClInclude Include="cDLL.h">
+      <Filter>Implementation\DLLs</Filter>
+    </ClInclude>
+    <ClInclude Include="cDLLIterator.h">
+      <Filter>Implementation\DLLs</Filter>
+    </ClInclude>
+    <ClInclude Include="cDLLManager.h">
+      <Filter>Implementation\DLLs</Filter>
+    </ClInclude>
+    <ClInclude Include="cModuleInstallHelp.h">
+      <Filter>Implementation\DLLs</Filter>
+    </ClInclude>
+    <ClInclude Include="cModuleInstance.h">
+      <Filter>Implementation\DLLs</Filter>
+    </ClInclude>
+    <ClInclude Include="cModuleRegistrar.h">
+      <Filter>Implementation\DLLs</Filter>
+    </ClInclude>
+    <ClInclude Include="cFactory.h">
+      <Filter>Implementation\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="cSingletonConstructorImpl.h">
+      <Filter>Implementation\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="cTimerManager.h">
+      <Filter>Implementation\Timing</Filter>
+    </ClInclude>
+    <ClInclude Include="cKernelMainThread.h">
+      <Filter>Implementation\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Shared\Lexical\Base64Coder.h">
+      <Filter>Implementation\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Shared\Crypto\cWinCrypto.h">
+      <Filter>Implementation\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="LogCategories.h" />
+    <ClInclude Include="NotifyRegValueChange.h" />
+    <ClInclude Include="..\..\..\include\QKernelExec.h" />
+    <ClInclude Include="..\..\..\include\QKernelExecDDK.h" />
+    <ClInclude Include="..\..\..\include\QKernelExecEnviron.h" />
+    <ClInclude Include="..\..\..\include\QKernelExecFactory.h" />
+    <ClInclude Include="..\..\..\include\QKernelExecMacros.h" />
+    <ClInclude Include="..\..\..\include\QKernelExecManagerClasses.h" />
+    <ClInclude Include="..\..\..\include\QKernelExecObjectClasses.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="Version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cClientServer.cpp">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClCompile>
+    <ClCompile Include="cMsgQueue.cpp">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClCompile>
+    <ClCompile Include="cProcessHelp.cpp">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClCompile>
+    <ClCompile Include="cThreadImpl.cpp">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClCompile>
+    <ClCompile Include="cThreadManager.cpp">
+      <Filter>Implementation\Threads &amp; Processes</Filter>
+    </ClCompile>
+    <ClCompile Include="cActivityLog.cpp">
+      <Filter>Implementation\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="cLogManager.cpp">
+      <Filter>Implementation\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="cLogOutputThread.cpp">
+      <Filter>Implementation\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="cExceptionManager.cpp">
+      <Filter>Implementation\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="cCmdConsoleHandler.cpp">
+      <Filter>Implementation\CmdConsole</Filter>
+    </ClCompile>
+    <ClCompile Include="cCmdConsoleManager.cpp">
+      <Filter>Implementation\CmdConsole</Filter>
+    </ClCompile>
+    <ClCompile Include="cFixedSizeAllocator.cpp">
+      <Filter>Implementation\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="cMemoryManager.cpp">
+      <Filter>Implementation\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="cDeviceManager.cpp">
+      <Filter>Implementation\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="cBootManager.cpp">
+      <Filter>Implementation\Boot</Filter>
+    </ClCompile>
+    <ClCompile Include="cFile.cpp">
+      <Filter>Implementation\Files &amp; Folders</Filter>
+    </ClCompile>
+    <ClCompile Include="cFileManager.cpp">
+      <Filter>Implementation\Files &amp; Folders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tools\win\KernelSetup\cEmbed.cpp">
+      <Filter>Implementation\SystemInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="cSystemInfo.cpp">
+      <Filter>Implementation\SystemInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="Products.cpp">
+      <Filter>Implementation\SystemInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="cvfsEnvironment.cpp">
+      <Filter>Implementation\vfsEnvironment</Filter>
+    </ClCompile>
+    <ClCompile Include="cDLL.cpp">
+      <Filter>Implementation\DLLs</Filter>
+    </ClCompile>
+    <ClCompile Include="cDLLManager.cpp">
+      <Filter>Implementation\DLLs</Filter>
+    </ClCompile>
+    <ClCompile Include="cModuleInstallHelp.cpp">
+      <Filter>Implementation\DLLs</Filter>
+    </ClCompile>
+    <ClCompile Include="cModuleInstance.cpp">
+      <Filter>Implementation\DLLs</Filter>
+    </ClCompile>
+    <ClCompile Include="cModuleRegistrar.cpp">
+      <Filter>Implementation\DLLs</Filter>
+    </ClCompile>
+    <ClCompile Include="cFactory.cpp">
+      <Filter>Implementation\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="cSingletonConstructorImpl.cpp">
+      <Filter>Implementation\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="cTimerManager.cpp">
+      <Filter>Implementation\Timing</Filter>
+    </ClCompile>
+    <ClCompile Include="cKernel.cpp">
+      <Filter>Implementation\Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cKernelMainThread.cpp">
+      <Filter>Implementation\Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Shared\Lexical\Base64Coder.cpp">
+      <Filter>Implementation\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Shared\Crypto\cWinCrypto.cpp">
+      <Filter>Implementation\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="cDevTestToggle.cpp">
+      <Filter>Implementation\DevTest Toggles</Filter>
+    </ClCompile>
+    <ClCompile Include="NotifyRegValueChange.cpp" />
+    <ClCompile Include="StdAfx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\redist\win64\system\KernelExec.reg" />
+  </ItemGroup>
+</Project>

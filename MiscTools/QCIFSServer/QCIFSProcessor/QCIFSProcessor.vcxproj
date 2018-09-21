@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FB080FE5-C4E2-4D8D-8126-DB27C4752058}</ProjectGuid>
+    <SccProjectName>Rational ClearCase</SccProjectName>
+    <SccAuxPath>Rational ClearCase</SccAuxPath>
+    <SccLocalPath>Rational ClearCase</SccLocalPath>
+    <SccProvider>Rational ClearCase</SccProvider>
+    <Keyword>ExtStoredProcProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.24730.2</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\..\..\Deliver\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\..\Deliver\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(BOOST_DIR);..\..\..\KernelSDK\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;INCLUDE_SMB_ALL;QCIFS_PROCESSOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4505;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>KernelExec_Dbg.lib;KernelBase_Dbg.lib;WinBase_Dbg.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\..\KernelSDK\lib\win64;..\..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>$(BOOST_DIR);..\..\..\KernelSDK\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;INCLUDE_SMB_ALL;QCIFS_PROCESSOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4505;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>KernelExec.lib;KernelBase.lib;WinBase.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\..\KernelSDK\lib\win64;..\..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+      <ProgramDatabaseFile>..\..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).pdb</ProgramDatabaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\MiscPlugins\QCoSpace\cServiceHelp.cpp" />
+    <ClCompile Include="cFileComposite.cpp" />
+    <ClCompile Include="cFileIOCompletionStatus.cpp" />
+    <ClCompile Include="cFolderComposite.cpp" />
+    <ClCompile Include="cGuardedUniqueNotify.cpp" />
+    <ClCompile Include="cNOPCompletionMsg.cpp" />
+    <ClCompile Include="cNotificationMsg.cpp" />
+    <ClCompile Include="cNotificationReceiver.cpp" />
+    <ClCompile Include="cNTTransIOCTL.cpp" />
+    <ClCompile Include="cOpLock.cpp" />
+    <ClCompile Include="cOpLockManager.cpp" />
+    <ClCompile Include="cPathInfoErr.cpp" />
+    <ClCompile Include="cQCIFSPacketProcessor.cpp" />
+    <ClCompile Include="cQCIFSProcessor.cpp" />
+    <ClCompile Include="cSetFileInfo.cpp" />
+    <ClCompile Include="cShareManager.cpp" />
+    <ClCompile Include="cSizeOnDisk.cpp" />
+    <ClCompile Include="cSMB2NotificationReceiver.cpp" />
+    <ClCompile Include="cSMB2OpLock.cpp" />
+    <ClCompile Include="cSMB2OplockBreakListener.cpp" />
+    <ClCompile Include="cSMB2Request.cpp" />
+    <ClCompile Include="cSMB2Response.cpp" />
+    <ClCompile Include="cSMB2SearchResults.cpp" />
+    <ClCompile Include="cSMB2Session.cpp" />
+    <ClCompile Include="cSMB2Tree.cpp" />
+    <ClCompile Include="cSMBBlock.cpp" />
+    <ClCompile Include="cSMBBuffer.cpp" />
+    <ClCompile Include="cSMBRequest.cpp" />
+    <ClCompile Include="cSMBResponse.cpp" />
+    <ClCompile Include="cSMBSession.cpp" />
+    <ClCompile Include="cSMBTree.cpp" />
+    <ClCompile Include="cTrans2Find.cpp" />
+    <ClCompile Include="cTrans2FindFirst2.cpp" />
+    <ClCompile Include="cTrans2FindNext2.cpp" />
+    <ClCompile Include="cTrans2GetDFSReferral.cpp" />
+    <ClCompile Include="cTrans2QueryFileInfo.cpp" />
+    <ClCompile Include="cTrans2QueryFsInfo.cpp" />
+    <ClCompile Include="cTrans2QueryPathInfo.cpp" />
+    <ClCompile Include="cTrans2Response.cpp" />
+    <ClCompile Include="cUniqueNotifyID.cpp" />
+    <ClCompile Include="cWindowsComposite.cpp" />
+    <ClCompile Include="logging.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="QCIFSProcessor.cpp" />
+    <ClCompile Include="RebootThread.cpp" />
+    <ClCompile Include="smb_routines.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Trans2Structs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\MiscPlugins\QCoSpace\cServiceHelp.h" />
+    <ClInclude Include="..\iComposite.h" />
+    <ClInclude Include="..\iFileProcessingCallback.h" />
+    <ClInclude Include="..\iTreeResource.h" />
+    <ClInclude Include="align.h" />
+    <ClInclude Include="ASN1DER.h" />
+    <ClInclude Include="cCalcDiskGeometry.h" />
+    <ClInclude Include="cCompositeMap.h" />
+    <ClInclude Include="cFCPGConfigPage.h" />
+    <ClInclude Include="cFileComposite.h" />
+    <ClInclude Include="cFileIOCompletionStatus.h" />
+    <ClInclude Include="cFolderComposite.h" />
+    <ClInclude Include="cGuardedUniqueNotify.h" />
+    <ClInclude Include="cifs.h" />
+    <ClInclude Include="cMicroTimerTor.h" />
+    <ClInclude Include="cNOPCompletionMsg.h" />
+    <ClInclude Include="cNotificationID.h" />
+    <ClInclude Include="cNotificationMsg.h" />
+    <ClInclude Include="cNotificationReceiver.h" />
+    <ClInclude Include="cNTTransIOCTL.h" />
+    <ClInclude Include="CompositeExports.h" />
+    <ClInclude Include="cOpLock.h" />
+    <ClInclude Include="cOpLockManager.h" />
+    <ClInclude Include="cPathInfoErr.h" />
+    <ClInclude Include="cProcessPacketMsg.h" />
+    <ClInclude Include="cQCIFSPacketProcessor.h" />
+    <ClInclude Include="cQCIFSProcessor.h" />
+    <ClInclude Include="cSetFileInfo.h" />
+    <ClInclude Include="cShareManager.h" />
+    <ClInclude Include="cSizeOnDisk.h" />
+    <ClInclude Include="cSMB2Buffer.h" />
+    <ClInclude Include="cSMB2NotificationReceiver.h" />
+    <ClInclude Include="cSMB2OpLock.h" />
+    <ClInclude Include="cSMB2OplockBreakListener.h" />
+    <ClInclude Include="cSMB2Request.h" />
+    <ClInclude Include="cSMB2Response.h" />
+    <ClInclude Include="cSMB2SearchResults.h" />
+    <ClInclude Include="cSMB2Session.h" />
+    <ClInclude Include="cSMB2Tree.h" />
+    <ClInclude Include="cSMBBlock.h" />
+    <ClInclude Include="cSMBBuffer.h" />
+    <ClInclude Include="cSMBRequest.h" />
+    <ClInclude Include="cSMBResponse.h" />
+    <ClInclude Include="cSMBSession.h" />
+    <ClInclude Include="cSMBTree.h" />
+    <ClInclude Include="cTrans2Find.h" />
+    <ClInclude Include="cTrans2FindFirst2.h" />
+    <ClInclude Include="cTrans2FindNext2.h" />
+    <ClInclude Include="cTrans2GetDFSReferral.h" />
+    <ClInclude Include="cTrans2QueryFileInfo.h" />
+    <ClInclude Include="cTrans2QueryFsInfo.h" />
+    <ClInclude Include="cTrans2QueryPathInfo.h" />
+    <ClInclude Include="cTrans2Response.h" />
+    <ClInclude Include="cUniqueNotifyID.h" />
+    <ClInclude Include="cWindowsComposite.h" />
+    <ClInclude Include="gss.h" />
+    <ClInclude Include="gss_constants.h" />
+    <ClInclude Include="iNotificationReceiver.h" />
+    <ClInclude Include="iOpLockManager.h" />
+    <ClInclude Include="iQCIFSProcessor.h" />
+    <ClInclude Include="iResponseWriter.h" />
+    <ClInclude Include="iShareManager.h" />
+    <ClInclude Include="iTreeChangeListener.h" />
+    <ClInclude Include="iTreeResourceFactory.h" />
+    <ClInclude Include="iUniqueNotifyID.h" />
+    <ClInclude Include="LogCategories.h" />
+    <ClInclude Include="logging.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="ms_rpc.h" />
+    <ClInclude Include="mycifs.h" />
+    <ClInclude Include="ntlm.h" />
+    <ClInclude Include="NtTransStructs.h" />
+    <ClInclude Include="RebootThread.h" />
+    <ClInclude Include="safeName.h" />
+    <ClInclude Include="smb2.h" />
+    <ClInclude Include="SMB2FileInfoLevel.h" />
+    <ClInclude Include="SMB2FsInfoLevel.h" />
+    <ClInclude Include="SMB2SecurityDescriptor.h" />
+    <ClInclude Include="smb_routines.h" />
+    <ClInclude Include="socket_routines.h" />
+    <ClInclude Include="spnego.h" />
+    <ClInclude Include="srvsvc.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Trans2Structs.h" />
+    <ClInclude Include="Version.h" />
+    <ClInclude Include="Win32Resources.h" />
+    <ClInclude Include="writeInfoTemplates.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="QCIFSProcessor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Data\x64\DLL_Registry\vfs\QCIFSProcessor.reg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\KernelSDK\src\kernel\KernelBase\KernelBase.vcxproj">
+      <Project>{f261f42e-3f9c-45ca-af36-4944115008a9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\KernelSDK\src\kernel\KernelExec\KernelExec.vcxproj">
+      <Project>{8604b12d-2a06-40ce-a7d4-b956c8eb540d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\NetManService\NetManService.vcxproj">
+      <Project>{512bf40d-f8ac-455e-bd34-d329e68bf54c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

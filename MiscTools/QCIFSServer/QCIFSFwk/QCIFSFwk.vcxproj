@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B12A69B7-21D5-4090-A8E7-A178B97E0419}</ProjectGuid>
+    <RootNamespace>QCIFSFwk</RootNamespace>
+    <SccProjectName>Rational ClearCase</SccProjectName>
+    <SccAuxPath>Rational ClearCase</SccAuxPath>
+    <SccLocalPath>Rational ClearCase</SccLocalPath>
+    <SccProvider>Rational ClearCase</SccProvider>
+    <Keyword>ExtStoredProcProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\Props\Boost64.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\Props\Boost64.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.24730.2</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\..\..\Deliver\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\..\Deliver\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;CLIENT_MODE;BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>KernelExec_Dbg.lib;KernelBase_Dbg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\..\KernelSDK\lib\win64;..\..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;CLIENT_MODE;BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>KernelExec.lib;KernelBase.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\..\KernelSDK\lib\win64;..\..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
+      <ProgramDatabaseFile>..\..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="cAttributeComposite.cpp" />
+    <ClCompile Include="cCallbackChangeListener.cpp" />
+    <ClCompile Include="cCallbackComposite.cpp" />
+    <ClCompile Include="cCompositeDirLocation.cpp" />
+    <ClCompile Include="cConstMemComposite.cpp" />
+    <ClCompile Include="cConstNamed.cpp" />
+    <ClCompile Include="cDeletableComposite.cpp" />
+    <ClCompile Include="cDFSDirLocation.cpp" />
+    <ClCompile Include="cDirectoryFactory.cpp" />
+    <ClCompile Include="cGenTreeResource.cpp" />
+    <ClCompile Include="cMemComposite.cpp" />
+    <ClCompile Include="cNotificationHandler.cpp" />
+    <ClCompile Include="cNotifyComposite.cpp" />
+    <ClCompile Include="cNotifyTree.cpp" />
+    <ClCompile Include="cQCIFSFwk.cpp" />
+    <ClCompile Include="cQCIFSFwkHelper.cpp" />
+    <ClCompile Include="cRealCompositeFactory.cpp" />
+    <ClCompile Include="cRealDirLocation.cpp" />
+    <ClCompile Include="cRenameHandler.cpp" />
+    <ClCompile Include="cSearchListener.cpp" />
+    <ClCompile Include="cSearchLocation.cpp" />
+    <ClCompile Include="cShare.cpp" />
+    <ClCompile Include="cShareInfo.cpp" />
+    <ClCompile Include="cTreeResourceFactory.cpp" />
+    <ClCompile Include="cVirtualComposite.cpp" />
+    <ClCompile Include="cVirtualDirLocation.cpp" />
+    <ClCompile Include="cWriteInfo.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="QCIFSFwk.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cAttributeComposite.h" />
+    <ClInclude Include="cBaseDirLocation.h" />
+    <ClInclude Include="cCallbackChangeListener.h" />
+    <ClInclude Include="cCallbackComposite.h" />
+    <ClInclude Include="cChildLoader.h" />
+    <ClInclude Include="cCompositeDirLocation.h" />
+    <ClInclude Include="cConstMemComposite.h" />
+    <ClInclude Include="cConstNamed.h" />
+    <ClInclude Include="cConstRootChildLoader.h" />
+    <ClInclude Include="cDeletableComposite.h" />
+    <ClInclude Include="cDFSDirLocation.h" />
+    <ClInclude Include="cDirectoryFactory.h" />
+    <ClInclude Include="cGenTreeResource.h" />
+    <ClInclude Include="cLazyLoader.h" />
+    <ClInclude Include="cMemComposite.h" />
+    <ClInclude Include="cMemDirLocation.h" />
+    <ClInclude Include="cMemFileRename.h" />
+    <ClInclude Include="cNotificationHandler.h" />
+    <ClInclude Include="cNotifyComposite.h" />
+    <ClInclude Include="cNotifyTree.h" />
+    <ClInclude Include="cQCIFSFwk.h" />
+    <ClInclude Include="cQCIFSFwkHelper.h" />
+    <ClInclude Include="cRealCompositeFactory.h" />
+    <ClInclude Include="cRealDirLocation.h" />
+    <ClInclude Include="cRenameHandler.h" />
+    <ClInclude Include="cSearchListener.h" />
+    <ClInclude Include="cSearchLocation.h" />
+    <ClInclude Include="cSearchLocationCache.h" />
+    <ClInclude Include="cShare.h" />
+    <ClInclude Include="cShareInfo.h" />
+    <ClInclude Include="cTreeResourceFactory.h" />
+    <ClInclude Include="cVirtualComposite.h" />
+    <ClInclude Include="cVirtualDirLocation.h" />
+    <ClInclude Include="cWriteInfo.h" />
+    <ClInclude Include="iChildLoader.h" />
+    <ClInclude Include="iChildLoaderVisitor.h" />
+    <ClInclude Include="iCreate.h" />
+    <ClInclude Include="iDirectoryFactory.h" />
+    <ClInclude Include="iDirLocation.h" />
+    <ClInclude Include="iFactory.h" />
+    <ClInclude Include="iFileEvent.h" />
+    <ClInclude Include="iFileLoader.h" />
+    <ClInclude Include="iFileNameReporter.h" />
+    <ClInclude Include="iNamed.h" />
+    <ClInclude Include="iNameMangler.h" />
+    <ClInclude Include="iNotifyTree.h" />
+    <ClInclude Include="iQCIFSFwk.h" />
+    <ClInclude Include="iQCIFSFwkHelper.h" />
+    <ClInclude Include="iRename.h" />
+    <ClInclude Include="iRenameHandler.h" />
+    <ClInclude Include="iRootChildLoader.h" />
+    <ClInclude Include="iShareInfo.h" />
+    <ClInclude Include="iSpaceQuery.h" />
+    <ClInclude Include="iWriteInfo.h" />
+    <ClInclude Include="LogCategories.h" />
+    <ClInclude Include="QTubeOptions.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Version.h" />
+    <ClInclude Include="wildcardPattern.h" />
+    <ClInclude Include="Win32Resources.h" />
+    <ClInclude Include="writeFileSize.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="QCIFSFwk.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Data\x64\DLL_Registry\vfs\QCIFSFwk.reg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\KernelSDK\src\kernel\KernelBase\KernelBase.vcxproj">
+      <Project>{f261f42e-3f9c-45ca-af36-4944115008a9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\KernelSDK\src\kernel\KernelExec\KernelExec.vcxproj">
+      <Project>{8604b12d-2a06-40ce-a7d4-b956c8eb540d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

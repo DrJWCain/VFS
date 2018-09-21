@@ -1,0 +1,23 @@
+import "oaidl.idl";
+
+import "..\..\KernelTools\KernelTray\KernelTrayInterfaces.idl";
+
+[
+	uuid(F0E7C951-D8F9-4F21-BF99-C43CF659F9D1),
+	version(1.0),
+	helpstring("vfs KernelConsoleLogDriver 1.0 Type Library")
+]
+library KERNELCONSOLELOGDRIVERLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(EBA76BA1-23EB-423C-9A31-8A8C7B0A1AB4),
+		helpstring("TrayMenuItemCallback Class")
+	]
+	coclass TrayMenuItemCallback
+	{
+		[default] interface ITrayMenuItemCallback;
+	};
+};

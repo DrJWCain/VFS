@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Bootstrap">
+      <UniqueIdentifier>{4bc3d22f-5802-46fc-88e4-0f71192b78f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation">
+      <UniqueIdentifier>{f22f7810-1940-45e7-b926-daf0ec23c32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{2816cb05-ce74-44f4-aecf-e555036b33c9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Bootstrap</Filter>
+    </ClCompile>
+    <ClCompile Include="cConsole.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="cConsoleLogDriver.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="cTrayMenuItemCallback.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main.h">
+      <Filter>Bootstrap</Filter>
+    </ClInclude>
+    <ClInclude Include="cConsole.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="cConsoleLogDriver.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32Resources.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="LogCategories.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="Version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="KernelConsoleLogDriver.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="log.ico">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TrayMenuItemCallback.rgs">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\..\..\..\redist\win32\dll_registry\vfs\KernelConsoleLogDriver.reg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="KernelConsoleLogDriver.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="cTrayMenuItemCallback.h">
+      <Filter>Implementation</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

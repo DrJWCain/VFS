@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'KernelServer.exe'
+		{
+			val AppID = s {5E95F91F-B013-4DD3-A31E-DB02743D81DD}
+			val RunAs = s 'Interactive User'
+		}
+	}
+}

@@ -1,0 +1,25 @@
+HKCR
+{
+	vfs.KernelTray.TrayMenuItemCallback.1 = s 'vfs TrayMenuItemCallback'
+	{
+		CLSID = s '{EBA76BA1-23EB-423C-9A31-8A8C7B0A1AB4}'
+	}
+	vfs.KernelTray.TrayMenuItemCallback = s 'vfs TrayMenuItemCallback'
+	{
+		CLSID = s '{EBA76BA1-23EB-423C-9A31-8A8C7B0A1AB4}'
+		CurVer = s 'vfs.KernelTray.TrayMenuItemCallback.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {EBA76BA1-23EB-423C-9A31-8A8C7B0A1AB4} = s 'vfs TrayMenuItemCallback'
+		{
+			ProgID = s 'vfs.KernelTray.TrayMenuItemCallback.1'
+			VersionIndependentProgID = s 'vfs.KernelTray.TrayMenuItemCallback'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%EXEMODULE%'
+			InprocHandler32 = s '%DLLMODULE%'
+			val AppID = s '{541E6EC1-61CF-4078-95A9-4F4F9300D3D6}'
+			'TypeLib' = s '{F0E7C951-D8F9-4F21-BF99-C43CF659F9D1}'
+		}
+	}
+}

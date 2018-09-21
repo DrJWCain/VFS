@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Bootstrap">
+      <UniqueIdentifier>{9717c52f-6520-40bd-84ba-bc36656d841c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation">
+      <UniqueIdentifier>{8e5a31eb-6604-4bb9-84dd-2675cde53182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{5c933097-577d-4e07-83ee-343182915d0d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Bootstrap</Filter>
+    </ClCompile>
+    <ClCompile Include="cDebugDriver.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="cThreadManager.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="PSAPIHandler.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cDebugDriver.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="cThreadManager.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="PSAPIHandler.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="TIB.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32Resources.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="Version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="KernelDebugDriver.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Data\x64\DLL_Registry\vfs\KernelDebugDriver.reg" />
+  </ItemGroup>
+</Project>
