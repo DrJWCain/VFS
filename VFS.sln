@@ -28,6 +28,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KernelConsoleLogDriver", "K
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KernelDebugDriver", "KernelSDK\src\coredrivers\win\KernelDebugDriver\KernelDebugDriver.vcxproj", "{7B99D0CD-EF74-49FE-A5DC-5D6A6C70FF18}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSSofa", "MiscTools\QCIFSServer\QCIFSSofa\QCIFSSofa.vcxproj", "{034BD386-E086-4AF6-8AF2-79C2E8318BF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -86,6 +88,10 @@ Global
 		{7B99D0CD-EF74-49FE-A5DC-5D6A6C70FF18}.Debug|x64.Build.0 = Debug|x64
 		{7B99D0CD-EF74-49FE-A5DC-5D6A6C70FF18}.Release|x64.ActiveCfg = Release|x64
 		{7B99D0CD-EF74-49FE-A5DC-5D6A6C70FF18}.Release|x64.Build.0 = Release|x64
+		{034BD386-E086-4AF6-8AF2-79C2E8318BF2}.Debug|x64.ActiveCfg = Debug|x64
+		{034BD386-E086-4AF6-8AF2-79C2E8318BF2}.Debug|x64.Build.0 = Debug|x64
+		{034BD386-E086-4AF6-8AF2-79C2E8318BF2}.Release|x64.ActiveCfg = Release|x64
+		{034BD386-E086-4AF6-8AF2-79C2E8318BF2}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
