@@ -132,12 +132,11 @@
     <ClInclude Include="cSpaceQuery.h" />
     <ClInclude Include="iQCIFSSofa.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Version.h" />
+    <ClInclude Include="Win32Resources.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="QCIFSSofa.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\KernelSDK\src\kernel\KernelBase\KernelBase.vcxproj">

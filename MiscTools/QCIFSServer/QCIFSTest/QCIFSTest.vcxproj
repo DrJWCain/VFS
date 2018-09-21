@@ -145,9 +145,6 @@
     <ResourceCompile Include="QCIFSTest.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\KernelSDK\src\kernel\KernelBase\KernelBase.vcxproj">
       <Project>{f261f42e-3f9c-45ca-af36-4944115008a9}</Project>
     </ProjectReference>
