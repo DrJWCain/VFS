@@ -21,7 +21,7 @@
 class cQCIFSSofa : public iQCIFSSofa, public vfs::cRefCount
 {
 public:
-  QDEFINE_SINGLETON_IMPL(cQCIFSSofa, L"{0B59BA3E-2BA7-4a1c-9892-E2014A82F625} // cQCIFSSofa", iQCIFSSofa);
+  QDEFINE_SINGLETON_IMPL(cQCIFSSofa, L"{62937E9B-E21E-41f9-B310-4C5D55DD5227} // cQCIFSSofa", iQCIFSSofa);
 
   cQCIFSSofa(){}
   ~cQCIFSSofa(void){}

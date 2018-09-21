@@ -22,7 +22,7 @@ class iChildLoader;
 class iQCIFSSofa : public vfs::iManager
 {
 public:
-  QDEFINE_SINGLETON_IFACE(iQCIFSSofa, L"{974F3FD0-5D86-464a-BB19-F515AD3A5775} //iQCIFSSofa", vfs::iManager);
+  QDEFINE_SINGLETON_IFACE(iQCIFSSofa, L"{20C9F775-A0EE-4c0c-B8FC-D3458F5FAE04} //iQCIFSSofa", vfs::iManager);
 
   virtual ~iQCIFSSofa(){}
 

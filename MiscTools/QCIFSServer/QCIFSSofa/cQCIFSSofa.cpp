@@ -17,12 +17,10 @@
 #include "stdafx.h"
 
 #include "cQCIFSSofa.h"
-//#include "cSofaLoader.h"
-#include "..\qcifsfwk\cChildLoader.h"
+#include "cSofaLoader.h"
 
 
 vfs::cPtr<iChildLoader> cQCIFSSofa::createRootChildLoader()
 {
-  return vfs::cPtr<iChildLoader>();
-  //return new cSofaLoader(L"", 0);
+  return new cSofaLoader(L"", 0);
 }
