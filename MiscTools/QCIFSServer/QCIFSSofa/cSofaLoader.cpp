@@ -26,6 +26,7 @@
 #include <boost/regex.hpp>
 using namespace vfs;
 
+#include "..\..\Shared\json_spirit\json_spirit_value.h"
 #include "..\..\Shared\cURL\include\curl.h"
 
  

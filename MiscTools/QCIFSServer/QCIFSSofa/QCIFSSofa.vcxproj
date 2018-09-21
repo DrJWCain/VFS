@@ -109,7 +109,7 @@
     <Link>
       <AdditionalDependencies>KernelExec.lib;KernelBase.lib;Psapi.lib;Setupapi.lib;DbgHelp.lib;ImageHlp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\..\KernelSDK\lib\win64;..\..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\KernelSDK\lib\win64;..\..\..\Shared\cURL\;..\..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
