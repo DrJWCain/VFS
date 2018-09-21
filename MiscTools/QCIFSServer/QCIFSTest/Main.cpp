@@ -26,8 +26,6 @@
 
 using namespace vfs;
 
-static cPtr<iTreeResourceFactory> gpProcFactory;
-
 iModuleContext::Ptr gPluginContext ;
 static std::list<cGuard::ConstPtr> gRegdClasses;
 
