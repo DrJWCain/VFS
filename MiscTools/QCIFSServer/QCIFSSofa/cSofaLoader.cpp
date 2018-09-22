@@ -424,6 +424,27 @@ void addEntry2(bool log)
 
 }
 
+void addEntry3(bool log)
+{
+  try
+  {
+    json_spirit::Object obj;
+    obj.push_back(json_spirit::Pair("Type", "Recording"));
+    obj.push_back(json_spirit::Pair("Artist", "Bowie"));
+    obj.push_back(json_spirit::Pair("Path", "D:\\Music\\B\\Bowie 1966 - 1976\\David Bowie - Hunky Dory\\"));
+    obj.push_back(json_spirit::Pair("Name", "04 - Life On Mars.mp3"));
+
+    auto ret = writeVersionedObject(obj, log);
+  }
+  catch(cHTTPError& err)
+  {
+    QSOS((L"registerAlienSiteClip() HTTP ERR: %d, %s. PAYLOAD:%S", err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
+    throw;
+  }
+
+}
+
+
 
 json_spirit::Array getRows(vfs::cMemoryView::Ptr reply)
 {
@@ -463,23 +484,50 @@ std::list<json_spirit::Object> listArrayObjects(const json_spirit::Array& arr, c
   return objList;
 }
 
-
-bool recordsByArtist(bool log)
+std::list<std::string> listArrayStrings(const json_spirit::Array& arr, const std::string& searchTerm)
 {
+  std::list<std::string> strList;
+  for(json_spirit::Array::size_type k = 0; k != arr.size(); ++k)
+  {
+    const json_spirit::Object& obj = arr[k].get_obj();
+    for(json_spirit::Object::size_type l = 0; l != obj.size(); ++l)
+    {
+      const json_spirit::Pair& pair = obj[l];
+
+      const std::string& name = pair.name_;
+      const json_spirit::Value& value = pair.value_;
+
+      if(name == searchTerm)
+      {
+        strList.push_back(value.get_array()[0].get_str());
+      }
+    }
+  }
+  return strList;
+}
+
+
+std::list<std::pair<std::string,std::string>> recordsByArtist(std::string artist, bool log)
+{
+  std::list<std::pair<std::string, std::string>> ret;
   try
   {
-    //http://127.0.0.1:5984/music/_design/indexes/_view/view_by_artist
-    std::string url = getDBPath() + "_design/indexes/_view/map_by_artist";
+    std::string key = "[\"" + artist + "\"]";
+
+    std::string url = getDBPath() + "_design/indexes/_view/map_by_artist?key=" + key;
     vfs::cMemoryView::Ptr reply = HTTPGet_basic(url, log, 0);
     if(reply.isValid())
     {
       if(log)
         dump(reply);
 
+
       json_spirit::Array arr = getRows(reply);
       std::list<json_spirit::Object> objList = listArrayObjects(arr, "value");
       for(std::list<json_spirit::Object>::const_iterator it = objList.begin(); it != objList.end(); ++it)
       {
+        std::string _path;
+        std::string _name;
         json_spirit::Object obj = *it;
         for(json_spirit::Object::size_type j = 0; j != obj.size(); ++j)
         {
@@ -487,7 +535,25 @@ bool recordsByArtist(bool log)
           const std::string& name = pair.name_;
           const json_spirit::Value& value = pair.value_;
 
-          QTRACE((L"name %S, value %S", name.c_str(), value.get_str().c_str()));
+          //QTRACE((L"name %S, value %S", name.c_str(), value.get_str().c_str()));
+          if(name == "Name")
+          {
+            //QTRACE((L"here 1"));
+            _name = value.get_str();
+            //QTRACE((L"_name %S, value %S", _name.c_str(), value.get_str().c_str()));
+          }
+          if(name == "Path")
+          {
+            //QTRACE((L"here 2"));
+            _path = value.get_str();
+            //QTRACE((L"_path %S, value %S", _name.c_str(), value.get_str().c_str()));
+          }
+          //QTRACE((L"name %S, _path %S", _name.c_str(), _path.c_str()));
+        }
+        //QTRACE((L"name %S, _path %S", _name.c_str(), _path.c_str()));
+        if(!_name.empty() && !_path.empty())
+        {
+          ret.push_back(std::pair<std::string, std::string>(_name, _path));
         }
       }
     }
@@ -497,12 +563,13 @@ bool recordsByArtist(bool log)
     QSOS((L"%S HTTP ERR: %d, %s. PAYLOAD:%S", __FUNCTION__, err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
   }
 
-  return true;
+  return ret;
 }
 
 
-bool allArtists(bool log)
+std::list<std::string> allArtists(bool log)
 {
+  std::list<std::string> ret;
   try
   {
     //http://127.0.0.1:5984/music/_design/indexes/_view/view_by_artist
@@ -513,20 +580,8 @@ bool allArtists(bool log)
       if(log)
         dump(reply);
 
-      //json_spirit::Array arr = getRows(reply);
-      //std::list<json_spirit::Object> objList = listArrayObjects(arr, "value");
-      //for(std::list<json_spirit::Object>::const_iterator it = objList.begin(); it != objList.end(); ++it)
-      //{
-      //  json_spirit::Object obj = *it;
-      //  for(json_spirit::Object::size_type j = 0; j != obj.size(); ++j)
-      //  {
-      //    json_spirit::Pair& pair = obj[j];
-      //    const std::string& name = pair.name_;
-      //    const json_spirit::Value& value = pair.value_;
-
-      //    QTRACE((L"name %S, value %S", name.c_str(), value.get_str().c_str()));
-      //  }
-      //}
+      json_spirit::Array arr = getRows(reply);
+      ret = listArrayStrings(arr, "key");
     }
   }
   catch(cHTTPError& err)
@@ -534,7 +589,7 @@ bool allArtists(bool log)
     QSOS((L"%S HTTP ERR: %d, %s. PAYLOAD:%S", __FUNCTION__, err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
   }
 
-  return true;
+  return ret;
 }
 
 
@@ -610,8 +665,17 @@ void createAlienSiteTransferDB(bool log)
 
     addEntry1(log);
     addEntry2(log);
-    recordsByArtist(log);
-    allArtists(log);
+    addEntry3(log);
+    auto artists = allArtists(log);
+    for(auto artist : artists)
+    {
+      QTRACE((L"%S", artist.c_str()));
+      auto records = recordsByArtist(artist, log);
+      for(auto record : records)
+      {
+        QTRACE((L"%S", record.first.c_str()));
+      }
+    }
   }
 }
 
@@ -648,7 +712,7 @@ cSofaLoader::cSofaLoader(const vfs::String& name, cSofaLoader* parent) : Name(na
   addVirtualFile(L"David Bowie - Station To Station.mp3", L"D:\\Music\\B\\Bowie 1966 - 1976\\David Bowie - Station To Station [1976]\\David Bowie - Station To Station.mp3");
   addVirtualFile(L"Motorhead - Ace of Spades.mp3", L"D:\\Music\\M\\Motorhead - The Best Of Greatest Hits [Bubanee]\\01 - Ace of Spades.mp3");
 
-  createAlienSiteTransferDB(true);
+  createAlienSiteTransferDB(false);
 }
 
 void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildListener)
