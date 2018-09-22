@@ -444,6 +444,26 @@ void addEntry3(bool log)
 
 }
 
+void addEntry4(bool log)
+{
+  try
+  {
+    json_spirit::Object obj;
+    obj.push_back(json_spirit::Pair("Type", "Recording"));
+    obj.push_back(json_spirit::Pair("Artist", "Led Zepplin"));
+    obj.push_back(json_spirit::Pair("Path", "D:\\Music\\L\\Led Zeppelin - Remasters\\"));
+    obj.push_back(json_spirit::Pair("Name", "Led Zeppelin - Remasters - 08 - Immigrant Song!!s.mp3"));
+
+    auto ret = writeVersionedObject(obj, log);
+  }
+  catch(cHTTPError& err)
+  {
+    QSOS((L"registerAlienSiteClip() HTTP ERR: %d, %s. PAYLOAD:%S", err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
+    throw;
+  }
+
+}
+
 
 
 json_spirit::Array getRows(vfs::cMemoryView::Ptr reply)
@@ -666,16 +686,7 @@ void createAlienSiteTransferDB(bool log)
     addEntry1(log);
     addEntry2(log);
     addEntry3(log);
-    auto artists = allArtists(log);
-    for(auto artist : artists)
-    {
-      QTRACE((L"%S", artist.c_str()));
-      auto records = recordsByArtist(artist, log);
-      for(auto record : records)
-      {
-        QTRACE((L"%S", record.first.c_str()));
-      }
-    }
+    addEntry4(log);
   }
 }
 
@@ -707,12 +718,40 @@ void cSofaLoader::addVirtualFile(const String& name, const String& path)
 
 cSofaLoader::cSofaLoader(const vfs::String& name, cSofaLoader* parent) : Name(name), Parent(parent)
 {
-  QTRACE((L"cSofaLoader::cSofaLoader"));
+  QTRACE((L"cSofaLoader::cSofaLoader %s", Name.c_str()));
 
-  addVirtualFile(L"David Bowie - Station To Station.mp3", L"D:\\Music\\B\\Bowie 1966 - 1976\\David Bowie - Station To Station [1976]\\David Bowie - Station To Station.mp3");
-  addVirtualFile(L"Motorhead - Ace of Spades.mp3", L"D:\\Music\\M\\Motorhead - The Best Of Greatest Hits [Bubanee]\\01 - Ace of Spades.mp3");
+  //addVirtualFile(L"David Bowie - Station To Station.mp3", L"D:\\Music\\B\\Bowie 1966 - 1976\\David Bowie - Station To Station [1976]\\David Bowie - Station To Station.mp3");
+  //addVirtualFile(L"Motorhead - Ace of Spades.mp3", L"D:\\Music\\M\\Motorhead - The Best Of Greatest Hits [Bubanee]\\01 - Ace of Spades.mp3");
 
-  createAlienSiteTransferDB(false);
+  if(Name.empty())//root
+  {
+    createAlienSiteTransferDB(false);
+
+    auto artists = allArtists(false);
+    for(auto artist : artists)
+    {
+
+      FolderMap.insert(tFolderMap::value_type(widen(artist), new cSofaLoader(widen(artist), this)));
+      //QTRACE((L"%S", artist.c_str()));
+      //auto records = recordsByArtist(artist, false);
+      //for(auto record : records)
+      //{
+      //  QTRACE((L"%S", record.first.c_str()));
+      //}
+    }
+
+  }
+  else
+  {
+    auto records = recordsByArtist(narrow(Name), false);
+    for(auto record : records)
+    {
+      QTRACE((L"%S", record.first.c_str()));
+      addVirtualFile(widen(record.first), widen(record.second + record.first));
+    }
+
+  }
+
 }
 
 void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildListener)
