@@ -53,6 +53,7 @@ class cCompositeMap
   vfs::cLock m_access;
   FidType m_Fid;
   tFidMap m_FidMap;
+  std::map<FidType, bool> m_DeleteOnClose;
 
 public:
   cCompositeMap(void) : m_Fid(2){}
@@ -69,7 +70,8 @@ public:
       m_Fid = 2;
     while (m_FidMap.find(m_Fid) != m_FidMap.end())
       m_Fid++;
-    return m_Fid;
+    FidType ret = m_Fid;
+    return ret;
   }
 
   FidType add(const vfs::cPtr<iComposite>& pComposite, const vfs::String& sPath)
@@ -157,6 +159,22 @@ public:
     if (m_FidMap.end() != finder)
       return finder->second.second;
     return vfs::String();
+  }
+
+  void addDeleteOnClose(const FidType& fid)
+  {
+    m_DeleteOnClose[fid] = true;
+  }
+
+  bool testAndRemoveDeleteOnClose(const FidType& fid)
+  {
+    auto it = m_DeleteOnClose.find(fid);
+    if(it != m_DeleteOnClose.end())
+    {
+      m_DeleteOnClose.erase(it);
+      return true;
+    }
+    return false;
   }
 
 private:

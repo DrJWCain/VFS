@@ -52,8 +52,16 @@ cPtr<iComposite> cSMB2Tree::getComposite(const ULONGLONG Fid, const cPtr<cSMB2Re
 void cSMB2Tree::closeComposite(const ULONGLONG Fid, const ULONGLONG durableFid)
 {
   cPtr<iComposite> composite = getComposite(Fid, cPtr<cSMB2Response>());
+  const bool deleteOnClose = m_compositeMap.testAndRemoveDeleteOnClose(Fid);
   if(composite.isValid())
+  {
+    if(deleteOnClose)
+    {
+      QTRACE((L"%S found Delete on CLose", __FUNCTION__));
+      const DWORD dwRet = composite->Delete();
+    }
     composite->Close(Fid);
+  }
   
   {
     cLockGuard lg2(&m_opLocksMapAccess);
@@ -126,6 +134,14 @@ ULONGLONG cSMB2Tree::Create(const String& sFilename
 
   if (pComposite.isValid())
   {
+    const ULONG kFileDeleteOnClose = 0x00001000;
+    bool deleteOnClose = ((pReq->CreateOptions & kFileDeleteOnClose) == kFileDeleteOnClose);
+    if(deleteOnClose)
+    {
+      //QSOS((L"deleteOnClose!"));
+      m_compositeMap.addDeleteOnClose(fid);
+    }
+      
     m_compositeMap.addFid(fid, pComposite, sFilename);
     durableFileID = fid;
     {
