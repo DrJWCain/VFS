@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClCompile Include="cBasicFile.cpp" />
     <ClCompile Include="cCurlWrapper.cpp" />
+    <ClCompile Include="couchAccess.cpp" />
     <ClCompile Include="cQCIFSSofa.cpp" />
     <ClCompile Include="cSofaLoader.cpp" />
     <ClCompile Include="cSpaceQuery.cpp" />
@@ -134,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="cBasicFile.h" />
     <ClInclude Include="cCurlWrapper.h" />
+    <ClInclude Include="couchAccess.h" />
     <ClInclude Include="cQCIFSSofa.h" />
     <ClInclude Include="cSofaLoader.h" />
     <ClInclude Include="cSpaceQuery.h" />
