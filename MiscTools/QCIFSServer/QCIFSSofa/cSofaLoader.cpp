@@ -130,7 +130,7 @@ void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildLi
         it->second,
         it->second,
         cConstPtr<cMemoryView>(),
-        cPtr<iFileEvent>(),
+        it->second,
         true);
     }
   }
@@ -159,7 +159,7 @@ DWORD cSofaLoader::Directory(const vfs::String& sName, LPSECURITY_ATTRIBUTES lpA
     incoming.second,
     incoming.second,
     cConstPtr<cMemoryView>(),
-    cPtr<iFileEvent>(),
+    incoming.second,
     true);
 
   return ERROR_SUCCESS;
@@ -195,7 +195,7 @@ DWORD cSofaLoader::From(vfs::cPtr<iRename> pRenameSource
       incoming.second,
       incoming.second,
       cConstPtr<cMemoryView>(),
-      cPtr<iFileEvent>(),
+      incoming.second,
       true);
   }
 
@@ -231,4 +231,15 @@ void cSofaLoader::rename(const vfs::String& newName, cSofaLoader* newParent)
   Parent->removeFolder(Name);
   Name = newName;
   Parent = newParent;
+}
+
+DWORD cSofaLoader::notifyDelete()
+{
+  QSOS((L"%S %s", __FUNCTION__, Name.c_str()));
+
+  if(Parent)
+  {
+    Parent->removeFolder(Name);
+  }
+  return ERROR_SUCCESS;
 }
