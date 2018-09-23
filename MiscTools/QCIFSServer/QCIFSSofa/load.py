@@ -15,14 +15,14 @@
 import glob, os, json, requests
 
 def index(pathToSearch, format):
-    print(pathToSearch)
+    # print(pathToSearch)
     search = os.path.join(pathToSearch, format)
-    print(search)
+    # print(search)
     files = glob.glob(search)
-    print(files)
+    # print(files)
     files.sort()
     names = [os.path.basename(f) for f in files]
-    print(names)
+    # print(names)
     return names
 
 
@@ -45,8 +45,6 @@ def folder(artist, path):
 
         reply = requests.post(url, json=record)
         # print(str(reply.status_code))
-
-
 
 def masterFolder(artist, path):
     files = glob.glob(path)
