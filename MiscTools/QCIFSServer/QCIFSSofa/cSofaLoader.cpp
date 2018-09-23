@@ -32,6 +32,14 @@ using namespace vfs;
 #include "..\..\Shared\json_spirit\json_spirit_reader_template.h"
 #include "..\..\Shared\json_spirit\json_spirit_writer_template.h"
 
+
+std::string getDBPath()
+{
+  return "http://127.0.0.1:5984/music/";
+}
+
+
+
 void dump(cMemoryView::Ptr text)
 {
   if(text.isNull())
@@ -181,11 +189,6 @@ json_spirit::Object getSpiritObjectFromMemorySafe(vfs::cMemoryView::Ptr mem)
   throw cNotFound(__FILE__, __LINE__, L"getSpiritObjectFromMemorySafe NO MEM");
 }
 
-std::string getDBPath()
-{
-  return "http://127.0.0.1:5984/music/";
-}
-
 
 struct cObjVersion
 {
@@ -294,176 +297,6 @@ static const char view_by_artist[] =
 static const char blank_reduce[] = "function(keys, values) { return true; }";
 
 
-//static const char list_clips[] =
-//"function(head, req) \
-//{\
-//  var row;start({\"headers\": {\"Content-Type\": \"text/html\"}}); \
-//  send(\"<html><body><ul>\"); \
-//  while(row = getRow()) \
-//  {\
-//    if(row.value.Type == 'Clip') \
-//    { \
-//      if(row.value.TimeCompleted != null && row.value.TimeCreated != null)  \
-//      {\
-//        var hour = row.value.TimeCompleted.Hour - row.value.TimeCreated.Hour;\
-//        if(row.value.TimeCompleted.Hour < row.value.TimeCreated.Hour)\
-//        {\
-//          hour += 24;\
-//        }\
-//        var minute = row.value.TimeCompleted.Minute - row.value.TimeCreated.Minute;\
-//        if(row.value.TimeCompleted.Minute < row.value.TimeCreated.Minute)\
-//        {\
-//          minute += 60;\
-//          hour -= 1;\
-//        }\
-//        var second = row.value.TimeCompleted.Second - row.value.TimeCreated.Second;\
-//        if(row.value.TimeCompleted.Second < row.value.TimeCreated.Second)\
-//        {\
-//          second += 60;\
-//          minute -= 1;\
-//        }\
-//        send(\"<li>Clip: \" + row.value.NewISAClipID + ', Took:' + hour + ':' + minute + ':' + second + \"</li>\"); \
-//      }\
-//      else\
-//        send(\"<li>Clip: \" + row.value.NewISAClipID + \"</li>\"); \
-//    } \
-//    else if(row.value.Type == 'RushPart') \
-//    {\
-//      var length = row.value.SrcRushPart.OutFrame-row.value.SrcRushPart.InFrame; \
-//      if(row.value.Error != null)\
-//        send(\"<li>RP: Clip Frame:\" + row.value.ClipInfo.ClipFrame + '  Len:' + length + ', ERROR:' + row.value.Error + \"</li>\");\
-//      else \
-//      {\
-//        if(row.value.TimeCompleted != null && row.value.TimeAcquired != null)  \
-//        {\
-//          var hour = row.value.TimeCompleted.Hour - row.value.TimeAcquired.Hour;\
-//          if(row.value.TimeCompleted.Hour < row.value.TimeAcquired.Hour)\
-//          {\
-//            hour += 24;\
-//          }\
-//          var minute = row.value.TimeCompleted.Minute - row.value.TimeAcquired.Minute;\
-//          if(row.value.TimeCompleted.Minute < row.value.TimeAcquired.Minute)\
-//          {\
-//            minute += 60;\
-//            hour -= 1;\
-//          }\
-//          var second = row.value.TimeCompleted.Second - row.value.TimeAcquired.Second;\
-//          if(row.value.TimeCompleted.Second < row.value.TimeAcquired.Second)\
-//          {\
-//            second += 60;\
-//            minute -= 1;\
-//          }\
-//          send(\"<li>RP: Clip Frame:\" + row.value.ClipInfo.ClipFrame + '  Len:' + length + ', Took:' + hour + ':' + minute + ':' + second + \"</li>\"); \
-//        }\
-//        else\
-//          send(\"<li>RP: Clip Frame:\" + row.value.ClipInfo.ClipFrame + '  Len:' + length + ', ' + row.value.Progress + '%' + \"</li>\"); \
-//      }\
-//    }\
-//  }\
-//  send(\"</ul></body></html>\"); \
-//}";
-//
-//
-//
-//static const char filter_everything[] =
-//"function(doc, req)\
-//{\
-//  if (doc.Type == 'Clip' && doc._id == req.query.id)\
-//  {\
-//    return true;\
-//  }\
-//  else if(doc.Type == 'RushPart' && doc.ClipInfo.ClipID == req.query.id)\
-//  {\
-//    return true;\
-//  }\
-//  else if(doc.Type == 'HiddenClip' && doc.ClipID == req.query.id)\
-//  {\
-//    return true;\
-//  }\
-//  return false;\
-//}";
-
-
-void addEntry1(bool log)
-{
-  try
-  {
-    json_spirit::Object obj;
-    obj.push_back(json_spirit::Pair("Type", "Recording"));
-    obj.push_back(json_spirit::Pair("Artist", "Motorhead"));
-    obj.push_back(json_spirit::Pair("Path", "D:\\Music\\M\\Motorhead - The Best Of Greatest Hits [Bubanee]\\"));
-    obj.push_back(json_spirit::Pair("Name", "01 - Ace of Spades.mp3"));
-
-    auto ret = writeVersionedObject(obj, log );
-  }
-  catch(cHTTPError& err)
-  {
-    QSOS((L"registerAlienSiteClip() HTTP ERR: %d, %s. PAYLOAD:%S", err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
-    throw;
-  }
-
-}
-
-void addEntry2(bool log)
-{
-  try
-  {
-    json_spirit::Object obj;
-    obj.push_back(json_spirit::Pair("Type", "Recording"));
-    obj.push_back(json_spirit::Pair("Artist", "Motorhead"));
-    obj.push_back(json_spirit::Pair("Path", "D:\\Music\\M\\Motorhead - The Best Of Greatest Hits [Bubanee]\\"));
-    obj.push_back(json_spirit::Pair("Name", "06 - Overkill.mp3"));
-
-    auto ret = writeVersionedObject(obj, log);
-  }
-  catch(cHTTPError& err)
-  {
-    QSOS((L"registerAlienSiteClip() HTTP ERR: %d, %s. PAYLOAD:%S", err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
-    throw;
-  }
-
-}
-
-void addEntry3(bool log)
-{
-  try
-  {
-    json_spirit::Object obj;
-    obj.push_back(json_spirit::Pair("Type", "Recording"));
-    obj.push_back(json_spirit::Pair("Artist", "Bowie"));
-    obj.push_back(json_spirit::Pair("Path", "D:\\Music\\B\\Bowie 1966 - 1976\\David Bowie - Hunky Dory\\"));
-    obj.push_back(json_spirit::Pair("Name", "04 - Life On Mars.mp3"));
-
-    auto ret = writeVersionedObject(obj, log);
-  }
-  catch(cHTTPError& err)
-  {
-    QSOS((L"registerAlienSiteClip() HTTP ERR: %d, %s. PAYLOAD:%S", err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
-    throw;
-  }
-
-}
-
-void addEntry4(bool log)
-{
-  try
-  {
-    json_spirit::Object obj;
-    obj.push_back(json_spirit::Pair("Type", "Recording"));
-    obj.push_back(json_spirit::Pair("Artist", "Led Zepplin"));
-    obj.push_back(json_spirit::Pair("Path", "D:\\Music\\L\\Led Zeppelin - Remasters\\"));
-    obj.push_back(json_spirit::Pair("Name", "Led Zeppelin - Remasters - 08 - Immigrant Song!!s.mp3"));
-
-    auto ret = writeVersionedObject(obj, log);
-  }
-  catch(cHTTPError& err)
-  {
-    QSOS((L"registerAlienSiteClip() HTTP ERR: %d, %s. PAYLOAD:%S", err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
-    throw;
-  }
-
-}
-
 
 
 json_spirit::Array getRows(vfs::cMemoryView::Ptr reply)
@@ -555,22 +388,15 @@ std::list<std::pair<std::string,std::string>> recordsByArtist(std::string artist
           const std::string& name = pair.name_;
           const json_spirit::Value& value = pair.value_;
 
-          //QTRACE((L"name %S, value %S", name.c_str(), value.get_str().c_str()));
           if(name == "Name")
           {
-            //QTRACE((L"here 1"));
             _name = value.get_str();
-            //QTRACE((L"_name %S, value %S", _name.c_str(), value.get_str().c_str()));
           }
           if(name == "Path")
           {
-            //QTRACE((L"here 2"));
             _path = value.get_str();
-            //QTRACE((L"_path %S, value %S", _name.c_str(), value.get_str().c_str()));
           }
-          //QTRACE((L"name %S, _path %S", _name.c_str(), _path.c_str()));
         }
-        //QTRACE((L"name %S, _path %S", _name.c_str(), _path.c_str()));
         if(!_name.empty() && !_path.empty())
         {
           ret.push_back(std::pair<std::string, std::string>(_name, _path));
@@ -592,7 +418,6 @@ std::list<std::string> allArtists(bool log)
   std::list<std::string> ret;
   try
   {
-    //http://127.0.0.1:5984/music/_design/indexes/_view/view_by_artist
     std::string url = getDBPath() + "_design/indexes/_view/reduce_by_artist?group=true";
     vfs::cMemoryView::Ptr reply = HTTPGet_basic(url, log, 0);
     if(reply.isValid())
@@ -652,19 +477,6 @@ void createAlienSiteTransferDB(bool log)
     }
     designDoc.push_back(json_spirit::Pair("views", json_spirit::Value(views)));
 
-    //json_spirit::Object lists;
-    //{
-    //  lists.push_back(json_spirit::Pair("clips", list_clips));
-    //}
-    //designDoc.push_back(json_spirit::Pair("lists", json_spirit::Value(lists)));
-
-    //json_spirit::Object filters;
-    //{
-    //  filters.push_back(json_spirit::Pair("everything", filter_everything));
-    //}
-    //designDoc.push_back(json_spirit::Pair("filters", json_spirit::Value(filters)));
-
-
     json_spirit::Value value(designDoc);
     std::string result = json_spirit::write_string(value, json_spirit::pretty_print);
 
@@ -682,11 +494,6 @@ void createAlienSiteTransferDB(bool log)
       if(log)
         dump(reply);
     }
-
-    addEntry1(log);
-    addEntry2(log);
-    addEntry3(log);
-    addEntry4(log);
   }
 }
 
@@ -720,38 +527,6 @@ cSofaLoader::cSofaLoader(const vfs::String& name, cSofaLoader* parent) : Name(na
 {
   QTRACE((L"cSofaLoader::cSofaLoader %s", Name.c_str()));
 
-  //addVirtualFile(L"David Bowie - Station To Station.mp3", L"D:\\Music\\B\\Bowie 1966 - 1976\\David Bowie - Station To Station [1976]\\David Bowie - Station To Station.mp3");
-  //addVirtualFile(L"Motorhead - Ace of Spades.mp3", L"D:\\Music\\M\\Motorhead - The Best Of Greatest Hits [Bubanee]\\01 - Ace of Spades.mp3");
-
-  if(Name.empty())//root
-  {
-    createAlienSiteTransferDB(false);
-
-    auto artists = allArtists(false);
-    for(auto artist : artists)
-    {
-
-      FolderMap.insert(tFolderMap::value_type(widen(artist), new cSofaLoader(widen(artist), this)));
-      //QTRACE((L"%S", artist.c_str()));
-      //auto records = recordsByArtist(artist, false);
-      //for(auto record : records)
-      //{
-      //  QTRACE((L"%S", record.first.c_str()));
-      //}
-    }
-
-  }
-  else
-  {
-    auto records = recordsByArtist(narrow(Name), false);
-    for(auto record : records)
-    {
-      QTRACE((L"%S", record.first.c_str()));
-      addVirtualFile(widen(record.first), widen(record.second + record.first));
-    }
-
-  }
-
 }
 
 void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildListener)
@@ -759,7 +534,30 @@ void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildLi
   QTRACE((L"cSofaLoader::registerListener"));
   if (pChildListener.isValid())
   {
+    pChildListener->clear();
+
     cChildLoader::registerListener(pChildListener);
+
+    if(Name.empty())//root
+    {
+      createAlienSiteTransferDB(false);
+
+      auto artists = allArtists(false);
+      for(auto artist : artists)
+      {
+        FolderMap.insert(tFolderMap::value_type(widen(artist), new cSofaLoader(widen(artist), this)));
+      }
+    }
+    else
+    {
+      auto records = recordsByArtist(narrow(Name), false);
+      for(auto record : records)
+      {
+        QTRACE((L"%S", record.first.c_str()));
+        addVirtualFile(widen(record.first), widen(record.second + record.first));
+      }
+    }
+
 
     for(tReadableFileMap::const_iterator it = ReadableFileMap.begin(); it != ReadableFileMap.end(); ++it)
     {
