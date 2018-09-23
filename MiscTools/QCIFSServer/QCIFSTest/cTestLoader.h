@@ -21,7 +21,7 @@
 #include "..\qcifsfwk\iRename.h"
 
 
-class cTestLoader : public cChildLoader, public iCreate, public iRename, public vfs::cRefCount
+class cTestLoader : public cChildLoader, public iCreate, public iRename, public iFileEvent, public vfs::cRefCount
 {
   typedef std::pair<vfs::cPtr<iWriteCallback>, fileInfo> tWriteInfo;
   typedef std::map<vfs::String, tWriteInfo> tWriteableFileMap;
@@ -54,6 +54,9 @@ public:
   virtual DWORD From(vfs::cPtr<iRename> pRenameSource
     , const vfs::String& sNewName
     , const vfs::String& sUserName);
+
+  //iFileEvent
+  virtual DWORD notifyDelete();
 
   void removeFile(const vfs::String& name);
   void removeFolder(const vfs::String& name);

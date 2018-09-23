@@ -29,29 +29,6 @@ using namespace vfs;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class cTestLoaderDeleteEvent : public iFileEvent, public cRefCount
-{
-  cTestLoader* Parent;
-  String Name;
-public:
-  cTestLoaderDeleteEvent(cTestLoader* parent, const String& name);
-  virtual DWORD notifyDelete();
-};
-
-cTestLoaderDeleteEvent::cTestLoaderDeleteEvent(cTestLoader* parent, const String& name)
-: Parent(parent), Name(name)
-{
-}
-
-DWORD cTestLoaderDeleteEvent::notifyDelete()
-{
-  QTRACE((L"cTestLoaderDeleteEvent::notifyDelete %s", Name.c_str()));
-  Parent->removeFolder(Name);
-  return ERROR_SUCCESS;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void cTestLoader::addVirtualFile(const String& name, const String& path)
 {
   const iWriteInfo& writeInfo = iWriteInfo::singleton();
@@ -123,7 +100,7 @@ void cTestLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildLi
         it->second, 
         it->second, 
         cConstPtr<cMemoryView>(),
-        new cTestLoaderDeleteEvent(this, it->first),
+        it->second,
         true);
     }
   }
@@ -152,7 +129,7 @@ DWORD cTestLoader::Directory(const vfs::String& sName, LPSECURITY_ATTRIBUTES lpA
     incoming.second, 
     incoming.second, 
     cConstPtr<cMemoryView>(),
-    new cTestLoaderDeleteEvent(this, incoming.first),
+    it->second,
     true);
 
   return ERROR_SUCCESS;
@@ -234,7 +211,7 @@ DWORD cTestLoader::From(vfs::cPtr<iRename> pRenameSource
       incoming.second, 
       incoming.second, 
       cConstPtr<cMemoryView>(),
-      new cTestLoaderDeleteEvent(this, incoming.first),
+      incoming.second,
       true);
   }
 
@@ -278,4 +255,15 @@ void cTestLoader::rename(const vfs::String& newName, cTestLoader* newParent)
   Parent->removeFolder(Name);
   Name=newName;
   Parent = newParent;
+}
+
+DWORD cTestLoader::notifyDelete()
+{
+  QSOS((L"%S %s", __FUNCTION__, Name.c_str()));
+
+  if(Parent)
+  {
+    Parent->removeFolder(Name);
+  }
+  return ERROR_SUCCESS;
 }
