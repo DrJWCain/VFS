@@ -18,6 +18,7 @@
 
 #include "cSofaLoader.h"
 #include "cBasicFile.h"
+#include "dumpers.h"
 
 #include "..\QCIFSFwk\iChildLoaderVisitor.h"
 #include "..\QCIFSFwk\iQCIFSFwkHelper.h"
@@ -38,88 +39,6 @@ std::string getDBPath()
 {
   return "http://127.0.0.1:5984/music/";
 }
-
-
-
-void dump(cMemoryView::Ptr text)
-{
-  if(text.isNull())
-    return;
-  std::string str(text->getConstBytes(), text->getSize());
-  std::stringstream strStream(str);
-  while(!strStream.eof())
-  {
-    std::string line;
-    std::getline(strStream, line);
-    QTRACE((L"%S", line.c_str()));
-  }
-}
-
-void dump(const std::string& str)
-{
-  std::stringstream strStream(str);
-  while(!strStream.eof())
-  {
-    std::string line;
-    std::getline(strStream, line);
-    QTRACE((L"%S", line.c_str()));
-  }
-}
-
-void dump16(cMemoryView::Ptr text)
-{
-  if(text.isNull())
-    return;
-  String str((wchar_t*)text->getConstBytes(), text->getSize() / 2);
-  StringStream strStream(str);
-  while(!strStream.eof())
-  {
-    String line;
-    std::getline(strStream, line);
-    QTRACE((L"%s", line.c_str()));
-  }
-}
-
-#define Uint8 unsigned char
-#define Uint32 unsigned long
-void dumpBuffer(Uint8* ptr, Uint32 lengthToPrint)
-{
-  const Uint8* lastLine = 0;
-  Uint32 byte = 0;
-  Uint32 i = 0;
-  wchar_t line[80], *linePtr;
-
-  linePtr = line;
-
-  QTRACE((L"memory %p, lengthToPrint 0x%08x", ptr, lengthToPrint));
-
-  while(i<lengthToPrint)
-  {
-    if(!(i & 15)) // line break every mod 16
-    {
-      if(lastLine)
-      {
-        QTRACE((L"%04x %s", i - 16, line));
-      }
-
-      //printf("\n ");
-      lastLine = ptr;
-      linePtr = line;
-      *line = 0;
-    }
-
-    wsprintf(linePtr, L"%02x ", *ptr++);
-    i++;
-    byte++;
-    linePtr += 3;
-  }
-
-  if(lastLine)
-  {
-    QTRACE((L"%04x %s", i - (i % 16), line));
-  }
-}
-
 
 
 json_spirit::Object getSpiritObjectFromMemorySafe(vfs::cMemoryView::Ptr mem)

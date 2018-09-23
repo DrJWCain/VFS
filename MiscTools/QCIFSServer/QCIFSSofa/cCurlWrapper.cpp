@@ -16,11 +16,9 @@
 
 #include "cCurlWrapper.h"
 
-
 #include "..\..\Shared\cURL\include\curl.h"
 
 #include <boost/lexical_cast.hpp>
-
 #include <boost/algorithm/string/trim.hpp>
 
 #ifdef NDEBUG
@@ -301,8 +299,6 @@ void errorCurlWriteHandle(CURL* curl, bool couchAccess)
 bool couchAccess = false;
 cMemoryView::Ptr HTTPGet_basic(const std::string& url, bool log, std::list<std::string>* pHeaders)
 {
-  //CURL* curl = curl_easy_init(); 
-
   std::auto_ptr<write_data_param_basic> pointer;
 
   int numOfRetries = kNumOfRetries;
@@ -344,20 +340,13 @@ cMemoryView::Ptr HTTPGet_basic(const std::string& url, bool log, std::list<std::
       curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
     }
 
-    //setSecurityChecks(curl);
-    //if(!noCredentials(url, cloneDbPath))
-    //  getCredentials(curl, url);
-
     CURLcode err = curl_easy_perform(curl);
-    //if(log)
-    //  QTRACE((L"curl_easy_perform return: %d", err));
     if(CURLE_OK != err && CURLE_PARTIAL_FILE != err)//CURLE_PARTIAL_FILE(18) means curtailed payload compared to HTTP header - QStack does this sometimes. However the payload appears valid (from QStack)!
     {
       QSOS((L"curl_easy_perform return: %d", err));
       if(!errorOccured)
       {
         curl_slist_free_all(slist);
-        //curl_easy_cleanup(curl);
         errorCurlHandle(curl, couchAccess);
         curl = 0;
         errorOccured = true;
@@ -366,119 +355,20 @@ cMemoryView::Ptr HTTPGet_basic(const std::string& url, bool log, std::list<std::
 
     long responseCode;
     err = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
-    //if(log)
-    //  QTRACE((L"curl_easy_getinfo return: %d", err));
     if(CURLE_OK != err)
     {
       QSOS((L"curl_easy_getinfo return: %d", err));
       if(!errorOccured)
       {
         curl_slist_free_all(slist);
-        //curl_easy_cleanup(curl);
         errorCurlHandle(curl, couchAccess);
         curl = 0;
         errorOccured = true;
       }
     }
 
-    //bool IsFormsBasedAuthentication = qtubesettings::iQTubeSettings::isSingletonConstructed() ? qtubesettings::iQTubeSettings::singleton().isTransformerFormsAuthentication() : true;
-
-    //while((!errorOccured) && (401 == responseCode || 418 == responseCode || 301 == responseCode || (302 == responseCode && IsFormsBasedAuthentication))) //401 is authenticate
-    //{
-    //  credentialsRequired = true;
-    //  if((401 == responseCode) || (418 == responseCode))
-    //  {
-    //    QSOS((L"401: Authentication failed for URL: %S", url.c_str()));
-    //  }
-    //  else if(301 == responseCode)
-    //  {
-    //    QTRACE((L"301: Redirecting"));
-
-    //    std::string redirectURL("");
-    //    for(std::list<std::string>::const_iterator header = pointer->Headers.begin(); header != pointer->Headers.end(); ++header)
-    //    {
-    //      //QTRACE((L"Got header %S", header->c_str()));
-    //      if(header->find("location") != std::string::npos) // case sensitive
-    //      {
-    //        redirectURL = header->substr(10);
-    //        break;
-    //      }
-    //    }
-
-    //    if(!redirectURL.empty())
-    //    {
-    //      std::string host(url.substr(0, url.find("/", 8)));
-    //      QTRACE((L"Got redirect %S. host %S", redirectURL.c_str(), host.c_str()));
-    //      return HTTPGet_basic_v2(redirectURL, log, pHeaders, couchAccess, cloneDbPath);
-    //    }
-    //  }
-    //  else if(302 == responseCode)
-    //  {
-    //    QTRACE((L"302: Using forms based authentication"));
-    //    // MWMWM Can we always guarantee 302 will be for forms login?
-    //    // For now I think the Transformer will not return 302 in any other scenario        
-
-    //    bool ret = formsBasedLogin(curl, url.substr(0, url.find("/", 8)), pointer->Headers);
-    //    if(!ret || credentials.empty())
-    //    {
-    //      QTRACE((L"Login failed, please try again. %d, %S", ret, credentials.c_str()));
-    //      continue;
-    //    }
-    //  }
-
-    //  if(log)
-    //    QTRACE((L"Found responseCode %d. Response:%S for url:%S", responseCode, pointer->FirstHeader.c_str(), url.c_str()));
-
-    //  errorCurlHandle(curl, couchAccess);
-    //  curl = 0;
-
-    //  pointer = std::auto_ptr<write_data_param_basic>(new write_data_param_basic);
-
-    //  //curl = curl_easy_init(); 
-    //  CURL* curl = allocateCurlHandle(couchAccess);
-    //  curl_easy_setopt(curl, CURLOPT_URL, escapeUrl(curl, url).c_str());
-    //  curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, write_header_alligned);
-    //  curl_easy_setopt(curl, CURLOPT_WRITEHEADER, pointer);
-    //  curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data_basic);
-    //  curl_easy_setopt(curl, CURLOPT_WRITEDATA, pointer);
-    //  curl_easy_setopt(curl, CURLOPT_USERAGENT, kStrProductNameAndVersion.c_str());
-    //  if(slist)
-    //  {
-    //    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, slist);
-    //  }
-
-    //  //Very verbose, but useful for CURL error debugging
-    //  if(mIsLogging)
-    //  {
-    //    curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, curl_debug);
-    //    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
-    //  }
-
-    //  if(!formsAuthentication)
-    //  {
-    //    credentials.clear();
-    //  }
-    //  setSecurityChecks(curl);
-    //  getCredentials(curl, url);
-
-    //  if(credentials.empty())
-    //  {
-    //    throw cHTTPError(__FILE__, __LINE__, responseCode, cMemoryView::Ptr(), L"URL %S generated: curl_easy_perform return: %d.", url.c_str(), err);
-    //  }
-
-    //  err = curl_easy_perform(curl);
-    //  curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
-
-    //  if(formsAuthentication)
-    //  {
-    //    print_cookies(curl);
-    //    curl_easy_setopt(curl, CURLOPT_COOKIELIST, strTransAuthCredentials.c_str()); /* just to start the cookie engine */
-    //  }
-    //}
-
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, 0);
     curl_slist_free_all(slist);
-    //curl_easy_cleanup(curl);
     freeCurlHandle(curl, couchAccess);
 
     bool benignError = false;
@@ -633,10 +523,6 @@ vfs::cMemoryView::Ptr HTTPDeliverWithReply(const std::string& url, cMemoryView::
       curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, curl_debug);
       curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
     }
-
-    //setSecurityChecks(curl);
-    //if(!noCredentials(url, cloneDbPath))
-    //  getCredentials(curl, url);
 
     int res = curl_easy_perform(curl);
     long responseCode(0);
