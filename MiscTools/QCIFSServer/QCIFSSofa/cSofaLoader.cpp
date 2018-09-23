@@ -32,6 +32,7 @@ using namespace vfs;
 #include "..\..\Shared\json_spirit\json_spirit_reader_template.h"
 #include "..\..\Shared\json_spirit\json_spirit_writer_template.h"
 
+#include <boost/lexical_cast.hpp>
 
 std::string getDBPath()
 {
@@ -294,6 +295,17 @@ static const char view_by_artist[] =
   }\
 }";
 
+static const char view_by_duration[] = 
+"function(doc) { \
+  emit(doc.Duration, doc); \
+}";
+
+static const char view_by_tracknum[] =
+"function(doc) { \
+  emit(doc.TrackNum, doc); \
+}";
+
+
 static const char blank_reduce[] = "function(keys, values) { return true; }";
 
 
@@ -399,7 +411,7 @@ std::list<std::pair<std::string,std::string>> recordsByArtist(std::string artist
         }
         if(!_name.empty() && !_path.empty())
         {
-          ret.push_back(std::pair<std::string, std::string>(_name, _path));
+          ret.push_back(std::pair<std::string, std::string>(_name, _path+_name));
         }
       }
     }
@@ -411,6 +423,119 @@ std::list<std::pair<std::string,std::string>> recordsByArtist(std::string artist
 
   return ret;
 }
+
+
+std::list<std::pair<std::string, std::string>> recordsByDuration(bool log)
+{
+  std::list<std::pair<std::string, std::string>> ret;
+  try
+  {
+    std::string url = getDBPath() + "_design/indexes/_view/map_by_duration";
+    vfs::cMemoryView::Ptr reply = HTTPGet_basic(url, log, 0);
+    if(reply.isValid())
+    {
+      if(log)
+        dump(reply);
+
+
+      json_spirit::Array arr = getRows(reply);
+      std::list<json_spirit::Object> objList = listArrayObjects(arr, "value");
+      for(std::list<json_spirit::Object>::const_iterator it = objList.begin(); it != objList.end(); ++it)
+      {
+        std::string _path;
+        std::string _name;
+        int _dur = 0;
+        json_spirit::Object obj = *it;
+        for(json_spirit::Object::size_type j = 0; j != obj.size(); ++j)
+        {
+          json_spirit::Pair& pair = obj[j];
+          const std::string& name = pair.name_;
+          const json_spirit::Value& value = pair.value_;
+
+          if(name == "Name")
+          {
+            _name = value.get_str();
+          }
+          if(name == "Path")
+          {
+            _path = value.get_str();
+          }
+          if(name == "Duration")
+          {
+            _dur = value.get_int();
+          }
+        }
+        if(!_name.empty() && !_path.empty())
+        {
+          ret.push_back(std::pair<std::string, std::string>(boost::lexical_cast<std::string>(_dur) + " - " + _name, _path+_name));
+        }
+      }
+    }
+  }
+  catch(cHTTPError& err)
+  {
+    QSOS((L"%S HTTP ERR: %d, %s. PAYLOAD:%S", __FUNCTION__, err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
+  }
+
+  return ret;
+}
+
+
+std::list<std::pair<std::string, std::string>> recordsByTracknum(bool log)
+{
+  std::list<std::pair<std::string, std::string>> ret;
+  try
+  {
+    std::string url = getDBPath() + "_design/indexes/_view/map_by_tracknum";
+    vfs::cMemoryView::Ptr reply = HTTPGet_basic(url, log, 0);
+    if(reply.isValid())
+    {
+      if(log)
+        dump(reply);
+
+
+      json_spirit::Array arr = getRows(reply);
+      std::list<json_spirit::Object> objList = listArrayObjects(arr, "value");
+      for(std::list<json_spirit::Object>::const_iterator it = objList.begin(); it != objList.end(); ++it)
+      {
+        std::string _path;
+        std::string _name;
+        int _tracknum = 0;
+        json_spirit::Object obj = *it;
+        for(json_spirit::Object::size_type j = 0; j != obj.size(); ++j)
+        {
+          json_spirit::Pair& pair = obj[j];
+          const std::string& name = pair.name_;
+          const json_spirit::Value& value = pair.value_;
+
+          if(name == "Name")
+          {
+            _name = value.get_str();
+          }
+          if(name == "Path")
+          {
+            _path = value.get_str();
+          }
+          if(name == "TrackNum")
+          {
+            _tracknum = value.get_int();
+          }
+        }
+        if(!_name.empty() && !_path.empty())
+        {
+          ret.push_back(std::pair<std::string, std::string>(boost::lexical_cast<std::string>(_tracknum) + " - " + _name, _path + _name));
+        }
+      }
+    }
+  }
+  catch(cHTTPError& err)
+  {
+    QSOS((L"%S HTTP ERR: %d, %s. PAYLOAD:%S", __FUNCTION__, err.ResponseCode, err.getMsg().c_str(), err.Payload.isValid() ? err.Payload->getConstBytes() : ""));
+  }
+
+  return ret;
+}
+
 
 
 std::list<std::string> allArtists(bool log)
@@ -475,6 +600,18 @@ void createAlienSiteTransferDB(bool log)
       map.push_back(json_spirit::Pair("reduce", blank_reduce));
       views.push_back(json_spirit::Pair("reduce_by_artist", json_spirit::Value(map)));
     }
+    {
+      json_spirit::Object map;
+      map.push_back(json_spirit::Pair("map", view_by_duration));
+      views.push_back(json_spirit::Pair("map_by_duration", json_spirit::Value(map)));
+    }
+    {
+      json_spirit::Object map;
+      map.push_back(json_spirit::Pair("map", view_by_tracknum));
+      views.push_back(json_spirit::Pair("map_by_tracknum", json_spirit::Value(map)));
+    }
+    
+
     designDoc.push_back(json_spirit::Pair("views", json_spirit::Value(views)));
 
     json_spirit::Value value(designDoc);
@@ -527,6 +664,13 @@ cSofaLoader::cSofaLoader(const vfs::String& name, cSofaLoader* parent) : Name(na
 {
   QTRACE((L"cSofaLoader::cSofaLoader %s", Name.c_str()));
 
+  if(Name.empty())//root
+  {
+    createAlienSiteTransferDB(false);
+
+    FolderMap.insert(tFolderMap::value_type(L"Durations", new cSofaLoader(L"Durations", this)));
+    FolderMap.insert(tFolderMap::value_type(L"Tracknums", new cSofaLoader(L"Tracknums", this)));
+  }
 }
 
 void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildListener)
@@ -540,21 +684,39 @@ void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildLi
 
     if(Name.empty())//root
     {
-      createAlienSiteTransferDB(false);
-
       auto artists = allArtists(false);
       for(auto artist : artists)
       {
         FolderMap.insert(tFolderMap::value_type(widen(artist), new cSofaLoader(widen(artist), this)));
       }
     }
+    else if(L"Durations" == Name)
+    {
+      auto records = recordsByDuration(false);
+      for(auto record : records)
+      {
+        //QTRACE((L"%S", record.first.c_str()));
+        addVirtualFile(widen(record.first), widen(record.second));
+      }
+
+    }
+    else if(L"Tracknums" == Name)
+    {
+      auto records = recordsByTracknum(false);
+      for(auto record : records)
+      {
+        //QTRACE((L"%S", record.first.c_str()));
+        addVirtualFile(widen(record.first), widen(record.second));
+      }
+
+    }
     else
     {
       auto records = recordsByArtist(narrow(Name), false);
       for(auto record : records)
       {
-        QTRACE((L"%S", record.first.c_str()));
-        addVirtualFile(widen(record.first), widen(record.second + record.first));
+        //QTRACE((L"%S", record.first.c_str()));
+        addVirtualFile(widen(record.first), widen(record.second));
       }
     }
 
