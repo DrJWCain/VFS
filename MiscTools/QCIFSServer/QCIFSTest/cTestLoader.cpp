@@ -56,12 +56,18 @@ cTestLoader::cTestLoader(const vfs::String& name, cTestLoader* parent) : Name(na
 {
   QTRACE((L"cTestLoader::cTestLoader"));
 
-  //addVirtualFile(L"test.iso", L"C:\\Store\\Images\\Visual Studio\\en_visual_studio_professional_2015_x86_x64_dvd_6846629.iso");
-  addVirtualFile(L"reel.mxf", L"E:\\import\\0-1500.mxf");
-  addVirtualFile(L"james.mxf", L"E:\\import\\MVR_RUSHES_for_RC.mxf");
+  const bool root = Name.empty();//If we have no nmae, then we are the root folder.
+  if(root)
+  {
+    //Add some things here to offer users in the root of the file system.
+    //addVirtualFile(L"test.iso", L"C:\\Store\\Images\\Visual Studio\\en_visual_studio_professional_2015_x86_x64_dvd_6846629.iso");
+    addVirtualFile(L"reel.mxf", L"E:\\import\\0-1500.mxf");
+    addVirtualFile(L"james.mxf", L"E:\\import\\MVR_RUSHES_for_RC.mxf");
 
-  //ReadableFileMap.insert(tReadableFileMap::value_type(L"james.mxf 48000.pek", new cBasicFile(L"C:\\Data\\Import\\MVR_RUSHES_for_RC.mxf 48000.pek")));
-  //ReadableFileMap.insert(tReadableFileMap::value_type(L"james.mxf.xmp", new cBasicFile(L"C:\\Data\\Import\\MVR_RUSHES_for_RC.mxf.xmp")));
+    //ReadableFileMap.insert(tReadableFileMap::value_type(L"james.mxf 48000.pek", new cBasicFile(L"C:\\Data\\Import\\MVR_RUSHES_for_RC.mxf 48000.pek")));
+    //ReadableFileMap.insert(tReadableFileMap::value_type(L"james.mxf.xmp", new cBasicFile(L"C:\\Data\\Import\\MVR_RUSHES_for_RC.mxf.xmp")));
+
+  }
 }
 
 void cTestLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildListener)
@@ -129,7 +135,7 @@ DWORD cTestLoader::Directory(const vfs::String& sName, LPSECURITY_ATTRIBUTES lpA
     incoming.second, 
     incoming.second, 
     cConstPtr<cMemoryView>(),
-    it->second,
+    incoming.second,
     true);
 
   return ERROR_SUCCESS;
