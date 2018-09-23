@@ -425,12 +425,14 @@ std::list<std::pair<std::string,std::string>> recordsByArtist(std::string artist
 }
 
 
-std::list<std::pair<std::string, std::string>> recordsByDuration(bool log)
+std::list<std::pair<std::string, std::string>> recordsByDuration(std::string query, bool log)
 {
   std::list<std::pair<std::string, std::string>> ret;
   try
   {
     std::string url = getDBPath() + "_design/indexes/_view/map_by_duration";
+    if(!query.empty())
+      url += "?" + query;
     vfs::cMemoryView::Ptr reply = HTTPGet_basic(url, log, 0);
     if(reply.isValid())
     {
@@ -481,12 +483,14 @@ std::list<std::pair<std::string, std::string>> recordsByDuration(bool log)
 }
 
 
-std::list<std::pair<std::string, std::string>> recordsByTracknum(bool log)
+std::list<std::pair<std::string, std::string>> recordsByTracknum(std::string query, bool log)
 {
   std::list<std::pair<std::string, std::string>> ret;
   try
   {
     std::string url = getDBPath() + "_design/indexes/_view/map_by_tracknum";
+    if(!query.empty())
+      url += "?" + query;
     vfs::cMemoryView::Ptr reply = HTTPGet_basic(url, log, 0);
     if(reply.isValid())
     {
@@ -690,9 +694,9 @@ void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildLi
         FolderMap.insert(tFolderMap::value_type(widen(artist), new cSofaLoader(widen(artist), this)));
       }
     }
-    else if(L"Durations" == Name)
+    else if(Name.find(L"Durations") == 0)
     {
-      auto records = recordsByDuration(false);
+      auto records = recordsByDuration(narrow(std::wstring(Name, 9)), false);
       for(auto record : records)
       {
         //QTRACE((L"%S", record.first.c_str()));
@@ -700,9 +704,9 @@ void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildLi
       }
 
     }
-    else if(L"Tracknums" == Name)
+    else if(Name.find(L"Tracknums") == 0)
     {
-      auto records = recordsByTracknum(false);
+      auto records = recordsByTracknum(narrow(std::wstring(Name, 9)), false);
       for(auto record : records)
       {
         //QTRACE((L"%S", record.first.c_str()));
@@ -735,8 +739,8 @@ void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildLi
       pChildListener->updateFolder(
         it->first,
         it->second, 
-        cPtr<iRename>(),
-        cPtr<iCreate>(),
+        it->second,
+        it->second,
         cConstPtr<cMemoryView>(),
         cPtr<iFileEvent>(),
         true);
@@ -744,3 +748,99 @@ void cSofaLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildLi
   }
 }
 
+DWORD cSofaLoader::Directory(const vfs::String& sName, LPSECURITY_ATTRIBUTES lpAtts)
+{
+  QTRACE((L"%S - %s", __FUNCTION__, sName.c_str()));
+
+  const cPtr<iChildLoaderVisitor> pChildListener = getChildListener();
+  if(pChildListener.isNull())
+    return ERROR_ACCESS_DENIED;
+
+  tFolderMap::iterator it = FolderMap.find(sName);
+  if(it != FolderMap.end())
+  {
+    return ERROR_CANNOT_MAKE;
+  }
+
+  tFolderMap::value_type incoming(sName, new cSofaLoader(sName, this));
+  FolderMap.insert(incoming);
+
+  pChildListener->updateFolder(
+    incoming.first,
+    incoming.second,
+    incoming.second,
+    incoming.second,
+    cConstPtr<cMemoryView>(),
+    cPtr<iFileEvent>(),
+    true);
+
+  return ERROR_SUCCESS;
+}
+
+DWORD cSofaLoader::File(const vfs::String& sName, LPSECURITY_ATTRIBUTES lpAtts, const DWORD dwAtts, vfs::cPtr<iFileProcessingCallback> pCallback)
+{
+  return ERROR_ACCESS_DENIED;
+}
+
+DWORD cSofaLoader::From(vfs::cPtr<iRename> pRenameSource
+  , const vfs::String& sNewName
+  , const vfs::String& sUserName)
+{
+  const cPtr<iChildLoaderVisitor> pChildListener = getChildListener();
+  if(pChildListener.isNull())
+    return ERROR_ACCESS_DENIED;
+
+  cPtr<cSofaLoader> pSofaLoader = ptr_cast<cPtr<cSofaLoader> >(pRenameSource);
+  if(pSofaLoader.isValid())
+  {
+    const String newName = iQCIFSFwkHelper::singleton().getBaseName(sNewName);
+    //QTRACE((L"cSofaLoader::rename %s to %s", pTestLoader->name().c_str(), newName.c_str()));
+
+    pSofaLoader->rename(newName, this);//remove pTestLoader from its parent, and adopt it
+
+    tFolderMap::value_type incoming(pSofaLoader->name(), pSofaLoader);
+    FolderMap.insert(incoming);
+
+    pChildListener->updateFolder(
+      incoming.first,
+      incoming.second,
+      incoming.second,
+      incoming.second,
+      cConstPtr<cMemoryView>(),
+      cPtr<iFileEvent>(),
+      true);
+  }
+
+  return ERROR_SUCCESS;
+}
+
+void cSofaLoader::removeFolder(const String& name)
+{
+  QTRACE((L"cSofaLoader::removeFolder %s", name.c_str()));
+
+  tFolderMap::iterator it = FolderMap.find(name);
+  if(it != FolderMap.end())
+  {
+    FolderMap.erase(it);
+  }
+  const cPtr<iChildLoaderVisitor> pChildListener = getChildListener();
+  if(pChildListener.isValid())
+  {
+    pChildListener->remove(name);
+  }
+}
+
+
+void cSofaLoader::rename(const vfs::String& newName, cSofaLoader* newParent)
+{
+  const cPtr<iChildLoaderVisitor> pChildListener = getChildListener();
+  if(pChildListener.isValid())
+  {
+    //rename means we need to clear search results ...
+    ReadableFileMap.clear();
+    pChildListener->clear();
+  }
+  Parent->removeFolder(Name);
+  Name = newName;
+  Parent = newParent;
+}

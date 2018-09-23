@@ -21,7 +21,7 @@
 #include "..\qcifsfwk\iRename.h"
 
 
-class cSofaLoader : public cChildLoader, public vfs::cRefCount
+class cSofaLoader : public cChildLoader, public iCreate, public iRename, public vfs::cRefCount
 {
   //typedef std::pair<vfs::cPtr<iWriteCallback>, fileInfo> tWriteInfo;
   //typedef std::map<vfs::String, tWriteInfo> tWriteableFileMap;
@@ -46,7 +46,15 @@ public:
   void registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildUpdate);
   bool cacheable() {return false;}
 
-  void removeFile(const vfs::String& name);
+  //iCreate
+  virtual DWORD Directory(const vfs::String& sName, LPSECURITY_ATTRIBUTES lpAtts);
+  virtual DWORD File(const vfs::String& sName, LPSECURITY_ATTRIBUTES lpAtts, const DWORD dwAtts, vfs::cPtr<iFileProcessingCallback> pCallback);
+
+  //iRename
+  virtual DWORD From(vfs::cPtr<iRename> pRenameSource
+    , const vfs::String& sNewName
+    , const vfs::String& sUserName);
+
   void removeFolder(const vfs::String& name);
 
   vfs::String name() {return Name;}
