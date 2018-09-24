@@ -72,8 +72,8 @@
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\..\Data\x64\DLL_Data\vfs\QCIFSProcessor\NetManService\</OutDir>
-    <IntDir>..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>..\..\..\Data\x64\DLL_Data\vfs\QCIFSProcessor\NetManService\</OutDir>
+    <IntDir>..\..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,8 +82,8 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\..\Data\x64\DLL_Data\vfs\QCIFSProcessor\NetManService\</OutDir>
-    <IntDir>..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>..\..\..\Data\x64\DLL_Data\vfs\QCIFSProcessor\NetManService\</OutDir>
+    <IntDir>..\..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
