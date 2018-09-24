@@ -1,0 +1,1 @@
+powershell -command "Start-Process Free445\x64\Release\Free445.exe -Verb runas"
