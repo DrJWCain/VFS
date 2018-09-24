@@ -59,6 +59,7 @@ public:
   vfs::String name() {return m_sShareName;}
 
   DWORD Rename(const ULONGLONG& fid, const std::wstring& newName);
+  bool deletePending(const ULONGLONG& fid);
 
 private:  //private member variables
   const vfs::cPtr<iTreeResource> m_pTreeResource;

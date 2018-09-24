@@ -49,6 +49,7 @@ public:
   bool find(const vfs::String& name, tFileInfoList& searchResults){return false;}
   DWORD Rename(const vfs::String& sNewName);
   void triggerNotifications(){}
+  virtual bool canBeDeleted() { return true; }
   bool hasSecurityDescriptor() { return false; }
 
 protected:  //protected member functions

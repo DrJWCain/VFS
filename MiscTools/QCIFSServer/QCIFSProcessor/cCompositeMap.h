@@ -166,6 +166,16 @@ public:
     m_DeleteOnClose[fid] = true;
   }
 
+  bool testDeleteOnClose(const FidType& fid)
+  {
+    auto it = m_DeleteOnClose.find(fid);
+    if(it != m_DeleteOnClose.end())
+    {
+      return true;
+    }
+    return false;
+  }
+
   bool testAndRemoveDeleteOnClose(const FidType& fid)
   {
     auto it = m_DeleteOnClose.find(fid);

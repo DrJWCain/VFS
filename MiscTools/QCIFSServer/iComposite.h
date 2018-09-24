@@ -79,4 +79,5 @@ public:
   virtual bool hasBatchOpLock() {return true;}
 
   virtual void triggerNotifications() = 0;
+  virtual bool canBeDeleted() = 0;
 };

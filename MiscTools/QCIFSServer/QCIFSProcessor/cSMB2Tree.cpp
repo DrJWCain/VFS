@@ -129,6 +129,7 @@ ULONGLONG cSMB2Tree::Create(const String& sFilename
     && (pReq->CreateOptions & FILE_DIRECTORY_FILE))
   {
     err = static_cast<DWORD>(STATUS_FILE_IS_A_DIRECTORY);
+    m_compositeMap.remove(fid);
     return 0;
   }
 
@@ -139,6 +140,12 @@ ULONGLONG cSMB2Tree::Create(const String& sFilename
     if(deleteOnClose)
     {
       //QSOS((L"deleteOnClose!"));
+      if(!pComposite->canBeDeleted())
+      {
+        err = ERROR_ACCESS_DENIED;
+        m_compositeMap.remove(fid);
+        return 0;
+      }
       m_compositeMap.addDeleteOnClose(fid);
     }
       
@@ -159,6 +166,7 @@ ULONGLONG cSMB2Tree::Create(const String& sFilename
     return fid;
   }
 
+  m_compositeMap.remove(fid);
   return 0;
 }
 
@@ -242,4 +250,9 @@ void cSMB2Tree::notifyRemoved(const cPtr<cSMB2Tree>& pNewTree)
     if (pNewComposite.isValid() && ERROR_SUCCESS == ret)
       pNewTree->m_compositeMap.addFid(cit->first, pNewComposite, sPath);
   }
+}
+
+bool cSMB2Tree::deletePending(const ULONGLONG& fid)
+{
+  return m_compositeMap.testDeleteOnClose(fid);
 }

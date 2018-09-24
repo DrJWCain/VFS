@@ -39,6 +39,8 @@ public:
     , vfs::cPtr<iNotificationReceiver> pNotification) {return ERROR_ACCESS_DENIED;}
   DWORD cancelNotification(const ULONGLONG requestID, bool synchronous) {return ERROR_ACCESS_DENIED;}
 
+  virtual bool canBeDeleted() { return canDelete(); }
+
 protected:
   DWORD Delete(const bool bDeletable);
   virtual bool canDelete() const {return m_bDeletable;}

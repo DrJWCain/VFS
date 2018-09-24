@@ -1714,7 +1714,7 @@ tResponseList cSMB2Request::processGetInfo(cPtr<cSMB2Response> response) const
         pFileStandardInformation->AllocationSize = ((pFileStandardInformation->EndOfFile + DEFAULT_SECTOR_SIZE-1)/DEFAULT_SECTOR_SIZE)*DEFAULT_SECTOR_SIZE;
 
         pFileStandardInformation->NumberOfLinks = 1;
-        pFileStandardInformation->DeletePending = 0;
+        pFileStandardInformation->DeletePending = pTree->deletePending(Fid(pReq));
         pFileStandardInformation->Directory = (FILE_ATTRIBUTE_DIRECTORY & bhfi.dwFileAttributes)?1:0;
         respLength = sizeof(FileStandardInformation);
       }
@@ -1776,7 +1776,7 @@ tResponseList cSMB2Request::processGetInfo(cPtr<cSMB2Response> response) const
         pFileStandardInformation->AllocationSize = ((pFileStandardInformation->EndOfFile + DEFAULT_SECTOR_SIZE-1)/DEFAULT_SECTOR_SIZE)*DEFAULT_SECTOR_SIZE;
 
         pFileStandardInformation->NumberOfLinks = 1;
-        pFileStandardInformation->DeletePending = 0;
+        pFileStandardInformation->DeletePending = pTree->deletePending(Fid(pReq));
         pFileStandardInformation->Directory = (FILE_ATTRIBUTE_DIRECTORY & bhfi.dwFileAttributes)?1:0;
 
 //	FileInternalInformation Internal;

@@ -87,7 +87,8 @@ void cTestLoader::registerListener(const vfs::cPtr<iChildLoaderVisitor> pChildLi
       pChildListener->updateFile(
         it->second.second,
         it->second.first,
-        cPtr<iFileEvent>());
+        cPtr<iFileEvent>(),
+        false);//not deleteable
     }
 
     for(tWriteableFileMap::const_iterator it = WriteableFileMap.begin(); it != WriteableFileMap.end(); ++it)
