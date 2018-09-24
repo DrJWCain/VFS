@@ -52,6 +52,7 @@ void cTestLoader::addVirtualFile(const String& name, const String& path)
   ReadableFileMap.insert(tReadableFileMap::value_type(name, tReadInfo(p, fi)));
 }
 
+//#define __DEMO__
 cTestLoader::cTestLoader(const vfs::String& name, cTestLoader* parent) : Name(name), Parent(parent)
 {
   QTRACE((L"cTestLoader::cTestLoader"));
@@ -60,13 +61,12 @@ cTestLoader::cTestLoader(const vfs::String& name, cTestLoader* parent) : Name(na
   if(root)
   {
     //Add some things here to offer users in the root of the file system.
-    //addVirtualFile(L"test.iso", L"C:\\Store\\Images\\Visual Studio\\en_visual_studio_professional_2015_x86_x64_dvd_6846629.iso");
+#ifdef __DEMO__
+    addVirtualFile(L"FullEngineFrontLarge.jpg", L"C:\\Users\\James\\Pictures\\FullEngineFrontLarge.jpg");
+    addVirtualFile(L"QuBits.jpg", L"C:\\Users\\James\\Pictures\\QuBits.jpg");
     addVirtualFile(L"reel.mxf", L"E:\\import\\0-1500.mxf");
     addVirtualFile(L"james.mxf", L"E:\\import\\MVR_RUSHES_for_RC.mxf");
-
-    //ReadableFileMap.insert(tReadableFileMap::value_type(L"james.mxf 48000.pek", new cBasicFile(L"C:\\Data\\Import\\MVR_RUSHES_for_RC.mxf 48000.pek")));
-    //ReadableFileMap.insert(tReadableFileMap::value_type(L"james.mxf.xmp", new cBasicFile(L"C:\\Data\\Import\\MVR_RUSHES_for_RC.mxf.xmp")));
-
+#endif __DEMO__
   }
 }
 
