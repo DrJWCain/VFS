@@ -140,7 +140,7 @@ void installService (iModuleInstallHelp::Ptr Help, const String& serviceName,
     QMSG((0, L"Running %s service install", serviceName.c_str()));
     try
     {
-      Help->executeProcessWait (servicePath, serviceFileName, L"/service", 4000 /* timeout */, 0 /* flags */);
+      Help->executeProcessWait (servicePath, serviceFileName, L"/install", 4000 /* timeout */, 0 /* flags */);
     }
     catch (cTimedOut &)
     {

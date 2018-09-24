@@ -66,6 +66,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 Except as contained in this notice, the name of a copyright holder shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Software without prior written authorization of the copyright holder.
 
 
+This product includes the code from the example CppWindowsService, taken from https://code.msdn.microsoft.com/windowsapps/CppWindowsService-cacf4948, which is subject to the following notice:
+
+Copyright (c) Microsoft Corporation.
+
+This source is subject to the Microsoft Public License.
+See http://www.microsoft.com/en-us/openness/resources/licenses.aspx#MPL.
+All other rights reserved.
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+
 
 Otherwise the following applies:
 
