@@ -33,6 +33,7 @@ This code base offers two ways to achive this.
 
 ### 1. Free445
 There is a stand alone subproject called Free445. Build this, and then run it as local admin on your machine.
+
 It will disconnect the SMB server built into Windows from the Netbios transport.
 This has the effect of freeing the 445 port, so that we can then bind our server to it (The Windows Server service is still running - we'll be using this later).
 The port 445 will remain free for the duration of this boot of Windows. 
@@ -41,6 +42,10 @@ On re-booting, port 445 will again be bound to the Kernel mode MS supplied SMB s
 ### 2. Windows Service
 Running a local admin program each time we want to run our SMBServer is not a good apprach, so the SMBserver code also come supplied with a Windows Service called NetManService.
 This contains the same code as the Free445, but wrapped in a Windows service, so that after initial installation (that requires elevated permissions), the service can be run from a non-elevated executable to achieve the same result - freeing port 445.
+
+To get this working, open NetManService\NetManService.sln in a new copy of Visual Studio, and build 64bit release. This makes a new exe under Data\x64\DLL_Data\vfs\QCIFSProcessor\NetManService. 
+In order to install the service we need to run with elevated privileges. We also need to clear a reg key, to get the QCIFSProcessot.dll to re-install itself.
+Therefore open regedit at: HKEY_LOCAL_MACHINE\SOFTWARE\vfs\SMB3 Server\Vfs. Find and delete the key called 'QCIFSProcessor'. This will cause the QCIFSProcessor.dll to re-install, and install the service as a consequence.
 
 ## Running
 RUNME.bat runs KernelServer.exe built in the **build** step. This exe has no knowledge of SMB, it just loads dlls from pre-configured directorties, and offers simple services to register factory functions to allow services to be called at runtime. This is an example of the inversion of control design principle [IoC](https://en.wikipedia.org/wiki/Inversion_of_control).
