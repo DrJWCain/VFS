@@ -2,17 +2,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSIPC", "MiscTools\QCIFSServer\QCIFSIPC\QCIFSIPC.vcxproj", "{D0D33811-8285-4ADD-87C2-ECD18525609E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSIPC", "QCIFSServer\QCIFSIPC\QCIFSIPC.vcxproj", "{D0D33811-8285-4ADD-87C2-ECD18525609E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSProcessor", "MiscTools\QCIFSServer\QCIFSProcessor\QCIFSProcessor.vcxproj", "{FB080FE5-C4E2-4D8D-8126-DB27C4752058}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSProcessor", "QCIFSServer\QCIFSProcessor\QCIFSProcessor.vcxproj", "{FB080FE5-C4E2-4D8D-8126-DB27C4752058}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSCommon", "MiscTools\QCIFSServer\Common\Common.vcxproj", "{7BE38F83-C263-46AE-87C8-EFDD7DFEC004}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSCommon", "QCIFSServer\Common\Common.vcxproj", "{7BE38F83-C263-46AE-87C8-EFDD7DFEC004}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSTest", "MiscTools\QCIFSServer\QCIFSTest\QCIFSTest.vcxproj", "{D776E16E-A075-4C4B-ADCC-02CA2AE133CA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSTest", "QCIFSServer\QCIFSTest\QCIFSTest.vcxproj", "{D776E16E-A075-4C4B-ADCC-02CA2AE133CA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SocketServer", "MiscTools\QCIFSServer\SocketServer\SocketServer.vcxproj", "{67301999-3978-4807-9BFC-F60CE1B0B344}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SocketServer", "QCIFSServer\SocketServer\SocketServer.vcxproj", "{67301999-3978-4807-9BFC-F60CE1B0B344}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSFwk", "MiscTools\QCIFSServer\QCIFSFwk\QCIFSFwk.vcxproj", "{B12A69B7-21D5-4090-A8E7-A178B97E0419}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSFwk", "QCIFSServer\QCIFSFwk\QCIFSFwk.vcxproj", "{B12A69B7-21D5-4090-A8E7-A178B97E0419}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KernelBase", "KernelSDK\src\kernel\KernelBase\KernelBase.vcxproj", "{F261F42E-3F9C-45CA-AF36-4944115008A9}"
 EndProject
@@ -28,7 +28,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KernelConsoleLogDriver", "K
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KernelDebugDriver", "KernelSDK\src\coredrivers\win\KernelDebugDriver\KernelDebugDriver.vcxproj", "{7B99D0CD-EF74-49FE-A5DC-5D6A6C70FF18}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSSofa", "MiscTools\QCIFSServer\QCIFSSofa\QCIFSSofa.vcxproj", "{034BD386-E086-4AF6-8AF2-79C2E8318BF2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCIFSSofa", "QCIFSServer\QCIFSSofa\QCIFSSofa.vcxproj", "{034BD386-E086-4AF6-8AF2-79C2E8318BF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

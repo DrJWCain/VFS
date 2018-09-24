@@ -26,7 +26,6 @@
 #include "cActivityLog.h"
 #include <algorithm>
 #include <limits>
-//#include "../../MiscTools/ActivityMon\iStackDump.h"
 
 // --- Use Namespace ---------------------------------------------------------------------
 

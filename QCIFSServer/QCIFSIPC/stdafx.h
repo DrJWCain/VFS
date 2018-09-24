@@ -39,4 +39,4 @@
 #include <boost/regex.hpp>
 
 #pragma warning (error: 150) // report warning C4150 as error
-#include "..\..\MiscTools\QCIFSServer\QCIFSFwk\iChildLoaderVisitor.h"
+#include "..\..\QCIFSServer\QCIFSFwk\iChildLoaderVisitor.h"
