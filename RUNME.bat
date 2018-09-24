@@ -1,2 +1,1 @@
-start "" "KernelSDK\redist\win64\system\KernelServer.exe"
-
+powershell -command "Start-Process KernelSDK\redist\win64\system\KernelServer.exe"
