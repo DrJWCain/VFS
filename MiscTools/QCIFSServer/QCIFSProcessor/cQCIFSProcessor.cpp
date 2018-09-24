@@ -42,19 +42,6 @@
 #include "..\SocketServer\iSocketServer.h"
 
 
-//class cbVersionLicense : public iLicenseUpdate, public cRefCount 
-//{
-//public:
-//  cbVersionLicense (cQCIFSProcessor* qcifsp) : QcifsP(qcifsp) {}
-//  ~cbVersionLicense() {}
-//
-//  void invalidate() { QcifsP->onLicenseExpired(); }
-//
-//private:
-//  cQCIFSProcessor* QcifsP;
-//};
-
-
 //////////////////////////////
 // cQCIFSProcessor ////////////////
 //////////////////////////////
@@ -78,19 +65,6 @@ static int numProcessors()
   GetSystemInfo(&sysInfo);
   return sysInfo.dwNumberOfProcessors;
 }
-
-//static bool checkOption(const String& optionToTest) 
-//{
-//  try
-//  {
-//    iOptionManager::singleton().checkOut (optionToTest);
-//    return true;
-//  }
-//  catch (cRecoverable&)
-//  {
-//    return false;
-//  }
-//}
 
 std::map<unsigned int, iActivity::Ptr> ActivityPerThread;
 cLock ActivityPerThreadLock;
@@ -119,75 +93,15 @@ iActivity::Ptr getActivity()
   return ActivityPerThread[threadId];
 }
 
-namespace
-{
-  //bool testFCPGateway()
-  //{
-  //  static bool FCPGatewayTestInitialised = false;
-  //  static bool FCPGatewayTestResult = false;
-  //  static cLock FCPGatewayTestSafety;
-
-  //  if(!FCPGatewayTestInitialised)//Double checked locking pattern 
-  //  {
-  //    cLockGuard g(&FCPGatewayTestSafety);
-  //    if(!FCPGatewayTestInitialised)
-  //    {
-  //      try
-  //      {
-  //        iOptionManager::singleton().checkOut (L"FCP Gateway Folders");
-  //        FCPGatewayTestResult = true;
-  //      }
-  //      catch (cRecoverable&)
-  //      {
-  //        return false;
-  //      }
-  //      FCPGatewayTestInitialised = true;
-  //    }
-  //  }
-  //  return FCPGatewayTestResult;
-  //}
-}
-
 cQCIFSProcessor::cQCIFSProcessor()
 //: m_pCompletionPort(iCommonFactory::singleton().createIOCP(numProcessors()*2)) // (I read in Jeffery Ritcher that twice the number of actual processors is a good number) - RH
-: m_pCompletionPort(iCommonFactory::singleton().createIOCP(numProcessors()))  // This seems overly generous - we only seem to use 1/2 the above - eb=ven under load - JC
+: m_pCompletionPort(iCommonFactory::singleton().createIOCP(numProcessors()))  // This seems overly generous - we only seem to use 1/2 the above - even under load - JC
 , m_pShareManager(new cShareManager())
 #if CIFS 
 , m_pOpLockManager(new cOpLockManager(false))
 #endif // CIFS 
 , m_pPacketProcessor(new cQCIFSPacketProcessor(m_pCompletionPort, m_pShareManager, m_pOpLockManager))
 {
-
-  //bool canRunProductVersion = false;
-  //try 
-  //{
-  //  // attach a callback to the VersionLicense to alert us if the license goes away
-  //  mVersionLicense = iOptionManager::singleton().checkOutVersionType (new cbVersionLicense (this));
-  //  canRunProductVersion = true;
-  //}
-  //catch (cAccessDenied& denied)
-  //{
-  //  iExceptionManager::singleton().presentWarning (L"%s", denied.getMsg().c_str());
-  //}
-
-  //if( canRunProductVersion )
-  {
-  //  try
-  //  {
-  //    iOptionManager& optionManager = iOptionManager::singleton();
-  //    const String sProductName(optionManager.getProductName());
-  //    if(!checkOption(L"Real QCifs"))
-  //      iOptionManager::singleton().checkOut(L"SAM on Workstation");
-  //  }
-  //  catch (const cAccessDenied &)
-  //  {
-  //    //m_pCompletionPort.invalidate();
-  //    //m_pShareManager.invalidate();
-  //    //m_pOpLockManager.invalidate();
-  //    //m_pPacketProcessor.invalidate();
-  //    return;
-  //  }
-
     // Delay starting NetManService until we know we're going to put our own SMB server in place
     OSVERSIONINFOW osVer;
     osVer.dwOSVersionInfoSize = sizeof(OSVERSIONINFOW);
