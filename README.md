@@ -2,22 +2,22 @@
 
 Welcome to the Windows SMBServer Virtual File System environment!
 This code base offers an SMB2/3 server running on Windows in User mode.
-This code has the _potential_ to support appications on Windows in the style of Fuse in the *nix world.
+This code has the _potential_ to support applications on Windows in the style of Fuse in the *nix world.
 
 ## Build
-We use the Microsoft Vsiual Studio C++ build environment. 
+We use the Microsoft Visual Studio C++ build environment. 
 The code is configured for VS 2015 or later.
 This is a 64 bit project.
 
 ### Dependencies
-The code only has few dependenies:
+The code only has few dependencies:
 1. Windows SDK
 Comes with Visual Studio.
 
 2. Boost
 Available from [boost](https://www.boost.org/)
 
-To configure boost, download the latest relase of boost headers and libaries built for Windows 64 bit.
+To configure boost, download the latest release of boost headers and libraries built for Windows 64 bit.
 Update the props file in \props folder to have the correct path.
 
 So in props\Boost64.props edit this line:
@@ -27,7 +27,7 @@ Now, open __vfs.sln__ in Visual Studio, and build _release 64-bit_.
 There are some warnings, but all dlls and one exe should build error free.
 
 ## Config
-SMB2/3 runs over TCP on well known port numbers. The main port (now-a-days) is port 445. The Windows implementaions do not allow deviating from this port, so the 1st thing to do in order to run a Windows User mode SMB2/3 server is to free port 445 from the clutches of the Windows Kernel.
+SMB2/3 runs over TCP on well known port numbers. The main port (now-a-days) is port 445. The Windows implementations do not allow deviating from this port, so the 1st thing to do in order to run a Windows User mode SMB2/3 server is to free port 445 from the clutches of the Windows Kernel.
 
 Open a command prompt and type `netstat -an`. On a normal windows system, you will see port 445 is in use, like this:
 
@@ -44,7 +44,7 @@ The port 445 will remain free for the duration of this boot of Windows.
 On re-booting, port 445 will again be bound to the Kernel mode MS supplied SMB server.
 
 ### 2. Windows Service
-Running a local admin program each time we want to run our SMBServer is not a good apprach, so the SMBserver code also come supplied with a Windows Service called NetManService.
+Running a local admin program each time we want to run our SMBServer is not a good approach, so the SMBserver code also come supplied with a Windows Service called NetManService.
 This contains the same code as the Free445, but wrapped in a Windows service, so that after initial installation (that requires elevated permissions), the service can be run from a non-elevated executable to achieve the same result - freeing port 445.
 
 To get this working, open QCIFSSever\NetManService\NetManService.sln in a new copy of Visual Studio, and build _release 64-bit_. This makes a new exe under Data\x64\DLL_Data\vfs\QCIFSProcessor\NetManService. 
@@ -55,12 +55,12 @@ If you run KernelServer.exe without having built NetManService.exe, you will get
 
 ![NetManServiceMissing](Docs/NetManServiceMissing.PNG)
 
-Once you have built the NetManService, KernelServer can be run with elevated privileges to install it. *Don't forget to clear the regsirty first!* See above.
+Once you have built the NetManService, KernelServer can be run with elevated privileges to install it. *Don't forget to clear the registry first!* See above.
 
 ![NetManServiceInstall](Docs/NetManServiceInstall.PNG)
 
 ## Running
-RUNME.bat runs KernelServer.exe built in the **build** step. This exe has no knowledge of SMB, it just loads dlls from pre-configured directorties, and offers simple services to register factory functions to allow services to be called at runtime. This is an example of the inversion of control design principle [IoC](https://en.wikipedia.org/wiki/Inversion_of_control).
+RUNME.bat runs KernelServer.exe built in the **build** step. This exe has no knowledge of SMB, it just loads dlls from pre-configured directories, and offers simple services to register factory functions to allow services to be called at runtime. This is an example of the inversion of control design principle [IoC](https://en.wikipedia.org/wiki/Inversion_of_control).
 
 On booting successfully the set of DLLs supplied should load some logging facilities (both console and file based logging are built in), and it loads the set of DLLs that implement our SMB2/3 server.
 
@@ -69,7 +69,7 @@ All being well, the console should look something like this:
 ![Booted OK](Docs/booted.PNG)
 
 ## Validating the boot
-Now, check the boot log, by scolling back in the console window.
+Now, check the boot log, by scrolling back in the console window.
 
 We need to establish if we managed to bind to port 445.
 All being well, you'll see this:
@@ -91,7 +91,7 @@ The simpler of the two is called QCIFSTest. This adds a share to the SMB server 
 
 ![NetUse](Docs/NetUse.PNG)
 
-The newly mapped drive should now be available to explorer. Normal files and folders can be created and deleted. PLease see the SNIA SDC presentation for details of what has justed happened!
+The newly mapped drive should now be available to explorer. Normal files and folders can be created and deleted. PLease see the SNIA SDC presentation for details of what has just happened!
 
 ## QCIFSSofa
 The other example plugin is a little more complicated, but really starts to show the power of a VFS. This is *not* a normal filesystem! Its called QCIFSSofa because it uses CouchDB (http://couchdb.apache.org/) as an index of some mp3 files. It offers folders that contain the results of dynamic queries to CouchDB views.
@@ -117,4 +117,4 @@ Special mentions go out to:
 
 Additional thanks are due to the following:
 - All the sponsors and attendees of the SNIA SDC SMB plugfest over the years
-- The Grass Valley Management for having the forsight to support this open source development.
+- The Grass Valley Management for having the foresight to support this open source development.
