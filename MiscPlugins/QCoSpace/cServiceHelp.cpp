@@ -327,7 +327,7 @@ void removeService (iModuleInstallHelp::Ptr Help, const String& serviceName,
 
   try
   {
-    Help->executeProcessWait (servicePath, serviceFileName, L"/unregserver", 4000 /* timeout */, 0 /* flags */);
+    Help->executeProcessWait (servicePath, serviceFileName, L"/remove", 4000 /* timeout */, 0 /* flags */);
   }
   catch (cRecoverable & Reason)
   {
