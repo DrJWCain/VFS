@@ -29,7 +29,11 @@ There are some warnings, but all dlls and one exe should build error free.
 ## Config
 SMB2/3 runs over TCP on well known port numbers. The main port (now-a-days) is port 445. The Windows implementaions do not allow deviating from this port, so the 1st thing to do in order to run a Windows User mode SMB2/3 server is to free port 445 from the clutches of the Windows Kernel.
 
-This code base offers two ways to achive this.
+Open a command prompt and type `netstat -an`. On a normal windows system, you will see port 445 is in use, like this:
+
+![445InUse](Docs/445InUse.PNG)
+
+This code base offers two ways to free port 445.
 
 ### 1. Free445
 There is a stand alone subproject called Free445. Build this, and then run it as local admin on your machine.
@@ -43,9 +47,17 @@ On re-booting, port 445 will again be bound to the Kernel mode MS supplied SMB s
 Running a local admin program each time we want to run our SMBServer is not a good apprach, so the SMBserver code also come supplied with a Windows Service called NetManService.
 This contains the same code as the Free445, but wrapped in a Windows service, so that after initial installation (that requires elevated permissions), the service can be run from a non-elevated executable to achieve the same result - freeing port 445.
 
-To get this working, open NetManService\NetManService.sln in a new copy of Visual Studio, and build 64bit release. This makes a new exe under Data\x64\DLL_Data\vfs\QCIFSProcessor\NetManService. 
-In order to install the service we need to run with elevated privileges. We also need to clear a reg key, to get the QCIFSProcessot.dll to re-install itself.
+To get this working, open QCIFSSever\NetManService\NetManService.sln in a new copy of Visual Studio, and build _release 64-bit_. This makes a new exe under Data\x64\DLL_Data\vfs\QCIFSProcessor\NetManService. 
+In order to install the service we need to run with KernelServer.exe elevated privileges. We also need to clear a reg key, to get the QCIFSProcessor.dll to re-install itself.
 Therefore open regedit at: HKEY_LOCAL_MACHINE\SOFTWARE\vfs\SMB3 Server\Vfs. Find and delete the key called 'QCIFSProcessor'. This will cause the QCIFSProcessor.dll to re-install, and install the service as a consequence.
+
+If you run KernelServer.exe without having built NetManService.exe, you will get a red line in the log as follows:
+
+![NetManServiceMissing](Docs/NetManServiceMissing.PNG)
+
+Once you have built the NetManService, KernelServer can be run with elevated privileges to install it. *Don't forget to clear the regsirty first!* See above.
+
+![NetManServiceInstall](Docs/NetManServiceInstall.PNG)
 
 ## Running
 RUNME.bat runs KernelServer.exe built in the **build** step. This exe has no knowledge of SMB, it just loads dlls from pre-configured directorties, and offers simple services to register factory functions to allow services to be called at runtime. This is an example of the inversion of control design principle [IoC](https://en.wikipedia.org/wiki/Inversion_of_control).
@@ -70,6 +82,21 @@ However, if for some reason port 445 cannot be bound to, you'll see something li
 
 # Architecture
 See the presentation first given at SNIA SDC 2018 for architecture details, available in the root directory of this code base. 
+
+# Example Plugins
+This code base comes with two example plugins, that try to demonstrate the power of the SMB Server and VFS semantics. 
+
+## QCIFSTest
+The simpler of the two is called QCIFSTest. This adds a share to the SMB server called `test`. Once the server is booted and bound to port 445, open a command prompt and try the following:
+
+![NetUse](Docs/NetUse.PNG)
+
+The newly mapped drive should now be available to explorer. Normal files and folders can be created and deleted. PLease see the SNIA SDC presentation for details of what has justed happened!
+
+## QCIFSSofa
+The other example plugin is a little more complicated, but really starts to show the power of a VFS. This is *not* a normal filesystem! Its called QCIFSSofa because it uses CouchDB (http://couchdb.apache.org/) as an index of some mp3 files. It offers folders that contain the results of dynamic queries to CouchDB views.
+
+To load the database, we use a simple python script to find the mp3 files in my music collection, and read some simple header info from each file, such as duration and tracknumber. See `loadMetadata.py` for details.
 
 # Contributing
 Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
