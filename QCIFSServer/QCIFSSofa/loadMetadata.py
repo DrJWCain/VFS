@@ -51,21 +51,10 @@ def folder(artist, path):
             audioFile = eyed3.mp3.Mp3AudioFile(filePath)
             info = audioFile.info
             record["Duration"] = info.time_secs
-            # print(dir(info))
-            # print(info.lame_tag)
-            # print(dir(info.mp3_header))
-            # print(info.mp3_header.copyright)
             tags = audioFile.tag
-            # print(dir(tags))
-            # print(tags.artist)
-            # print(tags.track_num[0])
-            # print(tags.title)
-            # print(tags.lyrics)
             record["TrackNum"] = tags.track_num[0]
 
         print(str(record))
-        # val = json.dumps(record)
-        # print(val)
 
         reply = requests.post(url, json=record)
         # print(str(reply.status_code))
@@ -73,15 +62,14 @@ def folder(artist, path):
 def masterFolder(artist, path):
     files = glob.glob(path)
     files.sort()
-    # names = [os.path.basename(f) for f in files]
     names = files
     print(str(names))
 
     for name in names:
         folder(artist, name + "\\")
 
-folder("Motorhead", "D:\\Music\\M\\Motorhead - The Best Of Greatest Hits\\")
-masterFolder("Bowie", "D:\\Music\\B\\Bowie 1966 - 1976\\*")
+# folder("Motorhead", "D:\\Music\\M\\Motorhead - The Best Of Greatest Hits\\")
+# masterFolder("Bowie", "D:\\Music\\B\\Bowie 1966 - 1976\\*")
 # masterFolder("Hawkwind", "D:\\Music\\H\\Hawkwind\\*")
-masterFolder("Led Zeppelin", "D:\\Music\\L\\Led Zeppelin\\*")
+# masterFolder("Led Zeppelin", "D:\\Music\\L\\Led Zeppelin\\*")
 
