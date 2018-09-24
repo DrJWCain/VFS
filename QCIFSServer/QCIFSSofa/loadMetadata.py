@@ -46,7 +46,7 @@ def folder(artist, path):
 
         # print(dir(eyed3.core))
 
-        print( eyed3.core.guessMimetype(filePath))
+        # print( eyed3.core.guessMimetype(filePath))
         if eyed3.mp3.isMp3File(filePath):
             audioFile = eyed3.mp3.Mp3AudioFile(filePath)
             info = audioFile.info
@@ -54,7 +54,7 @@ def folder(artist, path):
             tags = audioFile.tag
             record["TrackNum"] = tags.track_num[0]
 
-        print(str(record))
+        # print(str(record))
 
         reply = requests.post(url, json=record)
         # print(str(reply.status_code))
@@ -70,6 +70,5 @@ def masterFolder(artist, path):
 
 # folder("Motorhead", "D:\\Music\\M\\Motorhead - The Best Of Greatest Hits\\")
 # masterFolder("Bowie", "D:\\Music\\B\\Bowie 1966 - 1976\\*")
-# masterFolder("Hawkwind", "D:\\Music\\H\\Hawkwind\\*")
 # masterFolder("Led Zeppelin", "D:\\Music\\L\\Led Zeppelin\\*")
 
