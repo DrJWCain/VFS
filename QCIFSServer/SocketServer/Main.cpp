@@ -21,7 +21,7 @@
 #include "cAcceptEx.h"
 #include "cConnectEx.h"
 
-#include "..\..\..\KernelSDK\include\QWinBase.h"
+#include "..\..\KernelSDK\include\QWinBase.h"
 
 // =======================================================================================
 // === moduleInit/moduleCleanUp ==========================================================

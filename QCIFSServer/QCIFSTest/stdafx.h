@@ -44,4 +44,4 @@
 #include <Setupapi.h>
 #include <winioctl.h>
 
-#include "..\..\..\KernelSDK\Include\QKernelSDK.h"
+#include "..\..\KernelSDK\Include\QKernelSDK.h"

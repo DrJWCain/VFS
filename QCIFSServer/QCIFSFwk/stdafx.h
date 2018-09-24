@@ -36,7 +36,7 @@
 #include <boost/regex.hpp>
 #include <winioctl.h>
 
-#include "..\..\..\KernelSDK\Include\QKernelSDK.h"
+#include "..\..\KernelSDK\Include\QKernelSDK.h"
 
 extern vfs::iModuleContext::Ptr gModuleContext;
 

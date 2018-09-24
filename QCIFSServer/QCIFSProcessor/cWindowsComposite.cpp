@@ -20,7 +20,7 @@
 #include "cNotificationMsg.h"
 
 #include "..\common\iIOCompletionPort.h"
-#include "..\..\..\KernelSDK\include\QWinBase.h"
+#include "..\..\KernelSDK\include\QWinBase.h"
 
 using namespace vfs;
 

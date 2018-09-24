@@ -23,7 +23,7 @@
 #include "cSMBResponse.h"
 #include "trans2structs.h"
 
-#include "..\..\..\KernelSDK\include\QWinBase.h"
+#include "..\..\KernelSDK\include\QWinBase.h"
 
 //cSetFileInfo::tProcessSetFileInfo cSetFileInfo::SetInfoDispatch[USHRT_MAX] = {0};
 

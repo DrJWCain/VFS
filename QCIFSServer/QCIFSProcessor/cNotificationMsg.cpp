@@ -19,7 +19,7 @@
 #include ".\cnotificationmsg.h"
 #include "iNotificationReceiver.h"
 
-#include "..\..\..\KernelSDK\include\QWinBase.h"
+#include "..\..\KernelSDK\include\QWinBase.h"
 
 using namespace vfs;
 

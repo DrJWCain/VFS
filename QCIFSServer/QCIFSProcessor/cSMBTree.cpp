@@ -54,7 +54,7 @@
 #include "..\QCIFSIPC\iQCIFSIPC.h"
 #include "..\SocketServer\iPacket.h"
 
-#include "..\..\..\KernelSDK\include\QWinBase.h"
+#include "..\..\KernelSDK\include\QWinBase.h"
 
 cSMBTree::tProcessTrans2FuncPtr cSMBTree::Trans2Dispatch[UCHAR_MAX] = {0};
 

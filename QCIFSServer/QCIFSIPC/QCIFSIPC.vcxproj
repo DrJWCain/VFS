@@ -35,24 +35,24 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\Props\Boost64.props" />
+    <Import Project="..\..\Props\Boost64.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\Props\Boost64.props" />
+    <Import Project="..\..\Props\Boost64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>14.0.24730.2</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\..\..\Deliver\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>..\..\Deliver\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\..\..\Deliver\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>..\..\Deliver\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\..\Build\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -62,7 +62,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;$(BOOST_DIR);..\QCIFSFwk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\KernelSDK\include;$(BOOST_DIR);..\QCIFSFwk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;CLIENT_MODE;BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -74,12 +74,12 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\KernelSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>KernelExec_Dbg.lib;KernelBase_Dbg.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\..\KernelSDK\lib\win64;..\..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\KernelSDK\lib\win64;..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -95,7 +95,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;$(BOOST_DIR);..\QCIFSFwk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\KernelSDK\include;$(BOOST_DIR);..\QCIFSFwk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;CLIENT_MODE;BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
@@ -106,12 +106,12 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\..\KernelSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\KernelSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>KernelExec.lib;KernelBase.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\..\KernelSDK\lib\win64;..\..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>..\..\Data\$(Platform)\DLL_Code_$(Configuration)\vfs_$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\KernelSDK\lib\win64;..\..\Deliver\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -153,10 +153,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\KernelSDK\src\kernel\KernelBase\KernelBase.vcxproj">
+    <ProjectReference Include="..\..\KernelSDK\src\kernel\KernelBase\KernelBase.vcxproj">
       <Project>{f261f42e-3f9c-45ca-af36-4944115008a9}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\KernelSDK\src\kernel\KernelExec\KernelExec.vcxproj">
+    <ProjectReference Include="..\..\KernelSDK\src\kernel\KernelExec\KernelExec.vcxproj">
       <Project>{8604b12d-2a06-40ce-a7d4-b956c8eb540d}</Project>
     </ProjectReference>
   </ItemGroup>

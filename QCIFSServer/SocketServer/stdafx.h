@@ -28,7 +28,7 @@
 #include <set>
 #include <memory>
 
-#include "..\..\..\KernelSDK\Include\QKernelSDK.h"
+#include "..\..\KernelSDK\Include\QKernelSDK.h"
 
 #include <winsock2.h>
 #include <Mswsock.h>
@@ -38,7 +38,7 @@
 #include <iphlpapi.h>
 
 
-#include "..\..\..\KernelSDK\include\QWinBase.h"
+#include "..\..\KernelSDK\include\QWinBase.h"
 
 struct cActivityScope
 {

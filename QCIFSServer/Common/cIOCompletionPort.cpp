@@ -19,7 +19,7 @@
 #include "ciocompletionport.h"
 #include "ciocompletionthread.h"
 
-#include "..\..\..\KernelSDK\include\QWinBase.h"
+#include "..\..\KernelSDK\include\QWinBase.h"
 
 cIOCompletionPort::cIOCompletionPort(const unsigned int threads)
 {

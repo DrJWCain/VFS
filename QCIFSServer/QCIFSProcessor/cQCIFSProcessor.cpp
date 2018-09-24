@@ -102,6 +102,7 @@ cQCIFSProcessor::cQCIFSProcessor()
 #endif // CIFS 
 , m_pPacketProcessor(new cQCIFSPacketProcessor(m_pCompletionPort, m_pShareManager, m_pOpLockManager))
 {
+  {
     // Delay starting NetManService until we know we're going to put our own SMB server in place
     OSVERSIONINFOW osVer;
     osVer.dwOSVersionInfoSize = sizeof(OSVERSIONINFOW);

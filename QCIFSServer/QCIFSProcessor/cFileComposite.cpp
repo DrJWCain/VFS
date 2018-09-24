@@ -21,7 +21,7 @@
 #include "cNOPCompletionMsg.h"
 
 #include "..\common\iIOCompletionPort.h"
-#include "..\..\..\KernelSDK\src\tools\win\KernelSetup\Win32Help.h"
+#include "..\..\KernelSDK\src\tools\win\KernelSetup\Win32Help.h"
 
 using namespace vfs;
 

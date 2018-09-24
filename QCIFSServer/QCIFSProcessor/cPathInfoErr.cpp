@@ -17,7 +17,7 @@
 #include "StdAfx.h"
 #include ".\cpathinfoerr.h"
 
-#include "..\..\..\KernelSDK\include\QWinBase.h"
+#include "..\..\KernelSDK\include\QWinBase.h"
 
 cPathInfoErr::cPathInfoErr(void)
 {
