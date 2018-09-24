@@ -121,7 +121,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\MiscPlugins\QCoSpace\cServiceHelp.cpp" />
     <ClCompile Include="cFileComposite.cpp" />
     <ClCompile Include="cFileIOCompletionStatus.cpp" />
     <ClCompile Include="cFolderComposite.cpp" />
@@ -135,6 +134,7 @@
     <ClCompile Include="cPathInfoErr.cpp" />
     <ClCompile Include="cQCIFSPacketProcessor.cpp" />
     <ClCompile Include="cQCIFSProcessor.cpp" />
+    <ClCompile Include="cServiceHelp.cpp" />
     <ClCompile Include="cSetFileInfo.cpp" />
     <ClCompile Include="cShareManager.cpp" />
     <ClCompile Include="cSizeOnDisk.cpp" />
@@ -174,7 +174,6 @@
     <ClCompile Include="Trans2Structs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\MiscPlugins\QCoSpace\cServiceHelp.h" />
     <ClInclude Include="..\iComposite.h" />
     <ClInclude Include="..\iFileProcessingCallback.h" />
     <ClInclude Include="..\iTreeResource.h" />
@@ -201,6 +200,7 @@
     <ClInclude Include="cProcessPacketMsg.h" />
     <ClInclude Include="cQCIFSPacketProcessor.h" />
     <ClInclude Include="cQCIFSProcessor.h" />
+    <ClInclude Include="cServiceHelp.h" />
     <ClInclude Include="cSetFileInfo.h" />
     <ClInclude Include="cShareManager.h" />
     <ClInclude Include="cSizeOnDisk.h" />

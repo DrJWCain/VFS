@@ -35,7 +35,7 @@
 #include "cFCPGConfigPage.h"
 
 #include "LogCategories.h"
-#include "..\..\..\MiscPlugins\QCoSpace\cServiceHelp.h"
+#include "cServiceHelp.h"
 
 #include "..\common\iCommonFactory.h"
 #include "..\common\iIOCompletionPort.h"

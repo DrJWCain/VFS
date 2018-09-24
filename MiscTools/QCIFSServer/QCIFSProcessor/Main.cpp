@@ -21,7 +21,7 @@
 #include "cQCIFSProcessor.h"
 #include "cUniqueNotifyID.h"
 #include "LogCategories.h"
-#include "..\..\..\MiscPlugins\QCoSpace\cServiceHelp.h"
+#include "cServiceHelp.h"
 
 // =======================================================================================
 // === moduleInit/moduleCleanUp ==========================================================

@@ -60,9 +60,6 @@
     <ClCompile Include="cQCIFSProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MiscPlugins\QCoSpace\cServiceHelp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cShareManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -171,6 +168,9 @@
     <ClCompile Include="cSMB2Tree.cpp">
       <Filter>SMB2</Filter>
     </ClCompile>
+    <ClCompile Include="cServiceHelp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="align.h">
@@ -228,9 +228,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cQCIFSProcessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\MiscPlugins\QCoSpace\cServiceHelp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cShareManager.h">
@@ -433,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="writeInfoTemplates.h">
       <Filter>SMB2</Filter>
+    </ClInclude>
+    <ClInclude Include="cServiceHelp.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
