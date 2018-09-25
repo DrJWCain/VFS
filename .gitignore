@@ -38,4 +38,4 @@ lib/
 Free445/Free445/x64/
 Free445/x64/
 *.vcxproj.user
-
+.vscode/
