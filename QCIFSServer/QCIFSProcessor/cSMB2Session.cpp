@@ -24,7 +24,7 @@
 
 #define NT_SUCCESS(Status)          (((NTSTATUS)(Status)) >= 0)
 #define ASSERT(X)
-#define NT_VERIFY(x) {NTSTATUS result = x; if(!NT_SUCCESS(result))QTRACE((L"%08x", result)); }
+#define NT_VERIFY(x) {NTSTATUS result = x; if(!NT_SUCCESS(result))QSOS((L"BCRYPT ERROR - %08x", result)); }
 #define SEC_SUCCESS(Status) ((Status) >= 0)
 
 #pragma comment(lib, "Secur32.lib")
@@ -880,11 +880,15 @@ PBYTE cSMB2Session::VerifyThis(PBYTE pDataBuffer, DWORD dataLen, PBYTE pSigBuffe
 
   Buffer hashValue = getHash(UseSMB3Signing, pDataBuffer, dataLen, temp);//(!SignKey.empty())?SignKey:PrevousSignKey);
 
-  //QTRACE((L"HASH:"));
-  //hashValue.print();
+  if(memcmp(hashValue.GetData(), pSigBuffer, sigLen) != 0)
+  {
+    QSOS((L"%S FAILED!", __FUNCTION__));
+    QTRACE((L"HASH:"));
+    hashValue.print();
 
-  //QTRACE((L"SIG:"));
-  //PrintHexDump(sigLen, pSigBuffer);
+    QTRACE((L"SIG:"));
+    PrintHexDump(sigLen, pSigBuffer);
+  }
 
   return pDataBuffer;
 }
@@ -910,9 +914,9 @@ PBYTE cSMB2Session::SignThis(PBYTE pDataBuffer, DWORD dataLen, PBYTE pSigBuffer,
   }
   Buffer hashValue = getHash(UseSMB3Signing, pDataBuffer, dataLen, temp);//(!PrevousSignKey.empty())?PrevousSignKey:SignKey);
 
-  //QTRACE((L"HASH: %d", hashValue.GetSize()));
-  //hashValue.print();
-  QTRACE((L"->"));
+  QTRACE((L"HASH: %d", hashValue.GetSize()));
+  hashValue.print();
+  //QTRACE((L"->"));
 
   memcpy(pSigBuffer, hashValue.m_ptr, sigLen);
 

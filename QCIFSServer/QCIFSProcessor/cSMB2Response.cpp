@@ -212,17 +212,47 @@ tTransmitList& cSMB2Response::getTransmitList()
 }
 
 
-
-void cSMB2Response::sign(cPtr<cSMB2Session> session)
+void PrintHexDump(DWORD length, PBYTE buffer);
+void cSMB2Response::sign(cPtr<cSMB2Session> session, bool extraLogging)
 {
   //QTRACE((L"cSMB2Response::sign required."));
 
   BYTE sig[16];
+  BYTE sig2[16];
   PSMB2_HEADER head = header();
+  bool isRead = (head->Command == SMB2_Read);
   memcpy(sig, head->Signature, 16);
+  memcpy(sig2, head->Signature, 16);
   memset(head->Signature, 0, 16);
 
-  session->SignThis((PBYTE)Buffer, size(), sig, 16);
+  if((PBYTE)head != (PBYTE)Buffer)
+  {
+    QSOS((L"%p %p", (PBYTE)head, (PBYTE)Buffer));
+    PrintHexDump(64, (PBYTE)Buffer);
+    PrintHexDump(64, (PBYTE)head);
+  }
+  if(isRead)
+  {
+    //PrintHexDump(64, (PBYTE)Buffer);
+    session->SignThis((PBYTE)Buffer, size(), sig, 16);
+    session->VerifyThis((PBYTE)Buffer, size(), sig, 16);
+    //head->Flags &= ~SMB2_FLAGS_SIGNED;
+    memcpy(head->Signature, sig, 16);
+  }
+  else
+  {
+    session->SignThis((PBYTE)Buffer, size(), sig, 16);
+    memcpy(head->Signature, sig, 16);
+  }
+    
+  
 
-  memcpy(head->Signature, sig, 16);
+  if(isRead)
+  {
+    QTRACE((L"%S: old ...", __FUNCTION__));
+    PrintHexDump(16, sig2);
+    QTRACE((L"%S: new ... %d", __FUNCTION__, size()));
+    PrintHexDump(16, sig);
+  }
+
 }

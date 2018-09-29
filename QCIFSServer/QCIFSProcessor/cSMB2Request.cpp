@@ -294,10 +294,10 @@ tResponseList cSMB2Request::processChain(cPtr<cSMB2Response> pResponse, const UL
       align<ULONGLONG>(pNextResponseStart, pCurResponseHeader);
       pResponse->header()->NextCommand = checked_static_cast<ULONG>(pNextResponseStart - pCurResponseHeader);
 
-      //if(SMB2_FLAGS_SIGNED & pResponse->header()->Flags)
+      //if(requestRequireSign(header()))
       //{
       //  cPtr<cSMB2Session> session(getSession(pResponse));
-      //  pResponse->sign(session);
+      //  pResponse->sign(session, true);
       //}
 
       pResponse->haveChainedHeader();
@@ -307,11 +307,12 @@ tResponseList cSMB2Request::processChain(cPtr<cSMB2Response> pResponse, const UL
     return dispatchCommand(header()->Command, pResponse);
   }
 
-  //if(SMB2_FLAGS_SIGNED & pResponse->header()->Flags)
-  //{
-  //  cPtr<cSMB2Session> session(getSession(pResponse));
-  //  pResponse->sign(session);
-  //}
+  //Required for sign all the time support
+  if(requestRequireSign(header()))
+  {
+    cPtr<cSMB2Session> session(getSession(pResponse));
+    pResponse->sign(session, true);
+  }
 
   return singleResponse(pResponse);
 }
@@ -1295,7 +1296,10 @@ tResponseList cSMB2Request::processRead(cPtr<cSMB2Response> response) const
   pResp->DataLength = nBytes;
   pResp->DataRemaining = 0;
   pResp->Reserved2 = 0;
+  auto before = responseToProcess->size();
   responseToProcess->addData(nBytes);
+  auto after = responseToProcess->size();
+  QTRACE((L"%S %d %d, before %d, after %d", __FUNCTION__, pReq->Length, nBytes, before, after));
 
   if(asyncCommand)
   {
@@ -1333,6 +1337,10 @@ tResponseList cSMB2Request::processRead(cPtr<cSMB2Response> response) const
   }
   else
   {
+    if(requestRequireSign(header()))
+    {
+      initialResponse->sign(getSession(response));
+    }
     return processChain(initialResponse, sizeof(RESP_SMB2_READ) + nBytes);
   }
 }
@@ -1501,9 +1509,57 @@ tResponseList cSMB2Request::processIoctl(cPtr<cSMB2Response> response) const
     QTRACE((L"Pipe Wait %s", name.c_str()));
     ret = errorResponse(response, static_cast<ULONG>(STATUS_FS_DRIVER_REQUIRED));
   }
+  else if(FSCTL_PIPE_TRANSCEIVE == pReq->CtlCode)
+  {
+    QSOS((L"FSCTL_PIPE_TRANSCEIVE"));
+    PREQ_SMB2_IOCTL pRequest;
+    //const cPtr<iComposite> pComposite = getComposite<PREQ_SMB2_IOCTL>(pRequest, response);
+    const cPtr<cSMB2Tree> pTree = getTree(response);
+    cPtr<iComposite> pComposite;
+    if(!pTree.isNull())
+    {
+      pRequest = getParams<REQ_SMB2_IOCTL*>();
+      pComposite = pTree->getComposite(Fid(pRequest), response);
+    }
+
+    if(pComposite.isNull())
+      return errorResponse(response);
+
+    DWORD nBytes(pRequest->InputCount);
+    LARGE_INTEGER lg;
+    lg.QuadPart = 0;
+
+    static const unsigned int kSmbBufferFromNetBIOS = 4;
+    DWORD nRet = pComposite->Write(m_pContextPacket->getRXBuffer()->trimmedConst((size_t)pRequest->InputOffset + kSmbBufferFromNetBIOS, 0)
+      , nBytes
+      , lg
+      , SessionID()
+      , Fid(pRequest));
+
+    nBytes = pRequest->MaxOutputResponse;
+    pComposite->Read(response->getTransmitList(), nBytes, lg, SessionID(), Fid(pRequest));
+
+    BYTE* pInfoBytes = (BYTE*)(pResp + 1);
+    int offset = pInfoBytes - (BYTE*)response->header();
+
+    pResp->StructureSize = 0x31;
+    pResp->CtlCode = pReq->CtlCode;
+    pResp->FileId = pReq->FileId;
+    pResp->InputOffset = offset;
+    pResp->InputCount = 0;
+    pResp->OutputOffset = offset;
+    pResp->OutputCount = nBytes;
+    pResp->Flags = 0;
+    pResp->Reserved2 = 0;
+
+    response->addData(nBytes);
+
+    ret = processChain(response, sizeof(RESP_SMB2_IOCTL) + nBytes);
+
+  }
   else
   {
-    bool isFSCTL = ((SMB2_0_IOCTL_IS_FSCTL & header()->Flags) == SMB2_0_IOCTL_IS_FSCTL);
+    bool isFSCTL = ((SMB2_0_IOCTL_IS_FSCTL & pReq->Flags) == SMB2_0_IOCTL_IS_FSCTL);
     QTRACE((L"Unknown %s 0x%08x", isFSCTL?L"FSCTL":L"IOCTL", pReq->CtlCode));
     PrintHexDump(pReq->InputCount + sizeof(REQ_SMB2_IOCTL), (PBYTE)pReq);
     ret = errorResponse(response, static_cast<ULONG>(STATUS_FS_DRIVER_REQUIRED));

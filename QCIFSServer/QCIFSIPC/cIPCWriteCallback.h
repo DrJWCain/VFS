@@ -21,6 +21,7 @@ class cIPCWriteCallback : public iWriteCallback, public vfs::cRefCount
   mutable vfs::cLock m_access;
   mutable tFrameVector m_frameVector;
   vfs::String Name;
+  HANDLE HPipe;
 
 public:
   cIPCWriteCallback(const vfs::String& name);

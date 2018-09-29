@@ -62,6 +62,18 @@ void PrintHexDump(DWORD length, PBYTE buffer)
 
 cIPCWriteCallback::cIPCWriteCallback(const String& name) : FileSize(0), Name(name)
 {
+  HPipe = CreateFile(L"\\\\.\\pipe\\srvsvc", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+  auto err = GetLastError();
+  QTRACE((L"%p, %08x", HPipe, err));
+
+  DWORD dwMode = PIPE_READMODE_MESSAGE;
+  auto fSuccess = SetNamedPipeHandleState(
+    HPipe,    // pipe handle 
+    &dwMode,  // new pipe mode 
+    NULL,     // don't set maximum bytes 
+    NULL);    // don't set maximum time 
+
 }
 
 unsigned __int64 cIPCWriteCallback::getSize(ULONGLONG fid)
@@ -78,7 +90,7 @@ unsigned char convertToNibble(unsigned char c)
 
 DWORD cIPCWriteCallback::readBytes(tTransmitList &krTPM, DWORD& nBytes, const LARGE_INTEGER &nOffset, const int sessionID, ULONGLONG fid)
 {
-  //QTRACE((L"cIPCWriteCallback::readBytes %s %I64d:%d", Name.c_str(), nOffset.QuadPart, nBytes));
+  QTRACE((L"cIPCWriteCallback::readBytes %s %I64d:%d", Name.c_str(), nOffset.QuadPart, nBytes));
   if (m_frameVector.empty())
     return ERROR_READ_FAULT;
 
@@ -126,17 +138,21 @@ DWORD cIPCWriteCallback::readBytes(tTransmitList &krTPM, DWORD& nBytes, const LA
 
   m_access.lock();
   tFrameVector copyVector(m_frameVector);
+  m_frameVector.clear();
   m_access.unlock();
 
   std::vector<cConstPtr<cMemoryView> > memViews;
 
   iQCIFSFwkHelper::singleton().flattenFrameVector(copyVector, memViews, nOffset.LowPart, nOffset.LowPart + nBytes);
 
+  nBytes = 0;
   for (std::vector<cConstPtr<cMemoryView> >::const_iterator cit = memViews.begin()
     ; memViews.end() != cit
     ; ++cit)
   {
     const cConstPtr<cMemoryView> pMem = *cit;
+    QTRACE((L"SIZE %d", pMem->getSize()));
+    nBytes += pMem->getSize();
     SMART_TPE tpe;
     tpe.pMem = pMem;
     tpe.tpe.dwElFlags = TP_ELEMENT_MEMORY;
@@ -157,7 +173,7 @@ DWORD cIPCWriteCallback::setSize(unsigned __int64 newSize)
 
 DWORD cIPCWriteCallback::writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, const LARGE_INTEGER &offset, const int sessionID)
 {
-  //QTRACE((L"cIPCWriteCallback::writeBytes %s %I64d:%Iu", Name.c_str(), offset.QuadPart, buffer->getSize()));
+  QTRACE((L"cIPCWriteCallback::writeBytes %s %I64d:%Iu", Name.c_str(), offset.QuadPart, buffer->getSize()));
   if(offset.QuadPart + buffer->getSize() > (__int64)FileSize)
     FileSize = offset.QuadPart + buffer->getSize();
 
@@ -168,7 +184,36 @@ DWORD cIPCWriteCallback::writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, con
     return ERROR_NOT_ENOUGH_MEMORY;
   }
 
-  std::pair<unsigned int,cConstPtr<cMemoryView> > entry(offset.LowPart, buffer);
+  //std::pair<unsigned int,cConstPtr<cMemoryView> > entry(offset.LowPart, buffer);
+  //{
+    //cLockGuard lg(&m_access);
+    //m_frameVector.push_back(entry);
+    //PrintHexDump(buffer->getSize(), (PBYTE )buffer->getConstBytes());
+  //}
+
+  //TransactNamedPipe();
+
+  
+
+  PrintHexDump(buffer->getSize(), (PBYTE)buffer->getConstBytes());
+
+  //DWORD written = 0;
+  //auto ret = WriteFile(h, buffer->getConstBytes(), buffer->getSize(), &written, 0);
+  //char buff[4096];
+  vfs::cConstPtr<vfs::cMemoryView> buff = new vfs::cMemoryView(new vfs::cMemory((size_t)4096, cMemory::eHeap));
+  DWORD read = 0;
+  auto ret = TransactNamedPipe(HPipe, (PBYTE)buffer->getConstBytes(), buffer->getSize(), (PBYTE)buff->getConstBytes(), buff->getSize(), &read, 0);
+
+
+  auto err = GetLastError();
+  QTRACE((L"TransactNamedPipe returned %d, %08x %d", ret, err, read));
+  //PrintHexDump(read, (PBYTE)buff->getConstBytes());
+
+  buff = buff->firstConst((size_t)read);
+  //dump((PBYTE)buff->getConstBytes(), buff->getSize());
+  PrintHexDump(read, (PBYTE)buff->getConstBytes());
+
+  std::pair<unsigned int,cConstPtr<cMemoryView> > entry(offset.LowPart, buff);
   {
     cLockGuard lg(&m_access);
     m_frameVector.push_back(entry);

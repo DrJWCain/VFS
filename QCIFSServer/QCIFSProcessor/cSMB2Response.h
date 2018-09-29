@@ -52,7 +52,7 @@ public:
 
   vfs::cPtr<iRXPacket> getContextPacket() const {return m_pContextPacket;}
 
-  void sign(cPtr<cSMB2Session> session);
+  void sign(cPtr<cSMB2Session> session, bool extraLogging = false);
 
 private:
   vfs::cPtr<vfs::cMemoryView> m_pBuffer;
