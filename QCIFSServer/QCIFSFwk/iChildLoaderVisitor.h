@@ -50,7 +50,7 @@ class iWriteCallback : public iReadCallback
 {
 public:
   virtual DWORD setSize(unsigned __int64 newSize) = 0;
-  virtual DWORD writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, const LARGE_INTEGER &offset, const int sessionID) = 0;
+  virtual DWORD writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, const LARGE_INTEGER &offset, const int sessionID, ULONGLONG fid) = 0;
   virtual DWORD close(ULONGLONG fid) = 0;
 };
 

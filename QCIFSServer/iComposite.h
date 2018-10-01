@@ -45,6 +45,12 @@ public:
 
 typedef std::vector<fileInfo> tFileInfoList;
 
+class iTransactCallback
+{
+public:
+  virtual DWORD transact(vfs::cConstPtr<vfs::cMemoryView> buffer, tTransmitList &krTPM, DWORD& nBytesRead, const int sessionID, ULONGLONG fid) = 0;
+};
+
 class iComposite : public iNamed
 {
 public:
@@ -80,4 +86,5 @@ public:
 
   virtual void triggerNotifications() = 0;
   virtual bool canBeDeleted() = 0;
+  virtual vfs::cPtr<iTransactCallback> getTransactInterface() = 0;
 };

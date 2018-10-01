@@ -37,7 +37,7 @@ public:
   virtual bool canExecute() { return false; }
   virtual DWORD registerChangeListener(vfs::cPtr<iCallbackChangeListener> listener) { return ERROR_NOT_SUPPORTED; }
   virtual DWORD setSize(unsigned __int64 newSize);
-  virtual DWORD writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, const LARGE_INTEGER &offset, const int sessionID);
+  virtual DWORD writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, const LARGE_INTEGER &offset, const int sessionID, ULONGLONG fid);
   virtual DWORD close(ULONGLONG fid);
 
   //iRename

@@ -51,6 +51,7 @@ public:
   void triggerNotifications(){}
   virtual bool canBeDeleted() { return true; }
   bool hasSecurityDescriptor() { return false; }
+  vfs::cPtr<iTransactCallback> getTransactInterface() override;
 
 protected:  //protected member functions
   HANDLE getHandle() const {return m_hFile;}

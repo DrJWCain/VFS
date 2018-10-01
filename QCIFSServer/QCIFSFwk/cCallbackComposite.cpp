@@ -21,6 +21,7 @@
 #include "iFileEvent.h"
 #include "cNotificationHandler.h"
 #include "cCallbackChangeListener.h"
+#include "QKernelBase.h"
 
 using namespace vfs;
 
@@ -156,7 +157,7 @@ DWORD cWriteableCallbackComposite::Read(tTransmitList &krTPM, DWORD& nBytes, con
 DWORD cWriteableCallbackComposite::Write(vfs::cConstPtr<vfs::cMemoryView> buffer, DWORD &nBytes, const LARGE_INTEGER &offset, const int sessionID, ULONGLONG fid)
 {
   //QTRACE((L"cWriteableCallbackComposite::Write %I64d, %d",offset.QuadPart, nBytes));
-  return WriteCallback->writeBytes(buffer, offset, sessionID);
+  return WriteCallback->writeBytes(buffer, offset, sessionID, fid);
 }
 
 DWORD cWriteableCallbackComposite::SetFileSize(const PLARGE_INTEGER pFileSize)
@@ -172,4 +173,9 @@ DWORD cWriteableCallbackComposite::Close(ULONGLONG fid)
 DWORD cWriteableCallbackComposite::registerChangeListener(vfs::cPtr<iFileChangeListener> listener) 
 {
   return WriteCallback->registerChangeListener(new cCallbackChangeListener(listener));
+}
+
+vfs::cPtr<iTransactCallback> cWriteableCallbackComposite::getTransactInterface() 
+{ 
+  return ptr_cast<cPtr<iTransactCallback> >(WriteCallback); 
 }

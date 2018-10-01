@@ -76,7 +76,7 @@ DWORD cTestWriteCallback::setSize(unsigned __int64 newSize)
   return ERROR_SUCCESS;
 }
 
-DWORD cTestWriteCallback::writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, const LARGE_INTEGER &offset, const int sessionID)
+DWORD cTestWriteCallback::writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, const LARGE_INTEGER &offset, const int sessionID, ULONGLONG fid)
 {
   //QTRACE((L"cTestWriteCallback::writeBytes %I64d:%d", offset.QuadPart, buffer->getSize()));
   if(!buffer->getSize())

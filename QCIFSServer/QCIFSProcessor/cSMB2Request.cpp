@@ -1511,7 +1511,7 @@ tResponseList cSMB2Request::processIoctl(cPtr<cSMB2Response> response) const
   }
   else if(FSCTL_PIPE_TRANSCEIVE == pReq->CtlCode)
   {
-    QSOS((L"FSCTL_PIPE_TRANSCEIVE"));
+    QTRACE((L"FSCTL_PIPE_TRANSCEIVE"));
     PREQ_SMB2_IOCTL pRequest;
     //const cPtr<iComposite> pComposite = getComposite<PREQ_SMB2_IOCTL>(pRequest, response);
     const cPtr<cSMB2Tree> pTree = getTree(response);
@@ -1525,19 +1525,16 @@ tResponseList cSMB2Request::processIoctl(cPtr<cSMB2Response> response) const
     if(pComposite.isNull())
       return errorResponse(response);
 
-    DWORD nBytes(pRequest->InputCount);
-    LARGE_INTEGER lg;
-    lg.QuadPart = 0;
+    auto pTransact = pComposite->getTransactInterface();
+    if(pTransact.isNull())
+      return errorResponse(response);
 
     static const unsigned int kSmbBufferFromNetBIOS = 4;
-    DWORD nRet = pComposite->Write(m_pContextPacket->getRXBuffer()->trimmedConst((size_t)pRequest->InputOffset + kSmbBufferFromNetBIOS, 0)
-      , nBytes
-      , lg
-      , SessionID()
-      , Fid(pRequest));
+    auto buff = m_pContextPacket->getRXBuffer()->trimmedConst((size_t)pRequest->InputOffset + kSmbBufferFromNetBIOS, 0);
+    buff = buff->firstConst((size_t)pRequest->InputCount);
 
-    nBytes = pRequest->MaxOutputResponse;
-    pComposite->Read(response->getTransmitList(), nBytes, lg, SessionID(), Fid(pRequest));
+    DWORD nBytes = pRequest->MaxOutputResponse;
+    DWORD result = pTransact->transact(buff, response->getTransmitList(), nBytes, SessionID(), Fid(pRequest));
 
     BYTE* pInfoBytes = (BYTE*)(pResp + 1);
     int offset = pInfoBytes - (BYTE*)response->header();
@@ -1555,7 +1552,6 @@ tResponseList cSMB2Request::processIoctl(cPtr<cSMB2Response> response) const
     response->addData(nBytes);
 
     ret = processChain(response, sizeof(RESP_SMB2_IOCTL) + nBytes);
-
   }
   else
   {

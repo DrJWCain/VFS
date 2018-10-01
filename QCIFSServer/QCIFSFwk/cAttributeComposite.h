@@ -41,6 +41,8 @@ public:
   //public member functions
   DWORD atts() const;
 
+  vfs::cPtr<iTransactCallback> getTransactInterface() override;
+
 protected:
   void access();
   void modify();

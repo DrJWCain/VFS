@@ -110,3 +110,5 @@ DWORD cAttributeComposite::atts() const
   cLockGuard lg(&m_fiAccess);
   return m_fileInfo.w32Data.dwFileAttributes;
 }
+
+vfs::cPtr<iTransactCallback> cAttributeComposite::getTransactInterface() { return vfs::cPtr<iTransactCallback>(); }

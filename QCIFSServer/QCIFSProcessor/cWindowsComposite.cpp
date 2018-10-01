@@ -115,3 +115,8 @@ DWORD cWindowsComposite::Rename( const vfs::String& sNewName )
 {
   return MoveFile(m_sPath.c_str(), sNewName.c_str());
 }
+
+vfs::cPtr<iTransactCallback> cWindowsComposite::getTransactInterface()
+{
+  return vfs::cPtr<iTransactCallback>();
+}

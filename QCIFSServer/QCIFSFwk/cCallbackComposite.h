@@ -79,6 +79,7 @@ public:
 
   //public member functions
   bool canDelete() const {return cDeletableComposite::canDelete();}
+  vfs::cPtr<iTransactCallback> getTransactInterface() override;
 
 private:
   vfs::cPtr<iWriteCallback> WriteCallback;
