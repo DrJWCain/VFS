@@ -60,12 +60,12 @@ void PrintHexDump(DWORD length, PBYTE buffer)
   }
 }
 
-cIPCWriteCallback::cIPCWriteCallback(const String& name) : FileSize(0), Name(name)
+void cIPCWriteCallback::setUpPipe()
 {
   HPipe = CreateFile(L"\\\\.\\pipe\\srvsvc", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
   auto err = GetLastError();
-  QTRACE((L"%p, %08x", HPipe, err));
+  QTRACE((L"%S %p, %08x", __FUNCTION__, HPipe, err));
 
   DWORD dwMode = PIPE_READMODE_MESSAGE;
   auto fSuccess = SetNamedPipeHandleState(
@@ -74,6 +74,10 @@ cIPCWriteCallback::cIPCWriteCallback(const String& name) : FileSize(0), Name(nam
     NULL,     // don't set maximum bytes 
     NULL);    // don't set maximum time 
 
+}
+cIPCWriteCallback::cIPCWriteCallback(const String& name) : FileSize(0), Name(name)
+{
+  setUpPipe();
 }
 
 unsigned __int64 cIPCWriteCallback::getSize(ULONGLONG fid)
@@ -90,51 +94,9 @@ unsigned char convertToNibble(unsigned char c)
 
 DWORD cIPCWriteCallback::readBytes(tTransmitList &krTPM, DWORD& nBytes, const LARGE_INTEGER &nOffset, const int sessionID, ULONGLONG fid)
 {
-  QTRACE((L"cIPCWriteCallback::readBytes %s %I64d:%d", Name.c_str(), nOffset.QuadPart, nBytes));
+  //QTRACE((L"cIPCWriteCallback::readBytes %s %I64d:%d", Name.c_str(), nOffset.QuadPart, nBytes));
   if (m_frameVector.empty())
     return ERROR_READ_FAULT;
-
-
-//SNIA SDC plugfest 2011 ... 
-//Bytes from "ms bind" acording to netmon ...
-//0000   05 00 0c 03 10 00 00 00 74 00 00 00 02 00 00 00
-//0010   b8 10 b8 10 3f 71 00 00 0d 00 5c 50 49 50 45 5c
-//0020   73 72 76 73 76 63 00 00 03 00 00 00 02 00 02 00
-//0030   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-//0040   00 00 00 00 00 00 00 00 33 05 71 71 ba be 37 49
-//0050   83 19 b5 db ef 9c cc 36 01 00 00 00 03 00 03 00
-//0060   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-//0070   00 00 00 00
-//
-//
-//  std::string fred("05000c03100000007400000002000000b810b8103f7100000d005c504950455c7372767376630000030000000200020000000000000000000000000000000000000000000000000033057171babe37498319b5dbef9ccc3601000000030003000000000000000000000000000000000000000000");
-//
-//  int i = 0;
-//  cPtr<cMemoryView> mem = new cMemoryView(new cMemory(fred.size()/2, cMemory::eHeap));
-//  char* bytes = mem->getBytes();
-//  for(std::string::iterator it = fred.begin(); it != fred.end(); ++it)
-//  {
-//    unsigned char val = (unsigned char)*it;
-//    
-//    unsigned char valAsUChar = convertToNibble(val);
-//    valAsUChar <<= 4;
-//    ++it;
-//    val = (unsigned char)*it;
-//    valAsUChar += convertToNibble(val);
-//
-//    bytes[i] = valAsUChar;
-//    ++i;
-//  }
-//
-//  SMART_TPE tpe;
-//  tpe.pMem = mem;
-//  tpe.tpe.dwElFlags = TP_ELEMENT_MEMORY;
-//  tpe.tpe.pBuffer = (PVOID)mem->getConstBytes();
-//  tpe.tpe.cLength = mem->getSize();
-//  nBytes = tpe.tpe.cLength;
-//  krTPM.push_back(tpe);
-//
-
 
   m_access.lock();
   tFrameVector copyVector(m_frameVector);
@@ -143,6 +105,11 @@ DWORD cIPCWriteCallback::readBytes(tTransmitList &krTPM, DWORD& nBytes, const LA
 
   std::vector<cConstPtr<cMemoryView> > memViews;
 
+  //QTRACE((L"copyVector %d", copyVector.size()));
+  //for(auto ref : copyVector)
+  //{
+  //  QTRACE((L"size: %I64d-%I64d", ref.first, ref.second->getSize()));
+  //}
   iQCIFSFwkHelper::singleton().flattenFrameVector(copyVector, memViews, nOffset.LowPart, nOffset.LowPart + nBytes);
 
   nBytes = 0;
@@ -151,7 +118,7 @@ DWORD cIPCWriteCallback::readBytes(tTransmitList &krTPM, DWORD& nBytes, const LA
     ; ++cit)
   {
     const cConstPtr<cMemoryView> pMem = *cit;
-    QTRACE((L"SIZE %d", pMem->getSize()));
+    //QTRACE((L"SIZE %d", pMem->getSize()));
     nBytes += pMem->getSize();
     SMART_TPE tpe;
     tpe.pMem = pMem;
@@ -160,7 +127,9 @@ DWORD cIPCWriteCallback::readBytes(tTransmitList &krTPM, DWORD& nBytes, const LA
     tpe.tpe.cLength = pMem->getSize();
     krTPM.push_back(tpe);
   }
-  
+
+  if(krTPM.empty())
+    return ERROR_READ_FAULT;
 
   return ERROR_SUCCESS;
 }
@@ -179,39 +148,36 @@ DWORD cIPCWriteCallback::writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, con
 
   if (iQCIFSFwkHelper::singleton().lowMemory(95))
   {
-    //RFHRFH - (95% picked out of the air: might be too cautious/not cautious enough)
     QSOS((L"Refusing write request - low memory."));
     return ERROR_NOT_ENOUGH_MEMORY;
   }
 
-  //std::pair<unsigned int,cConstPtr<cMemoryView> > entry(offset.LowPart, buffer);
-  //{
-    //cLockGuard lg(&m_access);
-    //m_frameVector.push_back(entry);
-    //PrintHexDump(buffer->getSize(), (PBYTE )buffer->getConstBytes());
-  //}
+  //PrintHexDump(buffer->getSize(), (PBYTE)buffer->getConstBytes());
 
-  //TransactNamedPipe();
-
-  
-
-  PrintHexDump(buffer->getSize(), (PBYTE)buffer->getConstBytes());
-
-  //DWORD written = 0;
-  //auto ret = WriteFile(h, buffer->getConstBytes(), buffer->getSize(), &written, 0);
-  //char buff[4096];
   vfs::cConstPtr<vfs::cMemoryView> buff = new vfs::cMemoryView(new vfs::cMemory((size_t)4096, cMemory::eHeap));
   DWORD read = 0;
   auto ret = TransactNamedPipe(HPipe, (PBYTE)buffer->getConstBytes(), buffer->getSize(), (PBYTE)buff->getConstBytes(), buff->getSize(), &read, 0);
-
-
   auto err = GetLastError();
-  QTRACE((L"TransactNamedPipe returned %d, %08x %d", ret, err, read));
+  //QTRACE((L"TransactNamedPipe returned %d, %08x %d", ret, err, read));
+  if(!ret && err == 0x000000E9)
+  {
+    CloseHandle(HPipe);
+    setUpPipe();
+
+    auto ret = TransactNamedPipe(HPipe, (PBYTE)buffer->getConstBytes(), buffer->getSize(), (PBYTE)buff->getConstBytes(), buff->getSize(), &read, 0);
+   
+    if(!ret)
+    {
+      err = GetLastError();
+      QSOS((L"TransactNamedPipe returned %d, %08x %d", ret, err, read));
+      return ERROR_ARENA_TRASHED;
+    }
+  }
   //PrintHexDump(read, (PBYTE)buff->getConstBytes());
 
   buff = buff->firstConst((size_t)read);
   //dump((PBYTE)buff->getConstBytes(), buff->getSize());
-  PrintHexDump(read, (PBYTE)buff->getConstBytes());
+  //PrintHexDump(read, (PBYTE)buff->getConstBytes());
 
   std::pair<unsigned int,cConstPtr<cMemoryView> > entry(offset.LowPart, buff);
   {

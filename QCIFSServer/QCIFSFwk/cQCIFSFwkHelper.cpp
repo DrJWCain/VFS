@@ -136,7 +136,7 @@ static void order(const tFrameVector& vFrame
     ; ++cit)
   {
     const tFramePart& rFrame = *cit;
-    if (rFrame.first == startPosition)
+    if(rFrame.second->getSize() && rFrame.first == startPosition)
     {
       retVector.push_back(rFrame.second);
       order(vFrame, retVector, startPosition + rFrame.second->getSize(), endPosition);
@@ -269,6 +269,7 @@ void cQCIFSFwkHelper::flattenFrameVector(const tFrameVector& vFrame
   , const unsigned int start
   , const unsigned int end) const
 {
+  //QSOS((L"%S, %d-%d", __FUNCTION__, start, end));
   if (start >= end)
     return;
 

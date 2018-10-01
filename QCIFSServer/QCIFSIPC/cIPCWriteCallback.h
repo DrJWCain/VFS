@@ -23,6 +23,8 @@ class cIPCWriteCallback : public iWriteCallback, public vfs::cRefCount
   vfs::String Name;
   HANDLE HPipe;
 
+  void setUpPipe();
+
 public:
   cIPCWriteCallback(const vfs::String& name);
 
