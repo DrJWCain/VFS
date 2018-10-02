@@ -23,6 +23,14 @@ extern "C" {
   extern const MIDL_STUB_DESC srvsvc_StubDesc;
 };
 
+std::map<DWORD, vfs::iBasicThread::Ptr> KeepAlive;
+void ensureThreadIsLogging()
+{
+  if(vfs::iThreadManager::singleton().getCurrentThread() == 0)
+  {
+    KeepAlive[GetCurrentThreadId()] = vfs::iThreadManager::singleton().promoteCurrentThread(L"RpcSrvSvcWorkerThread");
+  }
+}
 
 extern "C"
 {
@@ -55,6 +63,7 @@ NET_API_STATUS NetrConnectionEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
+  ensureThreadIsLogging();  
   QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
@@ -68,7 +77,7 @@ NET_API_STATUS NetrFileEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -78,7 +87,7 @@ NET_API_STATUS NetrFileGetInfo(
   /* [in] */ DWORD Level,
   /* [switch_is][out] */ LPFILE_INFO InfoStruct)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -86,7 +95,7 @@ NET_API_STATUS NetrFileClose(
   /* [unique][string][in] */ SRVSVC_HANDLE ServerName,
   /* [in] */ DWORD FileId)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -99,7 +108,7 @@ NET_API_STATUS NetrSessionEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -108,7 +117,7 @@ NET_API_STATUS NetrSessionDel(
   /* [unique][string][in] */ WCHAR *ClientName,
   /* [unique][string][in] */ WCHAR *UserName)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -118,7 +127,7 @@ NET_API_STATUS NetrShareAdd(
   /* [switch_is][in] */ LPSHARE_INFO InfoStruct,
   /* [unique][out][in] */ DWORD *ParmErr)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -131,6 +140,8 @@ NET_API_STATUS NetrShareEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
+  ensureThreadIsLogging();  
+
   QTRACE((L"%S %S, %d %p %p %d %p\n", __FUNCTION__, ServerName, InfoStruct->Level, InfoStruct, InfoStruct->ShareInfo.Level1, InfoStruct->ShareInfo.Level1->EntriesRead, InfoStruct->ShareInfo.Level1->Buffer));
   auto resources = iQCIFSProcessor::singleton().getResources();
   if(resources.empty())
@@ -198,7 +209,7 @@ NET_API_STATUS NetrShareGetInfo(
   /* [in] */ DWORD Level,
   /* [switch_is][out] */ LPSHARE_INFO InfoStruct)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -209,7 +220,7 @@ NET_API_STATUS NetrShareSetInfo(
   /* [switch_is][in] */ LPSHARE_INFO ShareInfo,
   /* [unique][out][in] */ DWORD *ParmErr)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -218,7 +229,7 @@ NET_API_STATUS NetrShareDel(
   /* [string][in] */ WCHAR *NetName,
   /* [in] */ DWORD Reserved)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -227,7 +238,7 @@ NET_API_STATUS NetrShareDelSticky(
   /* [string][in] */ WCHAR *NetName,
   /* [in] */ DWORD Reserved)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -236,7 +247,7 @@ NET_API_STATUS NetrShareCheck(
   /* [string][in] */ WCHAR *Device,
   /* [out] */ DWORD *Type)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -245,7 +256,7 @@ NET_API_STATUS NetrServerGetInfo(
   /* [in] */ DWORD Level,
   /* [switch_is][out] */ LPSERVER_INFO InfoStruct)
 {
-  QTRACE((L"%S %d\n", __FUNCTION__, Level));
+  ensureThreadIsLogging();  QTRACE((L"%S %d\n", __FUNCTION__, Level));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -255,7 +266,7 @@ NET_API_STATUS NetrServerSetInfo(
   /* [switch_is][in] */ LPSERVER_INFO ServerInfo,
   /* [unique][out][in] */ DWORD *ParmErr)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -267,7 +278,7 @@ NET_API_STATUS NetrServerDiskEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -278,7 +289,7 @@ NET_API_STATUS NetrServerStatisticsGet(
   /* [in] */ DWORD Options,
   /* [out] */ LPSTAT_SERVER_0 *InfoStruct)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -287,7 +298,7 @@ NET_API_STATUS NetrServerTransportAdd(
   /* [in] */ DWORD Level,
   /* [in] */ LPSERVER_TRANSPORT_INFO_0 Buffer)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -298,7 +309,7 @@ NET_API_STATUS NetrServerTransportEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -307,7 +318,7 @@ NET_API_STATUS NetrServerTransportDel(
   /* [in] */ DWORD Level,
   /* [in] */ LPSERVER_TRANSPORT_INFO_0 Buffer)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -315,7 +326,7 @@ NET_API_STATUS NetrRemoteTOD(
   /* [unique][string][in] */ SRVSVC_HANDLE ServerName,
   /* [out] */ LPTIME_OF_DAY_INFO *BufferPtr)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -325,7 +336,7 @@ NET_API_STATUS NetprPathType(
   /* [out] */ DWORD *PathType,
   /* [in] */ DWORD Flags)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -338,7 +349,7 @@ NET_API_STATUS NetprPathCanonicalize(
   /* [out][in] */ DWORD *PathType,
   /* [in] */ DWORD Flags)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -349,7 +360,7 @@ long NetprPathCompare(
   /* [in] */ DWORD PathType,
   /* [in] */ DWORD Flags)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -359,7 +370,7 @@ NET_API_STATUS NetprNameValidate(
   /* [in] */ DWORD NameType,
   /* [in] */ DWORD Flags)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -371,7 +382,7 @@ NET_API_STATUS NetprNameCanonicalize(
   /* [in] */ DWORD NameType,
   /* [in] */ DWORD Flags)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -382,7 +393,7 @@ long NetprNameCompare(
   /* [in] */ DWORD NameType,
   /* [in] */ DWORD Flags)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -393,7 +404,7 @@ NET_API_STATUS NetrShareEnumSticky(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -403,14 +414,14 @@ NET_API_STATUS NetrShareDelStart(
   /* [in] */ DWORD Reserved,
   /* [out] */ PSHARE_DEL_HANDLE ContextHandle)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
 NET_API_STATUS NetrShareDelCommit(
   /* [out][in] */ PSHARE_DEL_HANDLE ContextHandle)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -421,7 +432,7 @@ DWORD NetrpGetFileSecurity(
   /* [in] */ SECURITY_INFORMATION RequestedInformation,
   /* [out] */ PADT_SECURITY_DESCRIPTOR *SecurityDescriptor)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -432,7 +443,7 @@ DWORD NetrpSetFileSecurity(
   /* [in] */ SECURITY_INFORMATION SecurityInformation,
   /* [in] */ PADT_SECURITY_DESCRIPTOR SecurityDescriptor)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -441,7 +452,7 @@ NET_API_STATUS NetrServerTransportAddEx(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPTRANSPORT_INFO Buffer)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -449,7 +460,7 @@ NET_API_STATUS NetrDfsGetVersion(
   /* [unique][string][in] */ SRVSVC_HANDLE ServerName,
   /* [out] */ DWORD *Version)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -462,7 +473,7 @@ NET_API_STATUS NetrDfsCreateLocalPartition(
   /* [in] */ LPNET_DFS_ENTRY_ID_CONTAINER RelationInfo,
   /* [in] */ int Force)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -471,7 +482,7 @@ NET_API_STATUS NetrDfsDeleteLocalPartition(
   /* [in] */ GUID *Uid,
   /* [string][in] */ WCHAR *Prefix)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -481,7 +492,7 @@ NET_API_STATUS NetrDfsSetLocalVolumeState(
   /* [string][in] */ WCHAR *Prefix,
   /* [in] */ unsigned long State)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -493,7 +504,7 @@ NET_API_STATUS NetrDfsCreateExitPoint(
   /* [range][in] */ DWORD ShortPrefixLen,
   /* [size_is][out] */ WCHAR *ShortPrefix)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -503,7 +514,7 @@ NET_API_STATUS NetrDfsDeleteExitPoint(
   /* [string][in] */ WCHAR *Prefix,
   /* [in] */ unsigned long Type)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -512,7 +523,7 @@ NET_API_STATUS NetrDfsModifyPrefix(
   /* [in] */ GUID *Uid,
   /* [string][in] */ WCHAR *Prefix)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -527,7 +538,7 @@ NET_API_STATUS NetrDfsFixLocalVolume(
   /* [in] */ LPNET_DFS_ENTRY_ID_CONTAINER RelationInfo,
   /* [in] */ unsigned long CreateDisposition)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -535,7 +546,7 @@ NET_API_STATUS NetrDfsManagerReportSiteInfo(
   /* [unique][string][in] */ SRVSVC_HANDLE ServerName,
   /* [unique][out][in] */ LPDFS_SITELIST_INFO *ppSiteInfo)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -544,7 +555,7 @@ NET_API_STATUS NetrServerTransportDelEx(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPTRANSPORT_INFO Buffer)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -553,7 +564,7 @@ NET_API_STATUS NetrServerAliasAdd(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPSERVER_ALIAS_INFO InfoStruct)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -564,7 +575,7 @@ NET_API_STATUS NetrServerAliasEnum(
   /* [out] */ LPDWORD TotalEntries,
   /* [unique][out][in] */ LPDWORD ResumeHandle)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -573,7 +584,7 @@ NET_API_STATUS NetrServerAliasDel(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPSERVER_ALIAS_INFO InfoStruct)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -582,7 +593,7 @@ NET_API_STATUS NetrShareDelEx(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPSHARE_INFO ShareInfo)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -591,7 +602,7 @@ NET_API_STATUS NetrShareDelEx(
 // is lost.
 void __RPC_USER SHARE_DEL_HANDLE_rundown(PCONTEXT_HANDLE hContext)
 {
-  QTRACE((L"%S\n", __FUNCTION__));
+  ensureThreadIsLogging();  QTRACE((L"%S\n", __FUNCTION__));
   //std::clog << "CONTEXT_HANDLE_rundown: Context = 
   //  " << hContext << std::endl;
   //Close(&hContext);

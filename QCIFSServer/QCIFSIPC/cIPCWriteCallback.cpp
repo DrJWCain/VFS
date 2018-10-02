@@ -116,14 +116,14 @@ DWORD cIPCWriteCallback::setSize(unsigned __int64 newSize)
 
 DWORD cIPCWriteCallback::readBytes(tTransmitList &krTPM, DWORD& nBytes, const LARGE_INTEGER &nOffset, const int sessionID, ULONGLONG fid)
 {
-  QTRACE((L"%S %s %I64d:%d", __FUNCTION__, Name.c_str(), nOffset.QuadPart, nBytes));
+  //QTRACE((L"%S %s %I64d:%d", __FUNCTION__, Name.c_str(), nOffset.QuadPart, nBytes));
 
   vfs::cPtr<vfs::cMemoryView> buff = new vfs::cMemoryView(new vfs::cMemory((size_t)nBytes, cMemory::eHeap));
 
   DWORD read = 0;
   ReadFile(HPipe, buff->getBytes(), buff->getSize(), &read, 0);
   buff = buff->first((size_t)read);
-  PrintHexDump(buff->getSize(), (PBYTE)buff->getConstBytes());
+  //PrintHexDump(buff->getSize(), (PBYTE)buff->getConstBytes());
 
   nBytes = buff->getSize();
   SMART_TPE tpe;
@@ -138,7 +138,7 @@ DWORD cIPCWriteCallback::readBytes(tTransmitList &krTPM, DWORD& nBytes, const LA
 
 DWORD cIPCWriteCallback::writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, const LARGE_INTEGER &offset, const int sessionID, ULONGLONG fid)
 {
-  QTRACE((L"%S %s %I64d:%Iu", __FUNCTION__, Name.c_str(), offset.QuadPart, buffer->getSize()));
+  //QTRACE((L"%S %s %I64d:%Iu", __FUNCTION__, Name.c_str(), offset.QuadPart, buffer->getSize()));
 
   if (iQCIFSFwkHelper::singleton().lowMemory(95))
   {
@@ -146,7 +146,7 @@ DWORD cIPCWriteCallback::writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, con
     return ERROR_NOT_ENOUGH_MEMORY;
   }
 
-  PrintHexDump(buffer->getSize(), (PBYTE)buffer->getConstBytes());
+  //PrintHexDump(buffer->getSize(), (PBYTE)buffer->getConstBytes());
 
   vfs::cConstPtr<vfs::cMemoryView> buff = new vfs::cMemoryView(new vfs::cMemory((size_t)4096, cMemory::eHeap));
   DWORD read = 0;
@@ -175,7 +175,7 @@ DWORD cIPCWriteCallback::writeBytes(vfs::cConstPtr<vfs::cMemoryView> buffer, con
 
 DWORD cIPCWriteCallback::transact(vfs::cConstPtr<vfs::cMemoryView> buffer, tTransmitList &krTPM, DWORD& nBytesRead, const int sessionID, ULONGLONG fid)
 {
-  QTRACE((L"%S %s %I64d", __FUNCTION__, Name.c_str(), buffer->getSize()));
+  //QTRACE((L"%S %s %I64d", __FUNCTION__, Name.c_str(), buffer->getSize()));
 
   if(iQCIFSFwkHelper::singleton().lowMemory(95))
   {
@@ -183,15 +183,15 @@ DWORD cIPCWriteCallback::transact(vfs::cConstPtr<vfs::cMemoryView> buffer, tTran
     return ERROR_NOT_ENOUGH_MEMORY;
   }
 
-  PrintHexDump(buffer->getSize(), (PBYTE)buffer->getConstBytes());
+  //PrintHexDump(buffer->getSize(), (PBYTE)buffer->getConstBytes());
 
   vfs::cPtr<vfs::cMemoryView> buff = new vfs::cMemoryView(new vfs::cMemory((size_t)nBytesRead, cMemory::eHeap));
   DWORD read = 0;
   auto ret = TransactNamedPipe(HPipe, (PBYTE)buffer->getConstBytes(), buffer->getSize(), (PBYTE)buff->getConstBytes(), buff->getSize(), &nBytesRead, 0);
 
   buff = buff->first((size_t)nBytesRead);
-  QTRACE((L"TransactNamedPipe 0x%08x, %d", ret, nBytesRead));
-  PrintHexDump(buff->getSize(), (PBYTE)buff->getConstBytes());
+  //QTRACE((L"TransactNamedPipe 0x%08x, %d", ret, nBytesRead));
+  //PrintHexDump(buff->getSize(), (PBYTE)buff->getConstBytes());
 
   nBytesRead = buff->getSize();
   SMART_TPE tpe;
