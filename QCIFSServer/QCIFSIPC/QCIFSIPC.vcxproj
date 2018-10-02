@@ -129,6 +129,12 @@
     <ClCompile Include="cSpaceQuery.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="QCIFSIPC.cpp" />
+    <ClCompile Include="srvsvc64\srvsvc.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="srvsvc64\srvsvc_s.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

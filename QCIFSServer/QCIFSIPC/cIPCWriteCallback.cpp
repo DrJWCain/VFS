@@ -65,7 +65,7 @@ void cIPCWriteCallback::setUpPipe()
   if(INVALID_HANDLE_VALUE != HPipe)
     return;
 
-  HPipe = CreateFile(L"\\\\.\\pipe\\srvsvc", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+  HPipe = CreateFile(L"\\\\.\\pipe\\vfs-srvsvc", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
   auto err = GetLastError();
   QTRACE((L"%S %p, %08x", __FUNCTION__, HPipe, err));

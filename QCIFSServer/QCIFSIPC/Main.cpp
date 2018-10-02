@@ -32,6 +32,21 @@ using namespace vfs;
 iModuleContext::Ptr gPluginContext ;
 static std::list<cGuard::ConstPtr> gRegdClasses;
 
+long runSrvSvc();
+class cMyRPCThread : public vfs::cThread
+{
+public: 
+  cMyRPCThread() : vfs::cThread(L"RpcSrvSvcThread") {}
+  virtual void QAPI signalLoopStop() {}
+  virtual void QAPI runLoop() 
+  {
+    QTRACE((L"Calling runSrvSvc"));
+    runSrvSvc();
+  }
+};
+
+cPtr<cMyRPCThread> RPCSrvSvcThread;
+
 // plugIn interface
 extern "C" QPLUGIN void QARGS_STACK moduleInit(iModuleContext::Ptr pContext) throw( cRecoverable)
 {
@@ -39,6 +54,9 @@ extern "C" QPLUGIN void QARGS_STACK moduleInit(iModuleContext::Ptr pContext) thr
   // has failed and it is safe to continue.
 
   gPluginContext = pContext;
+
+  RPCSrvSvcThread = new cMyRPCThread();
+  RPCSrvSvcThread->startLoop();
 
   //register cQCIFS classes
   gRegdClasses.push_back (gFactory->registerClass (new cQCIFSIPC::class_ctor));

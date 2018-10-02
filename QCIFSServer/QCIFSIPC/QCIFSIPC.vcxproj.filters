@@ -45,6 +45,12 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="srvsvc64\srvsvc_s.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="srvsvc64\srvsvc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cDFSDatabase.h">
