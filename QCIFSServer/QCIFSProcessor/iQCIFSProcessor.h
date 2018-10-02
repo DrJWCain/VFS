@@ -33,6 +33,8 @@ public:
     , const vfs::cPtr<iTreeResourceFactory> pTreeResourceFactory
     , bool bReplaceExisting) = 0;
 
+  virtual std::map<vfs::String, vfs::cPtr<iTreeResourceFactory>> getResources() = 0;
+
   virtual vfs::cPtr<iComposite> getFileComposite(const std::wstring &sPath
     , DWORD dwDesiredAccess
     , DWORD dwShareMode

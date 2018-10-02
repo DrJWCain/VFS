@@ -15,6 +15,9 @@
 #pragma comment (lib, "Rpcrt4.lib")
 #pragma warning(disable: 4100)
 
+#include "..\..\KernelSDK\Include\QKernelSDK.h"
+#include "..\QCIFSProcessor\iQCIFSProcessor.h"
+
 extern "C" {
   #include "srvsvc.h"
   extern const MIDL_STUB_DESC srvsvc_StubDesc;
@@ -52,7 +55,7 @@ NET_API_STATUS NetrConnectionEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -65,7 +68,7 @@ NET_API_STATUS NetrFileEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -75,7 +78,7 @@ NET_API_STATUS NetrFileGetInfo(
   /* [in] */ DWORD Level,
   /* [switch_is][out] */ LPFILE_INFO InfoStruct)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -83,7 +86,7 @@ NET_API_STATUS NetrFileClose(
   /* [unique][string][in] */ SRVSVC_HANDLE ServerName,
   /* [in] */ DWORD FileId)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -96,7 +99,7 @@ NET_API_STATUS NetrSessionEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -105,7 +108,7 @@ NET_API_STATUS NetrSessionDel(
   /* [unique][string][in] */ WCHAR *ClientName,
   /* [unique][string][in] */ WCHAR *UserName)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -115,7 +118,7 @@ NET_API_STATUS NetrShareAdd(
   /* [switch_is][in] */ LPSHARE_INFO InfoStruct,
   /* [unique][out][in] */ DWORD *ParmErr)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -128,46 +131,63 @@ NET_API_STATUS NetrShareEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  printf("%s %S, %d %p %p %d %p\n", __FUNCTION__, ServerName, InfoStruct->Level, InfoStruct, InfoStruct->ShareInfo.Level1, InfoStruct->ShareInfo.Level1->EntriesRead, InfoStruct->ShareInfo.Level1->Buffer);
+  QTRACE((L"%S %S, %d %p %p %d %p\n", __FUNCTION__, ServerName, InfoStruct->Level, InfoStruct, InfoStruct->ShareInfo.Level1, InfoStruct->ShareInfo.Level1->EntriesRead, InfoStruct->ShareInfo.Level1->Buffer));
+  auto resources = iQCIFSProcessor::singleton().getResources();
+  if(resources.empty())
+  {
+    QSOS((L"no network shares available!"));
+    return ERROR_SUCCESS;
+  }
+
   if(1 == InfoStruct->Level)
   {
-    InfoStruct->ShareInfo.Level1->EntriesRead = 1;
-    InfoStruct->ShareInfo.Level1->Buffer = (LPSHARE_INFO_1)midl_user_allocate(sizeof(SHARE_INFO_1));
-    memset(InfoStruct->ShareInfo.Level1->Buffer, 0, sizeof(SHARE_INFO_1));
+    InfoStruct->ShareInfo.Level1->EntriesRead = resources.size();
 
-    InfoStruct->ShareInfo.Level1->Buffer[0].shi1_netname = (WCHAR *)midl_user_allocate(20);
-    wcscpy_s(InfoStruct->ShareInfo.Level1->Buffer[0].shi1_netname, 20, L"test");
+    InfoStruct->ShareInfo.Level1->Buffer = (LPSHARE_INFO_1)midl_user_allocate(sizeof(SHARE_INFO_1) * resources.size());
+    memset(InfoStruct->ShareInfo.Level1->Buffer, 0, sizeof(SHARE_INFO_1) * resources.size());
 
-    InfoStruct->ShareInfo.Level1->Buffer[0].shi1_type = STYPE_DISKTREE;
+    int index = 0;
+    for(auto resource : resources)
+    {
+      InfoStruct->ShareInfo.Level1->Buffer[index].shi1_netname = (WCHAR *)midl_user_allocate((resource.first.size()+1) * sizeof(wchar_t));
+      wcscpy_s(InfoStruct->ShareInfo.Level1->Buffer[index].shi1_netname, (resource.first.size() + 1) * sizeof(wchar_t), resource.first.c_str());
 
-    InfoStruct->ShareInfo.Level1->Buffer[0].shi1_remark = (WCHAR *)midl_user_allocate(40);
-    wcscpy_s(InfoStruct->ShareInfo.Level1->Buffer[0].shi1_remark, 40, L"fred was here");
+      InfoStruct->ShareInfo.Level1->Buffer[index].shi1_type = STYPE_DISKTREE;
+
+      InfoStruct->ShareInfo.Level1->Buffer[index].shi1_remark = (WCHAR *)midl_user_allocate(40);
+      wcscpy_s(InfoStruct->ShareInfo.Level1->Buffer[index].shi1_remark, 40, L"VFS magic share");
+      ++index;
+    }
   }
   if(502 == InfoStruct->Level)
   {
-    InfoStruct->ShareInfo.Level502->EntriesRead = 1;
-    InfoStruct->ShareInfo.Level502->Buffer = (LPSHARE_INFO_502_I)midl_user_allocate(sizeof(SHARE_INFO_502_I));
-    memset(InfoStruct->ShareInfo.Level502->Buffer, 0, sizeof(SHARE_INFO_502_I));
+    InfoStruct->ShareInfo.Level502->EntriesRead = resources.size();
+    InfoStruct->ShareInfo.Level502->Buffer = (LPSHARE_INFO_502_I)midl_user_allocate(sizeof(SHARE_INFO_502_I) * resources.size());
+    memset(InfoStruct->ShareInfo.Level502->Buffer, 0, sizeof(SHARE_INFO_502_I) * resources.size());
 
-    InfoStruct->ShareInfo.Level502->Buffer[0].shi502_netname = (WCHAR *)midl_user_allocate(20);
-    wcscpy_s(InfoStruct->ShareInfo.Level502->Buffer[0].shi502_netname, 20, L"test");
+    int index = 0;
+    for(auto resource : resources)
+    {
+      InfoStruct->ShareInfo.Level502->Buffer[index].shi502_netname = (WCHAR *)midl_user_allocate((resource.first.size() + 1) * sizeof(wchar_t));
+      wcscpy_s(InfoStruct->ShareInfo.Level502->Buffer[index].shi502_netname, (resource.first.size() + 1) * sizeof(wchar_t), resource.first.c_str());
 
-    InfoStruct->ShareInfo.Level502->Buffer[0].shi502_type = STYPE_DISKTREE;
+      InfoStruct->ShareInfo.Level502->Buffer[index].shi502_type = STYPE_DISKTREE;
 
-    InfoStruct->ShareInfo.Level502->Buffer[0].shi502_remark = (WCHAR *)midl_user_allocate(40);
-    wcscpy_s(InfoStruct->ShareInfo.Level502->Buffer[0].shi502_remark, 40, L"fred was here");
+      InfoStruct->ShareInfo.Level502->Buffer[index].shi502_remark = (WCHAR *)midl_user_allocate(40);
+      wcscpy_s(InfoStruct->ShareInfo.Level502->Buffer[index].shi502_remark, 40, L"VFS magic share");
 
-    InfoStruct->ShareInfo.Level502->Buffer[0].shi502_path = (WCHAR *)midl_user_allocate(50);
-    wcscpy_s(InfoStruct->ShareInfo.Level502->Buffer[0].shi502_path, 40, L"VFS magic path");
+      InfoStruct->ShareInfo.Level502->Buffer[index].shi502_path = (WCHAR *)midl_user_allocate(50);
+      wcscpy_s(InfoStruct->ShareInfo.Level502->Buffer[index].shi502_path, 40, L"VFS magic path");
 
-    InfoStruct->ShareInfo.Level502->Buffer[0].shi502_max_uses = 0xffffffff;//unlimited.
+      InfoStruct->ShareInfo.Level502->Buffer[index].shi502_max_uses = 0xffffffff;//unlimited.
 
-    InfoStruct->ShareInfo.Level502->Buffer[0].shi502_reserved = sizeof(SECURITY_DESCRIPTOR);
-    InfoStruct->ShareInfo.Level502->Buffer[0].shi502_security_descriptor = (unsigned char*)midl_user_allocate(sizeof(SECURITY_DESCRIPTOR));
-    InitializeSecurityDescriptor(InfoStruct->ShareInfo.Level502->Buffer[0].shi502_security_descriptor, SECURITY_DESCRIPTOR_REVISION);
-
+      InfoStruct->ShareInfo.Level502->Buffer[index].shi502_reserved = sizeof(SECURITY_DESCRIPTOR);
+      InfoStruct->ShareInfo.Level502->Buffer[index].shi502_security_descriptor = (unsigned char*)midl_user_allocate(sizeof(SECURITY_DESCRIPTOR));
+      InitializeSecurityDescriptor(InfoStruct->ShareInfo.Level502->Buffer[index].shi502_security_descriptor, SECURITY_DESCRIPTOR_REVISION);
+      ++index;
+    }
   }
-  printf("%s %S, %d %p %p %d %p - OK\n", __FUNCTION__, ServerName, InfoStruct->Level, InfoStruct, InfoStruct->ShareInfo.Level1, InfoStruct->ShareInfo.Level1->EntriesRead, InfoStruct->ShareInfo.Level1->Buffer);
+  QTRACE((L"%S %S, %d %p %p %d %p - OK\n", __FUNCTION__, ServerName, InfoStruct->Level, InfoStruct, InfoStruct->ShareInfo.Level1, InfoStruct->ShareInfo.Level1->EntriesRead, InfoStruct->ShareInfo.Level1->Buffer));
 
   return ERROR_SUCCESS;
 }
@@ -178,7 +198,7 @@ NET_API_STATUS NetrShareGetInfo(
   /* [in] */ DWORD Level,
   /* [switch_is][out] */ LPSHARE_INFO InfoStruct)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -189,7 +209,7 @@ NET_API_STATUS NetrShareSetInfo(
   /* [switch_is][in] */ LPSHARE_INFO ShareInfo,
   /* [unique][out][in] */ DWORD *ParmErr)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -198,7 +218,7 @@ NET_API_STATUS NetrShareDel(
   /* [string][in] */ WCHAR *NetName,
   /* [in] */ DWORD Reserved)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -207,7 +227,7 @@ NET_API_STATUS NetrShareDelSticky(
   /* [string][in] */ WCHAR *NetName,
   /* [in] */ DWORD Reserved)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -216,7 +236,7 @@ NET_API_STATUS NetrShareCheck(
   /* [string][in] */ WCHAR *Device,
   /* [out] */ DWORD *Type)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -225,7 +245,7 @@ NET_API_STATUS NetrServerGetInfo(
   /* [in] */ DWORD Level,
   /* [switch_is][out] */ LPSERVER_INFO InfoStruct)
 {
-  printf("%s %d\n", __FUNCTION__, Level);
+  QTRACE((L"%S %d\n", __FUNCTION__, Level));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -235,7 +255,7 @@ NET_API_STATUS NetrServerSetInfo(
   /* [switch_is][in] */ LPSERVER_INFO ServerInfo,
   /* [unique][out][in] */ DWORD *ParmErr)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -247,7 +267,7 @@ NET_API_STATUS NetrServerDiskEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -258,7 +278,7 @@ NET_API_STATUS NetrServerStatisticsGet(
   /* [in] */ DWORD Options,
   /* [out] */ LPSTAT_SERVER_0 *InfoStruct)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -267,7 +287,7 @@ NET_API_STATUS NetrServerTransportAdd(
   /* [in] */ DWORD Level,
   /* [in] */ LPSERVER_TRANSPORT_INFO_0 Buffer)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -278,7 +298,7 @@ NET_API_STATUS NetrServerTransportEnum(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -287,7 +307,7 @@ NET_API_STATUS NetrServerTransportDel(
   /* [in] */ DWORD Level,
   /* [in] */ LPSERVER_TRANSPORT_INFO_0 Buffer)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -295,7 +315,7 @@ NET_API_STATUS NetrRemoteTOD(
   /* [unique][string][in] */ SRVSVC_HANDLE ServerName,
   /* [out] */ LPTIME_OF_DAY_INFO *BufferPtr)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -305,7 +325,7 @@ NET_API_STATUS NetprPathType(
   /* [out] */ DWORD *PathType,
   /* [in] */ DWORD Flags)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -318,7 +338,7 @@ NET_API_STATUS NetprPathCanonicalize(
   /* [out][in] */ DWORD *PathType,
   /* [in] */ DWORD Flags)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -329,7 +349,7 @@ long NetprPathCompare(
   /* [in] */ DWORD PathType,
   /* [in] */ DWORD Flags)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -339,7 +359,7 @@ NET_API_STATUS NetprNameValidate(
   /* [in] */ DWORD NameType,
   /* [in] */ DWORD Flags)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -351,7 +371,7 @@ NET_API_STATUS NetprNameCanonicalize(
   /* [in] */ DWORD NameType,
   /* [in] */ DWORD Flags)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -362,7 +382,7 @@ long NetprNameCompare(
   /* [in] */ DWORD NameType,
   /* [in] */ DWORD Flags)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -373,7 +393,7 @@ NET_API_STATUS NetrShareEnumSticky(
   /* [out] */ DWORD *TotalEntries,
   /* [unique][out][in] */ DWORD *ResumeHandle)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -383,14 +403,14 @@ NET_API_STATUS NetrShareDelStart(
   /* [in] */ DWORD Reserved,
   /* [out] */ PSHARE_DEL_HANDLE ContextHandle)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
 NET_API_STATUS NetrShareDelCommit(
   /* [out][in] */ PSHARE_DEL_HANDLE ContextHandle)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -401,7 +421,7 @@ DWORD NetrpGetFileSecurity(
   /* [in] */ SECURITY_INFORMATION RequestedInformation,
   /* [out] */ PADT_SECURITY_DESCRIPTOR *SecurityDescriptor)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -412,7 +432,7 @@ DWORD NetrpSetFileSecurity(
   /* [in] */ SECURITY_INFORMATION SecurityInformation,
   /* [in] */ PADT_SECURITY_DESCRIPTOR SecurityDescriptor)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -421,7 +441,7 @@ NET_API_STATUS NetrServerTransportAddEx(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPTRANSPORT_INFO Buffer)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -429,7 +449,7 @@ NET_API_STATUS NetrDfsGetVersion(
   /* [unique][string][in] */ SRVSVC_HANDLE ServerName,
   /* [out] */ DWORD *Version)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -442,7 +462,7 @@ NET_API_STATUS NetrDfsCreateLocalPartition(
   /* [in] */ LPNET_DFS_ENTRY_ID_CONTAINER RelationInfo,
   /* [in] */ int Force)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -451,7 +471,7 @@ NET_API_STATUS NetrDfsDeleteLocalPartition(
   /* [in] */ GUID *Uid,
   /* [string][in] */ WCHAR *Prefix)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -461,7 +481,7 @@ NET_API_STATUS NetrDfsSetLocalVolumeState(
   /* [string][in] */ WCHAR *Prefix,
   /* [in] */ unsigned long State)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -473,7 +493,7 @@ NET_API_STATUS NetrDfsCreateExitPoint(
   /* [range][in] */ DWORD ShortPrefixLen,
   /* [size_is][out] */ WCHAR *ShortPrefix)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -483,7 +503,7 @@ NET_API_STATUS NetrDfsDeleteExitPoint(
   /* [string][in] */ WCHAR *Prefix,
   /* [in] */ unsigned long Type)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -492,7 +512,7 @@ NET_API_STATUS NetrDfsModifyPrefix(
   /* [in] */ GUID *Uid,
   /* [string][in] */ WCHAR *Prefix)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -507,7 +527,7 @@ NET_API_STATUS NetrDfsFixLocalVolume(
   /* [in] */ LPNET_DFS_ENTRY_ID_CONTAINER RelationInfo,
   /* [in] */ unsigned long CreateDisposition)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -515,7 +535,7 @@ NET_API_STATUS NetrDfsManagerReportSiteInfo(
   /* [unique][string][in] */ SRVSVC_HANDLE ServerName,
   /* [unique][out][in] */ LPDFS_SITELIST_INFO *ppSiteInfo)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -524,7 +544,7 @@ NET_API_STATUS NetrServerTransportDelEx(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPTRANSPORT_INFO Buffer)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -533,7 +553,7 @@ NET_API_STATUS NetrServerAliasAdd(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPSERVER_ALIAS_INFO InfoStruct)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -544,7 +564,7 @@ NET_API_STATUS NetrServerAliasEnum(
   /* [out] */ LPDWORD TotalEntries,
   /* [unique][out][in] */ LPDWORD ResumeHandle)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -553,7 +573,7 @@ NET_API_STATUS NetrServerAliasDel(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPSERVER_ALIAS_INFO InfoStruct)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -562,7 +582,7 @@ NET_API_STATUS NetrShareDelEx(
   /* [in] */ DWORD Level,
   /* [switch_is][in] */ LPSHARE_INFO ShareInfo)
 {
-  printf("%s\n", __FUNCTION__);
+  QTRACE((L"%S\n", __FUNCTION__));
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -571,7 +591,7 @@ NET_API_STATUS NetrShareDelEx(
 // is lost.
 void __RPC_USER SHARE_DEL_HANDLE_rundown(PCONTEXT_HANDLE hContext)
 {
-  printf("SHARE_DEL_HANDLE_rundown");
+  QTRACE((L"%S\n", __FUNCTION__));
   //std::clog << "CONTEXT_HANDLE_rundown: Context = 
   //  " << hContext << std::endl;
   //Close(&hContext);
@@ -585,14 +605,14 @@ void __RPC_USER SHARE_DEL_HANDLE_rundown(PCONTEXT_HANDLE hContext)
 void* __RPC_USER midl_user_allocate(size_t size)
 {
   auto p = malloc(size);
-  //wprintf(L"malloc %p for %I64d bytes\n", p, size);
+  //QTRACE((L"malloc %p for %I64d bytes\n", p, size));
   return p;
 }
 
 // Memory deallocation function for RPC.
 void __RPC_USER midl_user_free(void* p)
 {
-  //wprintf(L"free %p\n", p);
+  //QTRACE((L"free %p\n", p));
   free(p);
 }
 
@@ -607,8 +627,8 @@ long runSrvSvc()
 
   status = RpcServerUseProtseqEpA(
     reinterpret_cast<unsigned char*>("ncacn_np"), // Use Named Pipe LPC protocol.
-    RPC_C_PROTSEQ_MAX_REQS_DEFAULT, // Backlog queue length for TCP/IP.
-    reinterpret_cast<unsigned char*>("\\pipe\\vfs-srvsvc"), // TCP/IP port to use.
+    RPC_C_PROTSEQ_MAX_REQS_DEFAULT, // Backlog queue length
+    reinterpret_cast<unsigned char*>("\\pipe\\vfs-srvsvc"), // LPC port (pipe name) to use.
     NULL); // No security.
   printf_s("RpcServerUseProtseqEp returned 0x%x\n", status);
 

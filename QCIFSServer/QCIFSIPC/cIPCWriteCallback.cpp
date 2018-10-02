@@ -65,6 +65,7 @@ void cIPCWriteCallback::setUpPipe()
   if(INVALID_HANDLE_VALUE != HPipe)
     return;
 
+  //This string matches the server string used in runSrvSvc() ...
   HPipe = CreateFile(L"\\\\.\\pipe\\vfs-srvsvc", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
   auto err = GetLastError();

@@ -51,6 +51,8 @@ public:
     , const vfs::cPtr<iTreeResourceFactory> pTreeResourceFactory
     , bool bReplaceExisting);
 
+  std::map<vfs::String, vfs::cPtr<iTreeResourceFactory>> cQCIFSProcessor::getResources() override;
+
   vfs::cPtr<iComposite> getFileComposite(const vfs::String &sPath
     , DWORD dwDesiredAccess
     , DWORD dwShareMode

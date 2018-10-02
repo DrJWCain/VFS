@@ -229,6 +229,11 @@ bool cQCIFSProcessor::attachResource(const String& sShareName
   return m_pShareManager->Add(pTreeResourceFactory, sShareName, bReplaceExisting);
 }
 
+std::map<vfs::String, vfs::cPtr<iTreeResourceFactory>> cQCIFSProcessor::getResources()
+{
+  return m_pShareManager->getRegisteredShares();
+}
+
 cPtr<iComposite> cQCIFSProcessor::getFileComposite(const std::wstring &sPath
   , DWORD dwDesiredAccess
   , DWORD dwShareMode

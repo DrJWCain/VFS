@@ -33,6 +33,7 @@ public:
     , const vfs::String& sShareName
     , bool bReplaceExisting);
   void forgetListener(const vfs::cPtr<iTreeChangeListener>& pTreeChangeListener) const;
+  std::map<vfs::String, vfs::cPtr<iTreeResourceFactory> > getRegisteredShares() const override;
 
 private:
   typedef std::map<vfs::String, vfs::cPtr<iTreeResourceFactory> > tShareMap;

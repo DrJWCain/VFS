@@ -33,4 +33,5 @@ public:
     , const vfs::String& sShareName
     , bool bReplaceExisting) = 0;
   virtual void forgetListener(const vfs::cPtr<iTreeChangeListener>& pTreeChangeListener) const = 0;
+  virtual std::map<vfs::String, vfs::cPtr<iTreeResourceFactory> > getRegisteredShares() const = 0;
 };

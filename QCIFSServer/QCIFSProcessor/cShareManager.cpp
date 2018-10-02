@@ -145,3 +145,8 @@ void cShareManager::forgetListener(const vfs::cPtr<iTreeChangeListener>& pTreeCh
     //QTRACE((L"cShareManager::forgetListener() - change map length is %d after", rTreeChangeList.size()));
   }
 }
+
+std::map<vfs::String, vfs::cPtr<iTreeResourceFactory> > cShareManager::getRegisteredShares() const
+{
+  return m_shareMap;
+}
