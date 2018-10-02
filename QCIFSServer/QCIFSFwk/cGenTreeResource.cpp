@@ -458,7 +458,7 @@ DWORD cGenTreeResource::getBytesPerCluster()
   return m_pShare->bytesPerSector() * m_pShare->sectorsPerCluster();
 }
 
-inline cPtr<iDirLocation> cGenTreeResource::get(const String& sPath) const
+cPtr<iDirLocation> cGenTreeResource::get(const String& sPath) const
 {
   if (m_pShare.isValid())
     return m_pShare->get(sPath);
