@@ -1,0 +1,45 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Custom Settings\Config]
+"Reboot Time (24hh:mm:ss)"="02:00:00"
+"SMB credits"=dword:00000028
+"Use Classic SMB Handler"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Log Categories]
+"Is Module Logging Enabled"=dword:00000001
+"Is Highlighted"=dword:00000000
+"Is Showing Time Since Start"=dword:00000000
+"Is Showing Time Since Last"=dword:00000000
+"00 Warn"="Inject"
+"01 Notify"="Inject"
+"02 Info"="Inject"
+"03 User"="Collapse"
+"04 User"="Collapse"
+"05 User"="Collapse"
+"06 User"="Collapse"
+"07 User"="Collapse"
+"08 User"="Collapse"
+"09 User"="Collapse"
+"10 User"="Collapse"
+"11 User"="Collapse"
+"12 User"="Collapse"
+"13 User"="Collapse"
+"14 User"="Collapse"
+"15 User"="Collapse"
+"16 User"="Collapse"
+"17 User"="Collapse"
+"18 User"="Collapse"
+"19 User"="Collapse"
+"20 User"="Collapse"
+"21 User"="Collapse"
+"22 User"="Collapse"
+"23 User"="Collapse"
+"24 User"="Collapse"
+"25 User"="Collapse"
+"26 User"="Collapse"
+"27 User"="Collapse"
+"28 User"="Collapse"
+"29 User"="Collapse"
+"30 User"="Collapse"
+"31 Qtrace"="Collapse"
+

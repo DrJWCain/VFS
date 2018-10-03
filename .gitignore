@@ -32,7 +32,8 @@
 *.exe.manifest
 
 Build/
-Data/
+Data/x64/Dll_Code_Release
+Data/x64/DLL_Data
 Deliver/
 Distribute/
 *.James.user
