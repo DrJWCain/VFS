@@ -64,7 +64,7 @@ String QAPI vfs::toLower (const String & str)
 
 String QAPI vfs::widen(const std::string & str)
 {
-  const ctype<wchar_t>& char_facet = _USE(locale(),ctype<wchar_t>);
+  const ctype<wchar_t>& char_facet = std::use_facet<ctype<wchar_t>>(locale());
   String ret;
   ret.reserve(str.size());//avoid incremental allocation
   for(std::string::const_iterator it = str.begin(); it != str.end(); ++it)
@@ -76,7 +76,7 @@ String QAPI vfs::widen(const std::string & str)
 
 std::string QAPI vfs::narrow(const String & str)
 {
-  const ctype<wchar_t>& char_facet = _USE(locale(),ctype<wchar_t>);
+  const ctype<wchar_t>& char_facet = std::use_facet<ctype<wchar_t>>(locale());
   std::string ret;
   ret.reserve(str.size());//avoid incremental allocation
   for(String::const_iterator it = str.begin(); it != str.end(); ++it)
