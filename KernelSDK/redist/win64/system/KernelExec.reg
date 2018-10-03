@@ -1,0 +1,125 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\Plugins\Additional plugins location4]
+"Is admin only"=dword:00000001
+"Display order"=dword:00000000
+"Display width"=dword:00000032
+"Group id"=""
+"Indent level"=dword:00000000
+"Is enabled"=dword:00000001
+"Label"="V6 Plugins Location"
+"Type (checkbox, radio, text, number)"="text"
+"Text value"="%PROGRAMFILES%\\Quantel\\GenQ Plugins V6\\"
+"Do not migrate"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\Plugins\Summary]
+"Group id"=""
+"Display heading"="Installed"
+"Indent level"=dword:00000000
+"Is enabled"=dword:00000000
+"Display order"=dword:00000100
+"Label"=""
+"Type (checkbox, radio, text, number)"="text"
+"Text value"=""
+"Display width"=dword:0000003a
+"Display height"=dword:00000009
+"Display is visible?"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\Data\Storage location]
+"Is R&D only"=dword:00000001
+"Is admin only"=dword:00000001
+"Display order"=dword:00000000
+"Display width"=dword:00000032
+"Display description"="Path to folder containing logs, licenses and any other data that is not essence or database."
+"Group id"=""
+"Indent level"=dword:00000000
+"Is enabled"=dword:00000001
+"Label"="Storage location"
+"Type (checkbox, radio, text, number)"="text"
+"Text value"="C:\\Data\\"
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\Database\Storage location]
+"Display category"="Essence: Database"
+"Is R&D only"=dword:00000000
+"Is admin only"=dword:00000001
+"Display order"=dword:00000000
+"Display width"=dword:00000032
+"Display description"="Path to folder containing database."
+"Group id"=""
+"Indent level"=dword:00000000
+"Is enabled"=dword:00000001
+"Label"="Storage location"
+"Type (checkbox, radio, text, number)"="text"
+"Text value"="C:\\Data\\"
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\Startup\On crash - pause]
+"Group id"="0{2DF4C473-28B1-4480-8D06-C7493181FC3B}"
+"Indent level"=dword:00000000
+"Is enabled"=dword:00000001
+"Label"="Pause on crash"
+"Type (checkbox, radio, text, number)"="checkbox"
+"Checkbox value (0 = unchecked, 1 = checked)"=dword:00000001
+"Checkbox/radio also toggles enable state of group"="1{2DF4C473-28B1-4480-8D06-C7493181FC3B}"
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\Startup\On crash - pause for 10 seconds]
+"Group id"="1{2DF4C473-28B1-4480-8D06-C7493181FC3B}"
+"Indent level"=dword:00000001
+"Is enabled"=dword:00000001
+"Label"="For 10 seconds"
+"Type (checkbox, radio, text, number)"="radio"
+"Radio value (0 = unselected, 1 = selected)"=dword:00000001
+"Checkbox/radio also toggles enable state of group"=""
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\Startup\On crash - pause forever]
+"Group id"="1{2DF4C473-28B1-4480-8D06-C7493181FC3B}"
+"Indent level"=dword:00000001
+"Is enabled"=dword:00000001
+"Label"="Indefinitely"
+"Type (checkbox, radio, text, number)"="radio"
+"Radio value (0 = unselected, 1 = selected)"=dword:00000000
+"Checkbox/radio also toggles enable state of group"=""
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Custom Settings]
+"Is reboot required?"=dword:00000000
+"When system booted (seconds since 1970)"="0"
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Custom Settings\DLLs]
+"Is suppressing Win32 critical error message boxes?"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Custom Settings\Boot Progress]
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Custom Settings\Events]
+"Maximum time to spend servicing event queue (millisecs)"=dword:00000064
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Custom Settings\Log]
+"Is msg log buffered"=dword:00000001
+"Is activity logging msg dispatches"=dword:00000000
+"Is showing msgs from a non-iThread"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Custom Settings\Memory]
+"Low memory limit (MB, 0 = no warning)"=dword:00000000
+"Very low memory limit (MB, 0 = no warning)"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Log Categories]
+"Is Module Logging Enabled"=dword:00000001
+"Is Highlighted"=dword:00000000
+"Is Showing Time Since Start"=dword:00000000
+"Is Showing Time Since Last"=dword:00000000
+"04 DllMain"="Inject"
+"05 AcquireDevice"="Collapse"
+"07 CreateManagerDetail"="Collapse"
+"08 BootPhaseBooted"="Collapse"
+"09 KernelBootComms"="Collapse"
+"10 FatalCallbacks"="InjectExpanded"
+"11 LoadModule"="Expand"
+"14 InitDriver"="Collapse"
+"15 ThreadRunLoop"="Collapse"
+"18 CmdOutput"="Inject"
+"19 SummaryDetail"="Collapse"
+"20 LoadModuleDetail"="Collapse"
+"21 PresentStatus"="Collapse"
+"22 PresentWarning"="InjectExpanded"
+"23 BkgndActivitySuspension"="Collapse"
+"24 LoadLoggingCategories"="Collapse"
+"25 HandleLeakWarning"="Collapse"
+"26 DevTestToggles"="Inject"

@@ -1,0 +1,8 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Log Categories]
+"Is Module Logging Enabled"=dword:00000001
+"Is Highlighted"=dword:00000000
+"Is Showing Time Since Start"=dword:00000000
+"Is Showing Time Since Last"=dword:00000000
+"00 KernelBootComms"="InjectExpanded"

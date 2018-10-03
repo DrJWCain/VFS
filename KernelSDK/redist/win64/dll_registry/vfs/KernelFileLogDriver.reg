@@ -1,0 +1,76 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\System: Log File\Max Log Count]
+"Display order"=dword:00000010
+"Display width"=dword:0000000a
+"Group id"=""
+"Indent level"=dword:00000000
+"Is enabled"=dword:00000001
+"Label"="Maximum number of logs to keep"
+"Type (checkbox, radio, text, number)"="number"
+"Number value"=dword:00000028
+"Number max"=dword:00000000
+"Number min"=dword:00000001
+"Number units"="files"
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\System: Log File\Max Log Size (KB)]
+"Display order"=dword:00000020
+"Display width"=dword:0000000a
+"Group id"=""
+"Indent level"=dword:00000000
+"Is enabled"=dword:00000001
+"Label"="Maximum size of a single log"
+"Type (checkbox, radio, text, number)"="number"
+"Number value"=dword:00002800
+"Number max"=dword:00000000
+"Number min"=dword:00000000
+"Number units"="kilobytes (0 = unlimited)"
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Public Settings\System: Log File\Log Type]
+"Display order"=dword:00000030
+"Display width"=dword:00000064
+"Group id"=""
+"Indent level"=dword:00000000
+"Is enabled"=dword:00000001
+"Label"="Log file type"
+"Type (checkbox, radio, text, number)"="select"
+"Select value"="html"
+"Select choices"="html,html,text,text"
+
+[HKEY_LOCAL_MACHINE\%MODULEPATH%\Log Categories]
+"Is Module Logging Enabled"=dword:00000001
+"Is Highlighted"=dword:00000000
+"Is Showing Time Since Start"=dword:00000000
+"Is Showing Time Since Last"=dword:00000000
+"00 User"="Collapse"
+"01 User"="Collapse"
+"02 User"="Collapse"
+"03 User"="Collapse"
+"04 User"="Collapse"
+"05 User"="Collapse"
+"06 User"="Collapse"
+"07 User"="Collapse"
+"08 User"="Collapse"
+"09 User"="Collapse"
+"10 User"="Collapse"
+"11 User"="Collapse"
+"12 User"="Collapse"
+"13 User"="Collapse"
+"14 User"="Collapse"
+"15 User"="Collapse"
+"16 User"="Collapse"
+"17 User"="Collapse"
+"18 User"="Collapse"
+"19 User"="Collapse"
+"20 User"="Collapse"
+"21 User"="Collapse"
+"22 User"="Collapse"
+"23 User"="Collapse"
+"24 User"="Collapse"
+"25 User"="Collapse"
+"26 User"="Collapse"
+"27 User"="Collapse"
+"28 User"="Collapse"
+"29 User"="Collapse"
+"30 User"="Collapse"
+"31 User"="Collapse"

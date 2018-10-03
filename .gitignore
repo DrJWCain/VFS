@@ -24,6 +24,12 @@
 *.exe
 *.out
 *.app
+*.pdb
+*.bsc
+*.lib
+*.exp
+*.ilk
+*.exe.manifest
 
 Build/
 Data/
@@ -33,7 +39,7 @@ Distribute/
 *.ipch
 ipch/
 .vs/
-redist/
+redist/win64/dll_code_release
 lib/
 Free445/Free445/x64/
 Free445/x64/
