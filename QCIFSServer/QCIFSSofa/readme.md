@@ -36,7 +36,7 @@ Edit the folder called 'Tracknum' to say 'Tracknumkey=4'. In the C++ code it tak
 
 Edit the folder called 'Duration' to say 'Durationstartkey=200'. In the C++ code it takes any string after the 'Duration' and uses it as a query parameter to a CouchDB view indexing all the mp3 durations. 'startkey=200' means all files longer than 200 seconds in duration.
 
-You could also try more complex queires, like ```startkey=200&endkey=200``` or ```startkey=200&limit=5```.
+You could also try more complex queires, like ```startkey=200&endkey=300``` or ```startkey=200&limit=5```.
 
 These are contrived examples, but you can hopefully see the power of the technique?
 
