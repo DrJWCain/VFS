@@ -4,6 +4,11 @@ Welcome to the Windows SMBServer Virtual File System environment!
 This code base offers an SMB2/3 server running on Windows in User mode.
 This code has the _potential_ to support applications on Windows in the style of Fuse in the *nix world.
 
+## Video Introduction
+I gave a talk about this code base at The SNIA Storage Developer Conference in September 2018. 
+[Its here on YouTube](https://www.youtube.com/watch?v=BB-fX2xuPsA)
+The best demo starts at 26 minutes :-)
+
 ## Build
 We use the Microsoft Visual Studio C++ build environment. 
 The code is configured for VS 2015 or later.
