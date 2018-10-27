@@ -6,7 +6,7 @@ This code has the _potential_ to support applications on Windows in the style of
 
 ## Video Introduction
 I gave a talk about this code base at The SNIA Storage Developer Conference in September 2018. 
-[Its here on YouTube](https://www.youtube.com/watch?v=BB-fX2xuPsA)
+[Its here on YouTube](https://www.youtube.com/watch?v=BB-fX2xuPsA).
 The best demo starts at 26 minutes :-)
 
 ## Build
